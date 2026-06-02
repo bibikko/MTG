@@ -441,6 +441,10 @@ const STYLES = `
 .ma-guide-item b{ color:${C.ink}; }
 .ma-guide-ic{ flex-shrink:0; width:30px; height:30px; border-radius:9px; background:#fff; border:1px solid ${C.line}; display:flex; align-items:center; justify-content:center; color:${C.accent}; margin-top:1px; }
 .ma-guide-note{ font-size:11px; color:${C.inkSoft}; line-height:1.6; margin:12px 0 4px; padding:10px 12px; background:rgba(0,0,0,.03); border-radius:9px; }
+.ma-region-stage{ position:relative; width:100%; border:1px solid ${C.line}; border-radius:10px; margin:12px 0; cursor:crosshair; background:#000; user-select:none; line-height:0; overflow:hidden; }
+.ma-region-video{ display:block; width:100%; height:auto; pointer-events:none; }
+.ma-region-sel{ position:absolute; border:2px solid ${C.accent}; background:rgba(200,72,47,.18); pointer-events:none; box-shadow:0 0 0 9999px rgba(0,0,0,.35); }
+.ma-modal-actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
 @keyframes fade{ from{opacity:0;} to{opacity:1;} }
 .ma-drawer{ width:min(460px,92vw); height:100%; background:${C.paper}; box-shadow:-12px 0 50px rgba(0,0,0,.18); display:flex; flex-direction:column; animation:slide .22s cubic-bezier(.2,.8,.2,1); }
 @keyframes slide{ from{transform:translateX(40px);opacity:.6;} to{transform:translateX(0);opacity:1;} }
@@ -649,6 +653,9 @@ function MeetingAssistant() {
   const [capturing, setCapturing] = useState(false);    // 会議タブ音声の取り込み中
   const [ocrOn, setOcrOn] = useState(false);             // 画面字幕の読み取り中（Zoom等）
   const [ocrStatus, setOcrStatus] = useState("");
+  const [showRegion, setShowRegion] = useState(false);   // 読み取り範囲の指定モーダル
+  const [ocrRegion, setOcrRegion] = useState(null);      // {x,y,w,h} 0〜1の割合。nullなら全体
+  const [regionDraft, setRegionDraft] = useState(null);  // ドラッグ中の選択枠(px)
   const [sttStatus, setSttStatus] = useState("");       // Whisperモデルの読込状況
   const [showImport, setShowImport] = useState(false);  // 文字起こし取り込みモーダル
   const [importText, setImportText] = useState("");
@@ -702,6 +709,7 @@ function MeetingAssistant() {
   const chunkTimerRef = useRef(null);          // チャンク処理タイマー
   const capturingRef = useRef(false);
   const ocrStreamRef = useRef(null), ocrVideoRef = useRef(null), ocrTimerRef = useRef(null), ocrWorkerRef = useRef(null), ocrBusyRef = useRef(false), ocrEmittedRef = useRef([]), ocrOnRef = useRef(false);
+  const regionBoxRef = useRef(null), regionVideoRef = useRef(null), regionDragRef = useRef(null), ocrRegionRef = useRef(null);
   const centroidsRef = useRef([]);             // [{label,vec,n}]
   const featByIdRef = useRef({});              // segId -> 特徴ベクトル
   const activeIdRef = useRef(makeId());        // 現在の会議ID
@@ -934,10 +942,20 @@ function MeetingAssistant() {
     if (!v.videoWidth) return;
     ocrBusyRef.current = true;
     try {
-      const scale = Math.min(1, 1280 / v.videoWidth);
-      const w = Math.round(v.videoWidth * scale), h = Math.round(v.videoHeight * scale);
+      const r = ocrRegionRef.current;
+      let sx = 0, sy = 0, sw = v.videoWidth, sh = v.videoHeight;
+      if (r && r.w > 0 && r.h > 0) { sx = r.x * v.videoWidth; sy = r.y * v.videoHeight; sw = r.w * v.videoWidth; sh = r.h * v.videoHeight; }
+      const scale = Math.min(2, 1600 / Math.max(1, sw)); // 小さい範囲は拡大して文字を大きく＝認識しやすく
+      const w = Math.round(sw * scale), h = Math.round(sh * scale);
       const canvas = document.createElement("canvas"); canvas.width = w; canvas.height = h;
-      canvas.getContext("2d").drawImage(v, 0, 0, w, h);
+      const cx2 = canvas.getContext("2d");
+      cx2.drawImage(v, sx, sy, sw, sh, 0, 0, w, h);
+      // 前処理：グレースケール＋コントラスト強調（字幕の文字をくっきりさせ誤認識を減らす）
+      try {
+        const img = cx2.getImageData(0, 0, w, h); const d = img.data; const contrast = 1.7, intercept = 128 * (1 - contrast);
+        for (let i = 0; i < d.length; i += 4) { let g = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]; g = g * contrast + intercept; g = g < 0 ? 0 : g > 255 ? 255 : g; d[i] = d[i + 1] = d[i + 2] = g; }
+        cx2.putImageData(img, 0, 0);
+      } catch (_) { /* 取得失敗時は元画像のまま認識 */ }
       const { data } = await ocrWorkerRef.current.recognize(canvas);
       const lines = (data.text || "").split("\n").map(normLine).filter((l) => l && l.replace(/[^0-9A-Za-z\u3040-\u30ff\u4e00-\u9faf]/g, "").length >= 2);
       const emitted = ocrEmittedRef.current;
@@ -961,6 +979,12 @@ function MeetingAssistant() {
     if (ocrStreamRef.current) { try { ocrStreamRef.current.getTracks().forEach((t) => t.stop()); } catch (_) {} ocrStreamRef.current = null; }
     ocrVideoRef.current = null;
   };
+  const onRegionDown = (e) => { const r = regionBoxRef.current.getBoundingClientRect(); regionDragRef.current = { x: e.clientX - r.left, y: e.clientY - r.top }; setRegionDraft({ x: regionDragRef.current.x, y: regionDragRef.current.y, w: 0, h: 0 }); };
+  const onRegionMove = (e) => { if (!regionDragRef.current) return; const r = regionBoxRef.current.getBoundingClientRect(); const cx = e.clientX - r.left, cy = e.clientY - r.top, s = regionDragRef.current; setRegionDraft({ x: Math.min(s.x, cx), y: Math.min(s.y, cy), w: Math.abs(cx - s.x), h: Math.abs(cy - s.y) }); };
+  const onRegionUp = () => { regionDragRef.current = null; };
+  const confirmRegion = () => { const el = regionBoxRef.current; if (!el) return; const r = el.getBoundingClientRect(); if (regionDraft && regionDraft.w > 8 && regionDraft.h > 8) { setOcrRegion({ x: regionDraft.x / r.width, y: regionDraft.y / r.height, w: regionDraft.w / r.width, h: regionDraft.h / r.height }); setShowRegion(false); setRegionDraft(null); flash("指定した範囲を読み取ります。"); } else { setError("範囲が小さすぎます。字幕の部分をドラッグで囲ってください。"); } };
+  useEffect(() => { if (showRegion && regionVideoRef.current && ocrStreamRef.current) { regionVideoRef.current.srcObject = ocrStreamRef.current; regionVideoRef.current.play().catch(() => {}); } }, [showRegion]);
+
   const startCaptionOCR = async () => {
     setError("");
     if (ocrOnRef.current) return; // 多重開始を防止
@@ -1519,6 +1543,7 @@ ${base}`;
   vocabRef.current = vocab; liveTrRef.current = liveTranslate; targetRef.current = target;
   gSourcesRef.current = gSources; mSourcesRef.current = mSources;
   const analysisRef = useRef(null); analysisRef.current = analysis;
+  ocrRegionRef.current = ocrRegion;
   vadRef.current = vad;
   const shown = segments.filter((s) => (!onlyHl || s.hl) && (!query || s.text.includes(query) || (s.speaker || "").includes(query)));
   const chars = segments.reduce((n, s) => n + s.text.length, 0);
@@ -1557,6 +1582,24 @@ ${base}`;
           </div>
         </div>
       )}
+
+      {showRegion && (
+        <div className="ma-modal-overlay" onClick={() => setShowRegion(false)}>
+          <div className="ma-modal" style={{ width: "min(820px,96vw)" }} onClick={(e) => e.stopPropagation()}>
+            <div className="ma-modal-title">読み取る範囲を指定</div>
+            <div className="ma-modal-sub">字幕（またはライブ文字起こし）が出ている部分を、マウスでドラッグして囲ってください。範囲を絞るほど誤認識が減り精度が上がります。</div>
+            <div className="ma-region-stage" ref={regionBoxRef} onMouseDown={onRegionDown} onMouseMove={onRegionMove} onMouseUp={onRegionUp} onMouseLeave={onRegionUp}>
+              <video ref={regionVideoRef} autoPlay muted playsInline className="ma-region-video" />
+              {regionDraft && <div className="ma-region-sel" style={{ left: regionDraft.x, top: regionDraft.y, width: regionDraft.w, height: regionDraft.h }} />}
+            </div>
+            <div className="ma-modal-actions">
+              <button className="ma-addbtn" onClick={confirmRegion}>この範囲で読み取る</button>
+              <button className="ma-tool" onClick={() => { setOcrRegion(null); setRegionDraft(null); setShowRegion(false); flash("全体を読み取ります。"); }}>全体を読み取る</button>
+              <button className="ma-tool" onClick={() => setShowRegion(false)}>キャンセル</button>
+            </div>
+          </div>
+        </div>
+      )}
       <nav className="ma-rail">
         <div className="ma-logo" title="SABOTTA"><LogoMark s={42} gid="sbgRail" /></div>
         <button className="ma-rail-btn" onClick={() => setShowHistory(true)} title="過去の会議">
@@ -1584,7 +1627,7 @@ ${base}`;
         </header>
 
         {sttStatus && <div className="ma-warn" style={{ marginTop: 14, background: "#eef4f2", borderColor: "#cfe0da", color: "#2f6b63" }}>{sttStatus}</div>}
-        {ocrStatus && <div className="ma-warn" style={{ marginTop: 14, background: "#eef4f2", borderColor: "#cfe0da", color: "#2f6b63" }}>{ocrStatus}</div>}
+        {ocrStatus && <div className="ma-warn" style={{ marginTop: 14, background: "#eef4f2", borderColor: "#cfe0da", color: "#2f6b63", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}><span style={{ flex: 1, minWidth: 160 }}>{ocrStatus}</span>{ocrOn && <button className="ma-tool" onClick={() => setShowRegion(true)}>範囲を指定</button>}{ocrOn && ocrRegion && <button className="ma-tool" onClick={() => { setOcrRegion(null); flash("全体を読み取ります。"); }}>全体に戻す</button>}</div>}
         {!supported && <div className="ma-warn" style={{ marginTop: 14 }}>このブラウザは音声認識（Web Speech API）に未対応です。Chrome または Edge をご利用ください。</div>}
         {!secureCtx && <div className="ma-warn" style={{ marginTop: 14 }}>⚠ 安全な接続ではないため、ブラウザがマイク許可を記憶できず毎回確認が出ます。<strong>https://</strong> で配信するか、Chrome の <strong>chrome://flags/#unsafely-treat-insecure-origin-as-secure</strong> にこのページのアドレスを登録して再起動してください。</div>}
 
