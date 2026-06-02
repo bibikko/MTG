@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>SABOTTA</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDQwIDQwIiBmaWxsPSJub25lIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSIxMS41IiBmaWxsPSJ1cmwoI2cpIi8+PHRleHQgeD0iMjYuMyIgeT0iMTIuNiIgZm9udC1zaXplPSI3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIiBmb250LWZhbWlseT0iQXJpYWwiPno8L3RleHQ+PHRleHQgeD0iMzEuOCIgeT0iOC4yIiBmb250LXNpemU9IjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiIGZvbnQtZmFtaWx5PSJBcmlhbCIgb3BhY2l0eT0iMC44Ij56PC90ZXh0PjxjaXJjbGUgY3g9IjE4IiBjeT0iMTgiIHI9IjguNiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0xMiAxNy40IHEyIDEuOSA0IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0yMCAxNy40IHEyIDEuOSA0IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xNSAyMi4yIHEzIDEuNSA2IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xMy41IDI2IGw0LjUgMyA0LjUgLTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xOCAyOCBsLTIuNiAyLjYgMi42IDguNCAyLjYgLTguNCB6IiBmaWxsPSIjZmZmIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iNCIgeTE9IjIiIHgyPSIzNiIgeTI9IjM4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI2Q0NTAyZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2U4NzQzZiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" />
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDQwIDQwIiBmaWxsPSJub25lIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSIxMS41IiBmaWxsPSJ1cmwoI2cpIi8+PHRleHQgeD0iMjYuMyIgeT0iMTIuNiIgZm9udC1zaXplPSI3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIiBmb250LWZhbWlseT0iQXJpYWwiPno8L3RleHQ+PHRleHQgeD0iMzEuOCIgeT0iOC4yIiBmb250LXNpemU9IjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiIGZvbnQtZmFtaWx5PSJBcmlhbCIgb3BhY2l0eT0iMC44Ij56PC90ZXh0PjxjaXJjbGUgY3g9IjE4IiBjeT0iMTgiIHI9IjguNiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0xMiAxNy40IHEyIDEuOSA0IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0yMCAxNy40IHEyIDEuOSA0IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xNSAyMi4yIHEzIDEuNSA2IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xMy41IDI2IGw0LjUgMyA0LjUgLTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xOCAyOCBsLTIuNiAyLjYgMi42IDguNCAyLjYgLTguNCB6IiBmaWxsPSIjZmZmIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iNCIgeTE9IjIiIHgyPSIzNiIgeTI9IjM4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI2Q0NTAyZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2U4NzQzZiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.6/babel.min.js"></script>
+
+<script type="module">
+  import { pipeline, env } from "https://esm.sh/@huggingface/transformers@3";
+  env.allowLocalModels = false;
+  let transcriber = null, loadedModel = null;
+  window.MeetingSTT = {
+    async load(progress, modelId) {
+      modelId = modelId || "onnx-community/whisper-base";
+      if (transcriber && loadedModel === modelId) return;
+      transcriber = null; loadedModel = null;
+      let device = "wasm";
+      try { if (navigator.gpu) device = "webgpu"; } catch (e) {}
+      try {
+        transcriber = await pipeline("automatic-speech-recognition", modelId, { device, progress_callback: progress });
+      } catch (e) {
+        transcriber = await pipeline("automatic-speech-recognition", modelId, { device: "wasm", progress_callback: progress });
+      }
+      loadedModel = modelId;
+    },
+    async transcribe(float32_16k, language) {
+      if (!transcriber) throw new Error("model not loaded");
+      const out = await transcriber(float32_16k, { chunk_length_s: 30, language: language || "japanese", task: "transcribe" });
+      return (out && out.text ? out.text : "").trim();
+    }
+  };
+</script>
+<style> html,body,#root{ margin:0; min-height:100%; } </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+const { useState, useRef, useEffect, useCallback } = React;
+
+// ─────────────────────────────────────────────────────────────
+//  会議リアルタイムアシスタント v3（自動話者分離つき）
+//  文字起こし: Web Speech API
+//  話者分離: Web Audio API で声の特徴を抽出→オンライン・クラスタリング（ブラウザ内）
+//  要約・議事録・翻訳: Claude API
+//  ※ 話者分離は声の高さ・スペクトル特徴によるヒューリスティック近似です
+// ─────────────────────────────────────────────────────────────
+
+const C = {
+  paper: "#f4f1ea", paper2: "#ebe6db", ink: "#1f1b16", inkSoft: "#5c554b",
+  line: "#d8d0c1", accent: "#c8482f", accentSoft: "#e9c9bf", gold: "#9a7b3f",
+};
+const SPK = ["#c8482f", "#2f6b63", "#9a7b3f", "#4a5a8f", "#84436b", "#5f7a3a", "#b06a2c", "#3a6b8f"];
+const LANGS = [
+  { code: "ja-JP", label: "日本語", whisper: "japanese" }, { code: "en-US", label: "English", whisper: "english" },
+  { code: "zh-CN", label: "中文", whisper: "chinese" }, { code: "ko-KR", label: "한국어", whisper: "korean" },
+  { code: "es-ES", label: "Español", whisper: "spanish" }, { code: "fr-FR", label: "Français", whisper: "french" },
+];
+const TRANSLATE_TO = ["English", "日本語", "中文（簡体字）", "한국어", "Español", "Français", "Tiếng Việt"];
+
+// ===== 音声特徴 & クラスタリング（純関数） =====
+function autoCorrelate(buf, sr) {
+  const size = buf.length;
+  let rms = 0;
+  for (let i = 0; i < size; i++) rms += buf[i] * buf[i];
+  rms = Math.sqrt(rms / size);
+  if (rms < 0.008) return -1;
+  let r1 = 0, r2 = size - 1;
+  const thr = 0.2;
+  for (let i = 0; i < size / 2; i++) if (Math.abs(buf[i]) < thr) { r1 = i; break; }
+  for (let i = 1; i < size / 2; i++) if (Math.abs(buf[size - i]) < thr) { r2 = size - i; break; }
+  const b = buf.slice(r1, r2);
+  const n = b.length;
+  if (n < 64) return -1;
+  const c = new Array(n).fill(0);
+  for (let i = 0; i < n; i++) for (let j = 0; j < n - i; j++) c[i] += b[j] * b[j + i];
+  let d = 0;
+  while (d < n - 1 && c[d] > c[d + 1]) d++;
+  let maxv = -1, T0 = -1;
+  for (let i = d; i < n; i++) if (c[i] > maxv) { maxv = c[i]; T0 = i; }
+  if (T0 <= 0) return -1;
+  const x1 = c[T0 - 1] || 0, x2 = c[T0], x3 = c[T0 + 1] || 0;
+  const a = (x1 + x3 - 2 * x2) / 2, bb = (x3 - x1) / 2;
+  if (a) T0 = T0 - bb / (2 * a);
+  const freq = sr / T0;
+  return (freq < 70 || freq > 500) ? -1 : freq;
+}
+// 1フレームの正規化特徴ベクトル（声がある時のみ返す）
+function frameFeature(td, fd, sr, fftSize) {
+  const pitch = autoCorrelate(td, sr);
+  if (pitch < 0) return null; // 無声フレームは捨てる（簡易VAD）
+  const bins = fd.length;
+  let sum = 0, wsum = 0, low = 0, mid = 0, high = 0;
+  for (let i = 1; i < bins; i++) {
+    const lin = Math.pow(10, fd[i] / 20);
+    const f = (i * sr) / fftSize;
+    sum += lin; wsum += f * lin;
+    if (f < 500) low += lin; else if (f < 2000) mid += lin; else if (f < 6000) high += lin;
+  }
+  const centroid = sum > 0 ? wsum / sum : 0;
+  const e = low + mid + high + 1e-9;
+  return [pitch / 300, centroid / 4000, low / e, mid / e, high / e];
+}
+function meanVec(arr) {
+  const dim = arr[0].length, out = new Array(dim).fill(0);
+  arr.forEach((v) => v.forEach((x, i) => (out[i] += x)));
+  return out.map((x) => x / arr.length);
+}
+const dist = (a, b) => Math.sqrt(a.reduce((s, x, i) => s + (x - b[i]) ** 2, 0));
+function kmeans(vecs, k, iters = 14) {
+  const n = vecs.length, dim = vecs[0].length;
+  let cents = [vecs[Math.floor(Math.random() * n)].slice()];
+  while (cents.length < k) {
+    const d2 = vecs.map((v) => Math.min(...cents.map((c) => dist(v, c) ** 2)));
+    let sum = d2.reduce((a, b) => a + b, 0) || 1, r = Math.random() * sum, idx = 0;
+    for (let i = 0; i < n; i++) { r -= d2[i]; if (r <= 0) { idx = i; break; } }
+    cents.push(vecs[idx].slice());
+  }
+  let assign = new Array(n).fill(0);
+  for (let it = 0; it < iters; it++) {
+    for (let i = 0; i < n; i++) {
+      let bd = Infinity, bj = 0;
+      for (let j = 0; j < k; j++) { const d = dist(vecs[i], cents[j]); if (d < bd) { bd = d; bj = j; } }
+      assign[i] = bj;
+    }
+    const sums = Array.from({ length: k }, () => new Array(dim).fill(0)), cnt = new Array(k).fill(0);
+    for (let i = 0; i < n; i++) { cnt[assign[i]]++; for (let d = 0; d < dim; d++) sums[assign[i]][d] += vecs[i][d]; }
+    for (let j = 0; j < k; j++) if (cnt[j]) cents[j] = sums[j].map((x) => x / cnt[j]);
+  }
+  return { assign };
+}
+
+const fmt = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+
+// ===== オリジナル・アイコン（統一した線画スタイル / currentColor）=====
+const Sv = ({ s = 20, sw = 1.7, fill = "none", children }) => <svg width={s} height={s} viewBox="0 0 24 24" fill={fill} stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round">{children}</svg>;
+const IC = {
+  plus: (p) => <Sv {...p}><path d="M12 5.5v13M5.5 12h13" /></Sv>,
+  history: (p) => <Sv {...p}><path d="M3.6 12a8.4 8.4 0 1 0 2.7-6.2" /><path d="M4.8 3.2v3.4h3.4" /><path d="M12 8.2v4.2l3 1.7" /></Sv>,
+  tasks: (p) => <Sv {...p}><path d="M9.5 6.5h10M9.5 12h10M9.5 17.5h7" /><path d="M3.4 5.6 4.7 7l2.1-2.6" /><path d="M3.4 11.1 4.7 12.5l2.1-2.6" /><path d="M3.4 16.6 4.7 18l2.1-2.6" /></Sv>,
+  chat: (p) => <Sv {...p}><path d="M5 4.5h14A2.5 2.5 0 0 1 21.5 7v6A2.5 2.5 0 0 1 19 15.5H9.5L5.5 19v-3.5H5A2.5 2.5 0 0 1 2.5 13V7A2.5 2.5 0 0 1 5 4.5Z" /><path d="M7.5 9h9M7.5 12h6" /></Sv>,
+  import: (p) => <Sv {...p}><path d="M12 3.5v9.6" /><path d="M8.3 9.6 12 13.3l3.7-3.7" /><path d="M4.8 15v2.2A1.8 1.8 0 0 0 6.6 19h10.8a1.8 1.8 0 0 0 1.8-1.8V15" /></Sv>,
+  settings: (p) => <Sv {...p}><path d="M3.5 7.5h8.5M16.5 7.5h4" /><path d="M3.5 16.5h4M12 16.5h8.5" /><circle cx="14.2" cy="7.5" r="2.3" /><circle cx="9.8" cy="16.5" r="2.3" /></Sv>,
+  mic: (p) => <Sv {...p}><rect x="9" y="2.8" width="6" height="11" rx="3" /><path d="M5.5 11a6.5 6.5 0 0 0 13 0" /><path d="M12 17.5V21M9 21h6" /></Sv>,
+  screen: (p) => <Sv {...p}><rect x="2.8" y="4.5" width="18.4" height="12" rx="2.4" /><path d="M8.5 20h7M12 16.5V20" /><path d="M10.4 8.6 14.4 10.5 10.4 12.4Z" fill="currentColor" stroke="none" /></Sv>,
+  bell: (p) => <Sv {...p}><path d="M6 9.6a6 6 0 0 1 12 0c0 4.4 1.9 5.4 1.9 5.4H4.1S6 14 6 9.6Z" /><path d="M10 18.5a2 2 0 0 0 4 0" /></Sv>,
+  calendar: (p) => <Sv {...p}><rect x="3.8" y="5" width="16.4" height="15" rx="2.6" /><path d="M3.8 9.4h16.4M8 3.2v3.4M16 3.2v3.4" /></Sv>,
+  book: (p) => <Sv {...p}><path d="M5 4.5h9.5A2.5 2.5 0 0 1 17 7v12.5a2 2 0 0 0-2-2H5z" /><path d="M5 4.5A1.5 1.5 0 0 0 3.5 6v13A1.5 1.5 0 0 0 5 20.5h10" /><path d="M7.5 9h6M7.5 12.5h4" /></Sv>,
+  sparkle: (p) => <Sv {...p}><path d="M12 3.8l1.6 4.8 4.8 1.6-4.8 1.6L12 16.6l-1.6-4.8L5.6 10.2 10.4 8.6Z" fill="currentColor" stroke="none" /><path d="M18.4 4l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7Z" fill="currentColor" stroke="none" opacity=".65" /></Sv>,
+};
+// ===== SABOTTA ロゴ（音声波形のマーク + ワードマーク）=====
+const LogoMark = ({ s = 40, gid = "sbg" }) => (
+  <svg width={s} height={s} viewBox="0 0 40 40" fill="none">
+    <rect width="40" height="40" rx="11.5" fill={`url(#${gid})`} />
+    <text x="26.3" y="12.6" fontSize="7" fontWeight="700" fill="#fff" fontFamily="Arial, sans-serif">z</text>
+    <text x="31.8" y="8.2" fontSize="5" fontWeight="700" fill="#fff" fontFamily="Arial, sans-serif" opacity="0.8">z</text>
+    <circle cx="18" cy="18" r="8.6" fill="#fff" />
+    <path d="M12 17.4 q2 1.9 4 0" fill="none" stroke="#cf4e2e" strokeWidth="1.4" strokeLinecap="round" />
+    <path d="M20 17.4 q2 1.9 4 0" fill="none" stroke="#cf4e2e" strokeWidth="1.4" strokeLinecap="round" />
+    <path d="M15 22.2 q3 1.5 6 0" fill="none" stroke="#cf4e2e" strokeWidth="1.3" strokeLinecap="round" />
+    <path d="M13.5 26 l4.5 3 4.5 -3" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M18 28 l-2.6 2.6 2.6 8.4 2.6 -8.4 z" fill="#fff" />
+    <defs><linearGradient id={gid} x1="4" y1="2" x2="36" y2="38" gradientUnits="userSpaceOnUse"><stop stopColor="#d4502f" /><stop offset="1" stopColor="#e8743f" /></linearGradient></defs>
+  </svg>
+);
+const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const escHtml = (s) => String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const spkName = (i) => "話者" + String.fromCharCode(65 + i); // 話者A,B,C…
+const makeId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+
+// Zoom等の文字起こしを取り込む（WEBVTT / SRT / プレーンテキストに対応）。[{t, speaker, text}] を返す。
+function parseTranscript(raw) {
+  const txt = (raw || "").replace(/\r/g, "");
+  const out = [];
+  const hms = (h, m, s) => `${String((+h) * 60 + (+m)).padStart(2, "0")}:${String(+s).padStart(2, "0")}`;
+  if (/-->/.test(txt)) {
+    // WEBVTT / SRT 形式（Zoomのクラウド音声トランスクリプト等）
+    const lines = txt.split("\n");
+    let t = "";
+    const tsRe = /(\d{1,2}):(\d{2}):(\d{2})[.,]\d+\s*-->/;
+    for (const line of lines) {
+      const m = line.match(tsRe);
+      if (m) { t = hms(m[1], m[2], m[3]); continue; }
+      const s = line.trim();
+      if (!s || /^WEBVTT/i.test(s) || /^NOTE/i.test(s) || /^\d+$/.test(s)) continue;
+      let speaker = "", text = s;
+      const v = s.match(/^<v\s+([^>]+)>([\s\S]*?)(?:<\/v>)?$/i);
+      if (v) { speaker = v[1].trim(); text = v[2].trim(); }
+      else { const c = s.match(/^([^:：]{1,40})[:：]\s*(.+)$/); if (c) { speaker = c[1].trim(); text = c[2].trim(); } }
+      text = text.replace(/<[^>]+>/g, "").trim();
+      if (text) out.push({ t, speaker, text });
+    }
+  } else {
+    // プレーンテキスト（"話者名 HH:MM:SS" 見出し＋本文、空行区切り、または "話者名: 本文"）
+    const headRe = /^(.+?)\s+(\d{1,2}:\d{2}(?::\d{2})?)\s*$/;
+    for (const b of txt.split(/\n\s*\n/)) {
+      const bl = b.split("\n").map((x) => x.trim()).filter(Boolean);
+      if (!bl.length) continue;
+      let speaker = "", t = "", start = 0;
+      const h = bl[0].match(headRe);
+      if (h) {
+        speaker = h[1].trim();
+        const p = h[2].split(":").map(Number);
+        t = p.length === 3 ? hms(p[0], p[1], p[2]) : `${String(p[0]).padStart(2, "0")}:${String(p[1]).padStart(2, "0")}`;
+        start = 1;
+      }
+      let body = bl.slice(start).join(" ").trim();
+      if (!speaker) { const c = body.match(/^([^:：]{1,40})[:：]\s*(.+)$/); if (c) { speaker = c[1].trim(); body = c[2].trim(); } }
+      if (body) out.push({ t, speaker, text: body });
+    }
+  }
+  return out;
+}
+
+// ブラウザに恒久保存（localStorage）。サンドボックス等で使えない場合は安全に無効化。
+const STORE_KEY = "meeting-assistant-store-v1";
+const store = {
+  load() { try { const r = window.localStorage.getItem(STORE_KEY); return r ? JSON.parse(r) : null; } catch (e) { return null; } },
+  save(obj) { try { window.localStorage.setItem(STORE_KEY, JSON.stringify(obj)); return true; } catch (e) { return false; } },
+  available() { try { const k = "__t"; window.localStorage.setItem(k, "1"); window.localStorage.removeItem(k); return true; } catch (e) { return false; } },
+};
+
+// AI設定（APIキー・モデル）の保存
+const SETTINGS_KEY = "sabotta-settings-v1";
+const loadSettings = () => { try { const r = window.localStorage.getItem(SETTINGS_KEY); return r ? JSON.parse(r) : null; } catch (e) { return null; } };
+const saveSettings = (o) => { try { window.localStorage.setItem(SETTINGS_KEY, JSON.stringify(o)); } catch (e) {} };
+// マイタスク（会議をまたいで保持）
+const TASKS_KEY = "sabotta-tasks-v1";
+const loadTasks = () => { try { const r = window.localStorage.getItem(TASKS_KEY); return r ? JSON.parse(r) : null; } catch (e) { return null; } };
+const saveTasks = (o) => { try { window.localStorage.setItem(TASKS_KEY, JSON.stringify(o)); } catch (e) {} };
+// ソース（NotebookLM的な参考資料）。全体＝全会議共通、会議個別＝会議IDごと。
+const GSRC_KEY = "sabotta-gsources-v1", MSRC_KEY = "sabotta-msources-v1";
+const GUIDE_KEY = "sabotta-onboarded-v1";
+const loadOnboarded = () => { try { return window.localStorage.getItem(GUIDE_KEY) === "1"; } catch (e) { return false; } };
+const saveOnboarded = () => { try { window.localStorage.setItem(GUIDE_KEY, "1"); } catch (e) {} };
+const loadGSrc = () => { try { const r = window.localStorage.getItem(GSRC_KEY); return r ? JSON.parse(r) : []; } catch (e) { return []; } };
+const saveGSrc = (o) => { try { window.localStorage.setItem(GSRC_KEY, JSON.stringify(o)); } catch (e) {} };
+const loadMSrcMap = () => { try { const r = window.localStorage.getItem(MSRC_KEY); return r ? JSON.parse(r) : {}; } catch (e) { return {}; } };
+const loadMSrc = (id) => { const m = loadMSrcMap(); return Array.isArray(m[id]) ? m[id] : []; };
+const saveMSrc = (id, arr) => { try { const m = loadMSrcMap(); if (arr && arr.length) m[id] = arr; else delete m[id]; window.localStorage.setItem(MSRC_KEY, JSON.stringify(m)); } catch (e) {} };
+
+// Claude API 呼び出し。
+//  - proxyあり: 自分のバックエンド（Cloudflare Workers等）経由でキーを隠して呼ぶ（推奨・配布向け）
+//  - キーあり: ユーザー自身のAPIキーでブラウザから直接呼ぶ（ローカル個人利用 / bring-your-own-key）
+//  - どちらもなし: Claude.ai のアーティファクト環境内ならキー不要で動く（フォールバック）
+async function callClaude(prompt, cfg) {
+  cfg = cfg || {};
+  const body = { model: cfg.model || "claude-sonnet-4-6", max_tokens: 1500, messages: [{ role: "user", content: prompt }] };
+  if (cfg.proxyUrl) {
+    const res = await fetch(cfg.proxyUrl, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message || "APIエラー");
+    return data.content.map((i) => (i.type === "text" ? i.text : "")).join("").trim();
+  }
+  if (cfg.key) {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": cfg.key,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true",
+      },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message || "APIエラー");
+    return data.content.map((i) => (i.type === "text" ? i.text : "")).join("").trim();
+  }
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, messages: [{ role: "user", content: prompt }] }),
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message || "APIエラー");
+  return data.content.map((i) => (i.type === "text" ? i.text : "")).join("").trim();
+}
+
+function MD({ text }) {
+  const blocks = []; let list = null;
+  const flush = () => { if (list) { blocks.push({ type: "ul", items: list }); list = null; } };
+  text.split("\n").forEach((raw) => {
+    const line = raw.trimEnd();
+    if (/^#{1,6}\s/.test(line)) { flush(); const lvl = line.match(/^#+/)[0].length; blocks.push({ type: "h", lvl, text: line.replace(/^#+\s/, "") }); }
+    else if (/^[-*]\s/.test(line)) (list = list || []).push(line.replace(/^[-*]\s/, ""));
+    else if (/^\d+\.\s/.test(line)) (list = list || []).push(line.replace(/^\d+\.\s/, ""));
+    else if (line.trim() === "") flush();
+    else { flush(); blocks.push({ type: "p", text: line }); }
+  });
+  flush();
+  const inline = (t) => t.split(/(\*\*[^*]+\*\*)/g).map((p, i) => p.startsWith("**") && p.endsWith("**") ? <strong key={i}>{p.slice(2, -2)}</strong> : <React.Fragment key={i}>{p}</React.Fragment>);
+  return <div>{blocks.map((b, i) => b.type === "h" ? <div key={i} className={b.lvl === 1 ? "md-h1" : "md-h2"}>{inline(b.text)}</div> : b.type === "ul" ? <ul key={i} className="md-ul">{b.items.map((it, j) => <li key={j}>{inline(it)}</li>)}</ul> : <p key={i} className="md-p">{inline(b.text)}</p>)}</div>;
+}
+
+const STYLES = `
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+.ma *{ box-sizing:border-box; margin:0; }
+.ma{ font-family:'Zen Kaku Gothic New',sans-serif; color:${C.ink}; background:${C.paper}; min-height:100vh; width:100%; display:flex; }
+.ma-grain{ position:fixed; inset:0; pointer-events:none; opacity:.18; z-index:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E"); }
+.ma-rail{ position:sticky; top:0; align-self:flex-start; height:100vh; width:76px; flex:0 0 76px; z-index:5; background:#fff; border-right:1px solid ${C.line}; display:flex; flex-direction:column; align-items:center; gap:6px; padding:14px 0 18px; }
+.ma-logo{ display:flex; align-items:center; justify-content:center; margin-bottom:8px; filter:drop-shadow(0 4px 10px rgba(200,72,47,.28)); }
+.ma-rail-btn{ position:relative; width:60px; padding:9px 0 7px; border:none; background:transparent; border-radius:12px; cursor:pointer; color:${C.inkSoft}; display:flex; flex-direction:column; align-items:center; gap:3px; transition:.15s; }
+.ma-rail-btn .ic{ display:flex; line-height:1; }
+.ma-rail-btn label{ font-size:10px; letter-spacing:.02em; cursor:pointer; }
+.ma-rail-btn:hover{ background:${C.paper2}; color:${C.ink}; }
+.ma-rail-btn.primary{ color:${C.accent}; }
+.ma-rail-btn.primary:hover{ background:rgba(200,72,47,.1); }
+.ma-rail-badge{ position:absolute; top:4px; right:10px; min-width:16px; height:16px; padding:0 4px; border-radius:8px; background:${C.accent}; color:#fff; font-size:10px; font-weight:700; font-style:normal; display:flex; align-items:center; justify-content:center; }
+.ma-rail-spacer{ flex:1; }
+.ma-wrap{ position:relative; z-index:1; flex:0 1 1640px; min-width:0; max-width:1640px; margin-inline:auto; padding:22px 30px 60px; }
+.ma-top{ display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; padding-bottom:16px; }
+.ma-brand{ display:flex; align-items:center; gap:11px; }
+.ma-brandtext{ display:flex; flex-direction:column; gap:1px; }
+.ma-wordmark{ font-family:'Shippori Mincho',serif; font-weight:800; font-size:21px; letter-spacing:.06em; line-height:1; }
+.ma-kicker{ font-size:9.5px; letter-spacing:.34em; color:${C.inkSoft}; font-weight:700; text-transform:uppercase; }
+.ma-appname{ display:none; }
+.ma-meetingbar{ display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:6px; background:#fff; border:1px solid ${C.line}; border-radius:14px; padding:16px 18px; box-shadow:0 1px 2px rgba(0,0,0,.03); }
+.ma-mb-left{ min-width:0; flex:1; } .ma-mb-right{ display:flex; align-items:center; justify-content:flex-end; gap:10px; flex-wrap:wrap; }
+.ma-mb-label{ font-size:10px; letter-spacing:.2em; color:${C.inkSoft}; text-transform:uppercase; display:block; margin-bottom:1px; }
+.ma-titleInput{ font-family:'Shippori Mincho',serif; font-weight:700; font-size:22px; line-height:1.2; letter-spacing:.02em; border:none; background:transparent; color:${C.ink}; width:min(440px,60vw); outline:none; border-bottom:2px solid transparent; padding:2px 0; transition:.15s; }
+.ma-titleInput:hover,.ma-titleInput:focus{ border-bottom-color:${C.line}; }
+.ma-titleInput:hover{ border-bottom-color:${C.line}; } .ma-titleInput:focus{ border-bottom-color:${C.accent}; }
+.ma-title-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.ma-namebtn{ display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:700; padding:7px 11px; border:1px solid ${C.line}; color:${C.gold}; background:#fff; border-radius:10px; cursor:pointer; transition:.15s; white-space:nowrap; }
+.ma-namebtn:hover{ background:${C.gold}; color:#fff; } .ma-namebtn:disabled{ opacity:.5; cursor:wait; }
+.ma-meta{ font-size:12px; color:${C.inkSoft}; margin-top:6px; display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+.ma-saved{ color:${C.gold}; }
+.ma-controls{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end; }
+.ma-gear{ font-size:17px; line-height:1; padding:8px 11px; border:1px solid ${C.line}; background:rgba(255,255,255,.6); border-radius:2px; cursor:pointer; color:${C.inkSoft}; transition:.15s; }
+.ma-gear:hover{ border-color:${C.ink}; color:${C.ink}; transform:rotate(45deg); }
+.ma-cap{ display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:13px; letter-spacing:.04em; padding:10px 15px; border:1px solid #cfe0da; color:#2f6b63; background:#f1f6f4; border-radius:10px; cursor:pointer; transition:.15s; white-space:nowrap; }
+.ma-cap:hover{ background:#2f6b63; color:#fff; }
+.ma-cap.on{ background:#2f6b63; color:#fff; }
+.ma-set-note{ font-size:13px; line-height:1.7; color:${C.inkSoft}; margin-bottom:16px; }
+.ma-set-label{ display:block; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:${C.inkSoft}; margin:14px 0 5px; }
+.ma-set-input{ width:100%; font-family:inherit; font-size:14px; padding:10px 12px; border:1px solid ${C.line}; border-radius:3px; background:rgba(255,255,255,.8); outline:none; }
+.ma-set-input:focus{ border-color:${C.accent}; }
+.ma-set-status{ font-size:13px; color:${C.gold}; margin-top:14px; font-weight:700; }
+.ma-vad-meter{ position:relative; height:12px; background:${C.paper2}; border:1px solid ${C.line}; border-radius:6px; overflow:hidden; margin-top:6px; }
+.ma-vad-fill{ position:absolute; left:0; top:0; bottom:0; background:linear-gradient(90deg,#2f6b63,#9a7b3f); transition:width .12s linear; }
+.ma-vad-mark{ position:absolute; top:-2px; bottom:-2px; width:2px; background:${C.accent}; }
+.ma-set-warn{ font-size:12px; line-height:1.7; color:${C.accent}; background:#fbeee9; border:1px solid ${C.accentSoft}; border-radius:3px; padding:10px 12px; margin-top:14px; }
+.ma-set-link{ font-weight:700; }
+.ma-set-close{ width:100%; margin-top:18px; padding:11px; border:1.5px solid ${C.ink}; background:transparent; color:${C.ink}; font-weight:700; border-radius:2px; cursor:pointer; transition:.15s; }
+.ma-set-close:hover{ filter:brightness(1.05); }
+.ma-imp-modes{ display:flex; flex-direction:column; gap:8px; }
+.ma-imp-mode{ display:flex; align-items:center; gap:8px; font-size:13px; padding:9px 11px; border:1px solid ${C.line}; border-radius:3px; cursor:pointer; color:${C.inkSoft}; }
+.ma-imp-mode.on{ border-color:#2f6b63; color:${C.ink}; background:rgba(47,107,99,.06); }
+.ma-imp-mode input{ accent-color:#2f6b63; }
+.ma-addtask{ border:none; background:transparent; color:${C.accent}; font-weight:700; font-size:15px; cursor:pointer; padding:0 4px; border-radius:3px; line-height:1; }
+.ma-addtask:hover{ background:rgba(200,72,47,.1); }
+.ma-task-add{ display:flex; gap:8px; margin-bottom:12px; }
+.ma-task-filter{ display:flex; gap:8px; flex-wrap:wrap; }
+.ma-tf{ display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:700; padding:6px 12px; border:1px solid ${C.line}; background:transparent; border-radius:20px; cursor:pointer; color:${C.inkSoft}; }
+.ma-tf.on{ border-color:${C.accent}; color:${C.accent}; background:rgba(200,72,47,.06); }
+.ma-task{ display:flex; gap:10px; align-items:flex-start; padding:11px; border:1px solid ${C.line}; border-radius:4px; background:rgba(255,255,255,.55); margin-bottom:9px; }
+.ma-task input[type=checkbox]{ accent-color:${C.accent}; width:17px; height:17px; margin-top:2px; cursor:pointer; flex-shrink:0; }
+.ma-task.done{ opacity:.55; }
+.ma-task.done .ma-task-text{ text-decoration:line-through; }
+.ma-task-main{ flex:1; min-width:0; }
+.ma-task-text{ font-size:14px; line-height:1.5; cursor:text; }
+.ma-task-edit{ width:100%; font-family:inherit; font-size:14px; padding:5px 7px; border:1px solid ${C.accent}; border-radius:3px; outline:none; }
+.ma-task-meta{ font-size:11px; color:${C.gold}; margin-top:4px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.ma-task-addrow{ display:flex; gap:8px; margin-bottom:12px; }
+.ma-fieldhint{ font-size:11px; font-weight:700; letter-spacing:.03em; color:${C.inkSoft}; margin:0 0 5px 2px; }
+.ma-privacy{ margin-top:18px; padding:13px 14px; background:#f1f6f4; border:1px solid #e0ece8; border-radius:11px; font-size:11.5px; line-height:1.7; color:${C.inkSoft}; }
+.ma-privacy-h{ font-weight:800; font-size:12px; color:#2f6b63; margin-bottom:5px; }
+.ma-addbox{ background:#fff; border:1px solid ${C.line}; border-radius:12px; padding:13px; margin-bottom:14px; display:flex; flex-direction:column; gap:11px; }
+.ma-fld{ display:flex; flex-direction:column; gap:4px; min-width:0; }
+.ma-fld > span{ font-size:10.5px; font-weight:800; letter-spacing:.06em; color:${C.inkSoft}; }
+.ma-fld-in{ font-family:inherit; font-size:13px; padding:9px 11px; border:1px solid ${C.line}; border-radius:9px; background:#fff; color:${C.ink}; outline:none; width:100%; box-sizing:border-box; }
+.ma-fld-in:focus{ border-color:${C.accent}; }
+.ma-fldrow{ display:flex; gap:8px; align-items:flex-end; }
+.ma-fldrow .ma-fld:first-child{ flex:1; }
+.ma-addbtn{ font-weight:700; font-size:13px; padding:9px 16px; border:none; background:${C.accent}; color:#fff; border-radius:9px; cursor:pointer; white-space:nowrap; }
+.ma-addbtn:hover{ filter:brightness(1.05); }
+.ma-task-editbox{ display:flex; flex-direction:column; gap:10px; background:rgba(255,255,255,.6); border:1px solid ${C.line}; border-radius:10px; padding:11px; }
+.ma-task-due{ flex:1; min-width:0; font-family:inherit; font-size:12px; padding:8px 9px; border:1px solid ${C.line}; border-radius:9px; background:#fff; color:${C.ink}; }
+.ma-task-prio-sel{ font-family:inherit; font-size:12px; padding:8px 9px; border:1px solid ${C.line}; border-radius:9px; background:#fff; color:${C.ink}; }
+.ma-task-bar{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+.ma-task-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+.ma-reminder-line{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px; font-size:12px; font-weight:700; }
+.ma-reminder-line .od{ color:${C.accent}; background:rgba(200,72,47,.08); padding:5px 10px; border-radius:8px; }
+.ma-reminder-line .td{ color:#2f6b63; background:rgba(47,107,99,.08); padding:5px 10px; border-radius:8px; }
+.ma-task-group{ margin-bottom:6px; }
+.ma-task-grouphead{ font-size:11px; font-weight:800; letter-spacing:.08em; color:${C.inkSoft}; margin:14px 0 7px; }
+.ma-task-grouphead.overdue{ color:${C.accent}; }
+.ma-task-grouphead.today{ color:#2f6b63; }
+.ma-task-editbox{ display:flex; flex-direction:column; gap:8px; }
+.ma-task-rowbtns{ display:flex; flex-direction:column; gap:5px; align-items:flex-end; }
+.ma-iconbtn{ display:inline-flex; align-items:center; justify-content:center; border:1px solid ${C.line}; background:#fff; border-radius:8px; cursor:pointer; padding:5px 7px; color:${C.inkSoft}; }
+.ma-iconbtn:hover{ border-color:${C.ink}; }
+.ma-due{ font-weight:700; padding:2px 8px; border-radius:7px; }
+.ma-due.overdue{ color:#fff; background:${C.accent}; }
+.ma-due.today{ color:#fff; background:#2f6b63; }
+.ma-due.soon{ color:#2f6b63; background:rgba(47,107,99,.12); }
+.ma-due.later,.ma-due.none{ color:${C.inkSoft}; background:${C.paper2}; }
+.ma-prio{ font-weight:700; }
+.ma-tr{ font-size:12.5px; color:#2f6b63; margin-top:3px; padding-left:8px; border-left:2px solid #cfe0da; line-height:1.5; }
+.ma-chat-body{ display:flex; flex-direction:column; }
+.ma-chat-log{ display:flex; flex-direction:column; gap:10px; margin-top:8px; }
+.ma-chat-msg{ display:flex; }
+.ma-chat-msg.user{ justify-content:flex-end; }
+.ma-chat-bubble{ max-width:82%; font-size:13.5px; line-height:1.6; padding:9px 13px; border-radius:12px; white-space:pre-wrap; }
+.ma-chat-msg.user .ma-chat-bubble{ background:${C.accent}; color:#fff; border-bottom-right-radius:3px; }
+.ma-chat-msg.assistant .ma-chat-bubble{ background:rgba(255,255,255,.7); border:1px solid ${C.line}; border-bottom-left-radius:3px; }
+.ma-chat-input{ display:flex; gap:8px; padding:14px 20px; border-top:1px solid ${C.line}; background:${C.paper}; }
+.ma-chat-input input{ flex:1; font-family:inherit; font-size:14px; padding:10px 12px; border:1px solid ${C.line}; border-radius:20px; outline:none; }
+.ma-chat-input input:focus{ border-color:${C.accent}; }
+.ma-chat-input button{ font-weight:700; font-size:13px; padding:10px 18px; border:none; background:${C.accent}; color:#fff; border-radius:20px; cursor:pointer; }
+.ma-chat-input button:disabled{ opacity:.5; cursor:wait; }
+.ma-timer{ font-family:'Zen Kaku Gothic New'; font-weight:700; font-size:17px; font-variant-numeric:tabular-nums; min-width:58px; text-align:right; color:${C.inkSoft}; display:inline-flex; align-items:center; gap:6px; justify-content:flex-end; }
+.ma-timer.rec{ color:${C.accent}; }
+.ma-recdot{ width:8px; height:8px; border-radius:50%; background:${C.accent}; animation:pulse 1.1s infinite; }
+.ma-sel{ font-family:'Zen Kaku Gothic New'; font-size:13px; padding:8px 11px; border:1px solid ${C.line}; background:#fff; border-radius:9px; color:${C.ink}; }
+.ma-newbtn{ font-weight:700; font-size:13px; letter-spacing:.04em; padding:9px 16px; border:1.5px solid ${C.accent}; color:${C.accent}; background:transparent; border-radius:2px; cursor:pointer; transition:.15s; white-space:nowrap; }
+.ma-newbtn:hover{ background:${C.accent}; color:#fff; }
+.ma-histbtn{ font-weight:700; font-size:13px; letter-spacing:.04em; padding:9px 16px; border:1px solid ${C.line}; color:${C.ink}; background:rgba(255,255,255,.6); border-radius:2px; cursor:pointer; transition:.15s; white-space:nowrap; }
+.ma-histbtn:hover{ border-color:${C.ink}; }
+.ma-note{ font-size:12px; color:${C.gold}; letter-spacing:.03em; margin-top:10px; }
+.ma-toasts{ position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:9999; display:flex; flex-direction:column; gap:8px; width:min(520px,92vw); pointer-events:none; }
+.ma-toast{ pointer-events:auto; padding:11px 15px; border-radius:12px; font-size:13px; line-height:1.6; box-shadow:0 10px 34px rgba(0,0,0,.2); display:flex; gap:10px; align-items:flex-start; animation:fade .2s ease; }
+.ma-toast.err{ background:#fbeee9; border:1px solid ${C.accentSoft}; color:${C.accent}; cursor:pointer; }
+.ma-toast.ok{ background:#eef4f2; border:1px solid #cfe0da; color:#2f6b63; }
+.ma-toast-x{ margin-left:auto; font-weight:700; opacity:.55; }
+.ma-overlay{ position:fixed; inset:0; z-index:50; background:rgba(31,27,22,.42); backdrop-filter:blur(2px); display:flex; justify-content:flex-end; animation:fade .18s ease; }
+.ma-modal-overlay{ position:fixed; inset:0; z-index:60; background:rgba(31,27,22,.5); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; padding:18px; animation:fade .18s ease; }
+.ma-modal{ width:min(440px,96vw); max-height:90vh; overflow-y:auto; background:${C.paper}; border-radius:18px; padding:22px; box-shadow:0 20px 60px rgba(0,0,0,.3); animation:fade .2s ease; }
+.ma-modal-head{ display:flex; align-items:center; gap:13px; margin-bottom:16px; }
+.ma-modal-title{ font-family:'Shippori Mincho',serif; font-weight:800; font-size:20px; }
+.ma-modal-sub{ font-size:12px; color:${C.inkSoft}; margin-top:2px; }
+.ma-guide-item{ display:flex; gap:11px; align-items:flex-start; font-size:13px; line-height:1.65; padding:9px 0; border-top:1px solid ${C.line}; }
+.ma-guide-item b{ color:${C.ink}; }
+.ma-guide-ic{ flex-shrink:0; width:30px; height:30px; border-radius:9px; background:#fff; border:1px solid ${C.line}; display:flex; align-items:center; justify-content:center; color:${C.accent}; margin-top:1px; }
+.ma-guide-note{ font-size:11px; color:${C.inkSoft}; line-height:1.6; margin:12px 0 4px; padding:10px 12px; background:rgba(0,0,0,.03); border-radius:9px; }
+@keyframes fade{ from{opacity:0;} to{opacity:1;} }
+.ma-drawer{ width:min(460px,92vw); height:100%; background:${C.paper}; box-shadow:-12px 0 50px rgba(0,0,0,.18); display:flex; flex-direction:column; animation:slide .22s cubic-bezier(.2,.8,.2,1); }
+@keyframes slide{ from{transform:translateX(40px);opacity:.6;} to{transform:translateX(0);opacity:1;} }
+.ma-drawer-head{ display:flex; align-items:center; justify-content:space-between; padding:18px 20px; border-bottom:2px solid ${C.ink}; }
+.ma-drawer-head h2{ font-family:'Shippori Mincho',serif; font-size:20px; font-weight:800; letter-spacing:.06em; }
+.ma-x{ border:none; background:transparent; font-size:18px; cursor:pointer; color:${C.inkSoft}; padding:4px 8px; border-radius:3px; } .ma-x:hover{ background:rgba(0,0,0,.06); color:${C.ink}; }
+.ma-drawer-body{ flex:1; overflow-y:auto; overflow-x:hidden; padding:16px 20px 28px; }
+.ma-drawer-body::-webkit-scrollbar{ width:7px; } .ma-drawer-body::-webkit-scrollbar-thumb{ background:${C.line}; border-radius:4px; }
+.ma-hist-sep{ font-size:11px; letter-spacing:.14em; color:${C.inkSoft}; text-transform:uppercase; margin:18px 0 10px; padding-bottom:5px; border-bottom:1px solid ${C.line}; }
+.ma-hist{ display:flex; gap:10px; align-items:flex-start; justify-content:space-between; padding:13px; border:1px solid ${C.line}; border-radius:4px; background:rgba(255,255,255,.55); margin-bottom:10px; transition:.15s; }
+.ma-hist.done{ opacity:.6; background:rgba(0,0,0,.025); }
+.ma-hist.done .ma-hist-title{ text-decoration:line-through; text-decoration-color:${C.line}; }
+.ma-hist-done-chip{ font-size:10px; font-weight:800; color:#fff; background:#5f7a3a; padding:2px 7px; border-radius:20px; letter-spacing:.04em; text-decoration:none; flex-shrink:0; }
+.ma-hist:hover{ border-color:${C.gold}; }
+.ma-hist.cur{ border-left:3px solid ${C.accent}; background:rgba(200,72,47,.05); }
+.ma-hist-main{ min-width:0; flex:1; cursor:pointer; }
+.ma-hist-title{ font-family:'Shippori Mincho',serif; font-size:16px; font-weight:700; display:flex; align-items:center; gap:8px; }
+.ma-badge{ font-size:10px; font-weight:700; color:#fff; background:${C.accent}; padding:2px 8px; border-radius:20px; letter-spacing:.06em; }
+.ma-hist-meta{ font-size:11.5px; color:${C.gold}; margin:4px 0 6px; font-variant-numeric:tabular-nums; }
+.ma-hist-prev{ font-size:12.5px; color:${C.inkSoft}; line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.ma-hist-act{ display:flex; flex-direction:column; gap:6px; align-items:flex-end; white-space:nowrap; }
+.ma-del{ font-size:12px; border:none; background:transparent; color:${C.inkSoft}; cursor:pointer; padding:5px 8px; border-radius:2px; } .ma-del:hover{ color:${C.accent}; background:rgba(200,72,47,.08); }
+.ma-del-confirm{ display:flex; gap:5px; }
+.ma-del-yes{ font-size:12px; font-weight:700; border:none; background:${C.accent}; color:#fff; padding:5px 10px; border-radius:2px; cursor:pointer; }
+.ma-del-no{ font-size:12px; border:1px solid ${C.line}; background:transparent; color:${C.inkSoft}; padding:5px 10px; border-radius:2px; cursor:pointer; }
+.ma-note2{ font-size:12px; color:${C.gold}; letter-spacing:.03em; margin-top:10px; }
+.ma-rec{ display:inline-flex; align-items:center; gap:8px; border:none; cursor:pointer; font-weight:700; font-size:13.5px; letter-spacing:.04em; padding:10px 18px; border-radius:10px; transition:.2s; color:#fff; background:${C.accent}; box-shadow:0 4px 14px rgba(200,72,47,.28); }
+.ma-rec:hover{ filter:brightness(1.07);} .ma-rec.stop{ background:${C.ink}; } .ma-rec:disabled{ opacity:.4; cursor:not-allowed; }
+.ma-dot{ width:9px; height:9px; border-radius:50%; background:#fff; } .ma-rec .ma-dot.live{ animation:pulse 1.1s infinite; }
+@keyframes pulse{ 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.35;transform:scale(.7);} }
+.ma-grid{ display:flex; gap:22px; margin-top:20px; align-items:flex-start; }
+@media (max-width:900px){ .ma-grid{ flex-direction:column; } .ma-transcript{ height:auto; max-height:60vh; } .ma-rbody{ max-height:none; overflow:visible; padding-right:0; } }
+.ma-l{ flex:1; min-width:0; width:100%; } .ma-r{ flex:1.7; min-width:0; width:100%; }
+.ma-card{ background:#fff; border:1px solid ${C.line}; border-radius:14px; padding:18px 20px; box-shadow:0 1px 2px rgba(0,0,0,.03),0 10px 30px rgba(0,0,0,.035); }
+.ma-card + .ma-card{ margin-top:16px; }
+.ma-label{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; gap:10px; }
+.ma-label h2{ font-family:'Shippori Mincho',serif; font-size:17px; font-weight:700; letter-spacing:.07em; display:flex; align-items:center; gap:9px; }
+.ma-label h2::before{ content:''; width:15px; height:2px; background:${C.accent}; }
+.ma-mini{ font-size:11px; letter-spacing:.08em; color:${C.inkSoft}; }
+.ma-diar{ background:#f1f6f4; border:1px solid #e0ece8; border-radius:11px; padding:12px 14px; margin-bottom:12px; }
+.ma-diarhead{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.ma-switch{ display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:700; cursor:pointer; user-select:none; }
+.ma-switch input{ accent-color:${C.accent}; width:16px; height:16px; }
+.ma-diarbody{ margin-top:10px; display:flex; flex-direction:column; gap:9px; }
+.ma-slider{ display:flex; align-items:center; gap:9px; font-size:11px; color:${C.inkSoft}; }
+.ma-slider input[type=range]{ flex:1; accent-color:${C.accent}; }
+.ma-recl{ display:flex; align-items:center; gap:7px; font-size:12px; color:${C.inkSoft}; }
+.ma-recl input[type=number]{ width:52px; font-size:13px; padding:5px 6px; border:1px solid ${C.line}; border-radius:2px; background:rgba(255,255,255,.7); }
+.ma-mini-btn{ font-size:12px; font-weight:700; padding:6px 12px; border:1.5px solid ${C.ink}; background:transparent; border-radius:2px; cursor:pointer; color:${C.ink}; transition:.15s; }
+.ma-mini-btn.on{ background:#5f7a3a; border-color:#5f7a3a; color:#fff; }
+.ma-mini-btn:hover{ background:${C.ink}; color:${C.paper}; }
+.ma-spkbar{ display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid ${C.line}; }
+.ma-spkbar .lab{ font-size:11px; color:${C.inkSoft}; letter-spacing:.08em; }
+.ma-chip{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; cursor:pointer; border:1.5px solid; background:transparent; transition:.15s; }
+.ma-chip.on{ color:#fff; } .ma-spkadd{ width:96px; font-size:12px; padding:5px 9px; border:1px dashed ${C.line}; border-radius:20px; background:transparent; outline:none; }
+.ma-tools{ display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+.ma-search{ flex:1; min-width:140px; font-size:13px; padding:9px 13px; border:1px solid ${C.line}; border-radius:10px; background:#fff; outline:none; }
+.ma-search:focus{ border-color:${C.accent}; }
+.ma-toggle{ display:inline-flex; align-items:center; gap:6px; font-size:12px; color:${C.inkSoft}; cursor:pointer; user-select:none; white-space:nowrap; }
+.ma-toggle input{ accent-color:${C.accent}; }
+.ma-transcript{ height:calc(100vh - 360px); min-height:300px; max-height:820px; overflow-y:auto; padding-right:6px; position:relative; }
+.ma-rbody{ max-height:calc(100vh - 230px); overflow-y:auto; padding-right:4px; }
+.ma-aigrid{ column-width:330px; column-gap:14px; margin-top:4px; }
+.ma-diar-adv{ margin-left:auto; font-size:11px; font-weight:700; color:${C.accent}; background:transparent; border:none; cursor:pointer; padding:2px 4px; }
+.ma-aigrid > .ma-card{ break-inside:avoid; -webkit-column-break-inside:avoid; width:100%; margin:0 0 14px; }
+.ma-jump{ position:sticky; bottom:8px; margin:8px auto 0; display:block; width:max-content; padding:7px 15px; border-radius:999px; border:none; background:${C.ink}; color:#fff; font-size:12px; font-weight:700; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.28); }
+.ma-jump:hover{ background:${C.accent}; }
+.ma-transcript::-webkit-scrollbar{ width:7px; } .ma-transcript::-webkit-scrollbar-thumb{ background:${C.line}; border-radius:4px; }
+.ma-seg{ display:flex; gap:10px; padding:10px 10px; border-bottom:1px solid rgba(0,0,0,.045); line-height:1.7; font-size:14.5px; border-radius:10px; position:relative; }
+.ma-seg.hl{ background:rgba(200,72,47,.06); } .ma-seg:hover{ background:rgba(0,0,0,.025); } .ma-seg:hover .ma-act{ opacity:1; }
+.ma-ts{ font-family:'Shippori Mincho',serif; color:${C.gold}; font-size:12px; min-width:42px; padding-top:3px; font-variant-numeric:tabular-nums; }
+.ma-segmain{ flex:1; min-width:0; }
+.ma-spklab{ font-size:11px; font-weight:700; border:none; background:transparent; cursor:pointer; padding:0 0 2px; outline:none; }
+.ma-segtext{ cursor:text; } .ma-segtext mark{ background:${C.accentSoft}; color:${C.ink}; padding:0 1px; }
+.ma-edit{ width:100%; font-family:inherit; font-size:14.5px; line-height:1.6; border:1px solid ${C.accent}; border-radius:3px; padding:6px 8px; resize:vertical; outline:none; }
+.ma-act{ display:flex; gap:4px; opacity:.32; transition:.15s; }
+.ma-recpill{ font-size:11px; font-weight:800; color:#fff; background:${C.accent}; padding:3px 9px; border-radius:20px; letter-spacing:.04em; animation:recpulse 1.4s ease-in-out infinite; }
+@keyframes recpulse{ 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
+.ma-grounding{ display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700; color:#2f6b63; background:#eef4f2; border:1px solid #d7e6e1; padding:5px 10px; border-radius:9px; margin-bottom:12px; cursor:pointer; }
+.ma-ibtn{ border:none; background:transparent; cursor:pointer; font-size:13px; padding:2px 5px; border-radius:3px; color:${C.inkSoft}; line-height:1; }
+.ma-ibtn:hover{ background:rgba(0,0,0,.06); color:${C.ink}; } .ma-ibtn.star.on{ color:${C.accent}; }
+.ma-interim{ color:${C.inkSoft}; font-style:italic; padding:8px 6px 0 52px; line-height:1.7; }
+.ma-empty{ color:${C.inkSoft}; font-size:13.5px; line-height:1.9; padding:20px 6px; }
+.ma-foottools{ display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+.ma-tool{ flex:1; min-width:84px; font-size:12px; letter-spacing:.03em; padding:9px; border:1px solid ${C.line}; background:#fff; border-radius:9px; cursor:pointer; color:${C.inkSoft}; transition:.15s; }
+.ma-tool.accent{ border-color:${C.accentSoft}; color:${C.accent}; font-weight:700; }
+.ma-tool.accent:hover{ background:${C.accent}; color:#fff; }
+.ma-optrow{ display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+.ma-optrow label{ display:flex; flex-direction:column; gap:4px; font-size:10.5px; font-weight:700; letter-spacing:.04em; color:${C.inkSoft}; flex:1; min-width:96px; }
+.ma-optrow select{ font-family:inherit; font-size:13px; padding:7px 9px; border:1px solid ${C.line}; border-radius:9px; background:${C.paper2}; color:${C.ink}; cursor:pointer; }
+.ma-memo{ width:100%; box-sizing:border-box; min-height:300px; resize:vertical; font-family:inherit; font-size:14px; line-height:1.7; padding:13px 15px; border:1px solid ${C.line}; border-radius:11px; background:#fff; color:${C.ink}; }
+.ma-memo:focus{ outline:none; border-color:${C.accent}; }
+.ma-tool:hover{ border-color:${C.ink}; color:${C.ink}; }
+.ma-tabs{ display:flex; gap:4px; margin-bottom:14px; border-bottom:1px solid ${C.line}; flex-wrap:wrap; }
+.ma-tab{ border:none; background:transparent; font-family:'Zen Kaku Gothic New'; font-weight:700; font-size:13.5px; letter-spacing:.04em; padding:9px 14px; cursor:pointer; color:${C.inkSoft}; border-bottom:2px solid transparent; margin-bottom:-1px; }
+.ma-tab.on{ color:${C.ink}; border-bottom-color:${C.accent}; }
+.ma-btn{ width:100%; border:none; background:${C.ink}; color:${C.paper}; font-weight:700; font-size:13.5px; letter-spacing:.04em; padding:13px; border-radius:10px; cursor:pointer; transition:.18s; margin-bottom:14px; display:flex; align-items:center; justify-content:center; gap:9px; }
+.ma-btn:hover{ background:${C.ink}; color:${C.paper}; } .ma-btn:disabled{ opacity:.45; cursor:wait; }
+.ma-row{ display:flex; gap:8px; margin-bottom:14px; align-items:center; }
+.ma-auto{ display:flex; align-items:center; gap:8px; font-size:13px; color:${C.inkSoft}; cursor:pointer; user-select:none; margin-bottom:14px; }
+.ma-auto input{ accent-color:${C.accent}; width:15px; height:15px; }
+.ma-list{ list-style:none; display:flex; flex-direction:column; gap:8px; }
+.ma-list li{ font-size:14px; line-height:1.6; padding-left:17px; position:relative; }
+.ma-list li::before{ content:''; position:absolute; left:0; top:8px; width:6px; height:6px; background:${C.accent}; border-radius:50%; }
+.ma-advice li::before{ background:${C.gold}; }
+.ma-action{ display:flex; gap:10px; align-items:baseline; font-size:14px; line-height:1.55; padding:7px 0; border-bottom:1px solid ${C.line}; }
+.ma-action:last-child{ border:none; } .ma-action .t{ flex:1; }
+.ma-owner{ font-size:11px; font-weight:700; color:${C.accent}; border:1px solid ${C.accentSoft}; padding:2px 8px; border-radius:20px; white-space:nowrap; }
+.ma-tags{ display:flex; flex-wrap:wrap; gap:6px; }
+.ma-tag{ font-size:12px; background:${C.paper2}; border:1px solid ${C.line}; padding:3px 10px; border-radius:20px; }
+.ma-warn{ background:#fbeee9; border:1px solid ${C.accentSoft}; color:${C.accent}; font-size:13px; padding:11px 14px; border-radius:11px; line-height:1.6; margin-bottom:14px; }
+.md-h1{ font-family:'Shippori Mincho',serif; font-size:17px; font-weight:700; margin:14px 0 6px; padding-bottom:4px; border-bottom:1px solid ${C.line}; }
+.md-h2{ font-family:'Shippori Mincho',serif; font-size:14.5px; font-weight:700; color:${C.accent}; margin:12px 0 4px; }
+.md-p{ font-size:14px; line-height:1.7; margin:5px 0; }
+.md-ul{ list-style:none; margin:5px 0; display:flex; flex-direction:column; gap:5px; }
+.md-ul li{ font-size:14px; line-height:1.6; padding-left:16px; position:relative; }
+.md-ul li::before{ content:'·'; position:absolute; left:3px; color:${C.accent}; font-weight:700; }
+.ma-spin{ width:15px; height:15px; border:2px solid ${C.accentSoft}; border-top-color:${C.accent}; border-radius:50%; animation:spin .7s linear infinite; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+.ma-foot{ margin-top:28px; font-size:12px; color:${C.inkSoft}; line-height:1.8; border-top:1px solid ${C.line}; padding-top:14px; }
+@media (max-width:760px){
+  .ma{ display:block; }
+  .ma-rail{ position:fixed; top:auto; bottom:0; left:0; right:0; height:auto; width:auto; flex:none; flex-direction:row; justify-content:space-around; align-items:center; gap:2px; padding:5px 4px calc(6px + env(safe-area-inset-bottom)); border-right:none; border-top:1px solid ${C.line}; box-shadow:0 -4px 18px rgba(0,0,0,.07); z-index:50; }
+  .ma-logo{ display:none; }
+  .ma-rail-btn{ width:auto; flex:1; padding:5px 0 3px; border-radius:10px; }
+  .ma-rail-btn .ic{ font-size:18px; }
+  .ma-rail-btn label{ font-size:9px; }
+  .ma-rail-badge{ top:0; right:50%; transform:translateX(16px); }
+  .ma-wrap{ flex:none; max-width:100%; margin:0; padding:14px 14px 88px; }
+  .ma-top{ gap:10px; padding-bottom:12px; }
+  .ma-kicker{ display:none; }
+  .ma-controls{ flex-wrap:wrap; gap:8px; width:100%; }
+  .ma-timer{ min-width:46px; font-size:16px; }
+  .ma-rec, .ma-cap{ flex:1; justify-content:center; }
+  .ma-sel{ flex:1; }
+  .ma-titleInput{ font-size:19px; width:100%; }
+  .ma-mb-right{ justify-content:flex-start; width:100%; }
+  .ma-meetingbar{ padding:13px 14px; border-radius:12px; }
+  .ma-grid{ gap:14px; margin-top:14px; }
+  .ma-card{ padding:15px 15px; border-radius:12px; }
+  .ma-transcript{ height:auto; max-height:54vh; }
+  .ma-drawer{ width:100%; }
+  .ma-fldrow{ flex-direction:column; align-items:stretch; gap:10px; }
+  .ma-addbtn{ width:100%; padding:12px; }
+  .ma-fld-in, .ma-search, .ma-set-input, .ma-chat-input input, .ma-memo, .ma-optrow select{ font-size:16px; }
+  .ma-act{ opacity:1; }
+  .ma-ibtn{ padding:6px 10px; font-size:16px; }
+  .ma-drawer-body{ padding:16px 16px 28px; }
+}
+`;
+
+function MeetingAssistant() {
+  const [supported, setSupported] = useState(true);
+  const [secureCtx] = useState(() => (typeof window !== "undefined" ? !!window.isSecureContext : true));
+  const [title, setTitle] = useState("無題の会議");
+  const [lang, setLang] = useState("ja-JP");
+  const [recording, setRecording] = useState(false);
+  const [segments, setSegments] = useState([]);
+  const [interim, setInterim] = useState("");
+  const [elapsed, setElapsed] = useState(0);
+
+  const [autoDiar, setAutoDiar] = useState(true);
+  const [threshold, setThreshold] = useState(0.34);
+  const [kInput, setKInput] = useState(2);
+  const [autoCount, setAutoCount] = useState(0);
+
+  const [speakers, setSpeakers] = useState([]);
+  const [curSpeaker, setCurSpeaker] = useState("");
+  const [newSpeaker, setNewSpeaker] = useState("");
+  const [editSpk, setEditSpk] = useState(null);          // 改名中の話者
+  const [query, setQuery] = useState("");
+  const [onlyHl, setOnlyHl] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [editVal, setEditVal] = useState("");
+
+  const [tab, setTab] = useState("ai");
+  const [corrected, setCorrected] = useState("");       // ソース基準で校正した全文
+  const [corrLoad, setCorrLoad] = useState(false);
+  const [analyzedAt, setAnalyzedAt] = useState(null);   // 要約の最終更新
+  const [myNotes, setMyNotes] = useState("");           // 自分メモ（議事録の骨子）
+  const [minTemplate, setMinTemplate] = useState("汎用");
+  const [minLength, setMinLength] = useState("標準");
+  const [minTone, setMinTone] = useState("ビジネス");
+  const [followup, setFollowup] = useState("");
+  const [fuLoad, setFuLoad] = useState(false);
+  const [showFollowup, setShowFollowup] = useState(false);
+  const [analysis, setAnalysis] = useState(null);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [auto, setAuto] = useState(true);
+  const [minutes, setMinutes] = useState("");
+  const [minLoad, setMinLoad] = useState(false);
+  const [trans, setTrans] = useState("");
+  const [transLoad, setTransLoad] = useState(false);
+  const [target, setTarget] = useState("English");
+  const [error, setError] = useState("");
+  const [meetings, setMeetings] = useState([]);          // 保存済みの他の会議
+  const [showHistory, setShowHistory] = useState(false); // 履歴パネルの表示
+  const [showSettings, setShowSettings] = useState(false); // AI設定パネルの表示
+  const [apiKey, setApiKey] = useState("");              // 自分のAnthropic APIキー
+  const [model, setModel] = useState("claude-sonnet-4-6");
+  const [proxyUrl, setProxyUrl] = useState("");          // バックエンドプロキシURL（推奨）
+  const [whisperSize, setWhisperSize] = useState("base"); // 会議文字起こしモデル: tiny(速い) / base(標準)
+  const [vad, setVad] = useState(0.004);                 // 認識する音量のしきい値（VAD）
+  const [level, setLevel] = useState(0);                 // 現在の入力音量（メーター表示用）
+  const [capturing, setCapturing] = useState(false);    // 会議タブ音声の取り込み中
+  const [sttStatus, setSttStatus] = useState("");       // Whisperモデルの読込状況
+  const [showImport, setShowImport] = useState(false);  // 文字起こし取り込みモーダル
+  const [importText, setImportText] = useState("");
+  const [importMode, setImportMode] = useState("replace");
+  const [tasks, setTasks] = useState([]);               // マイタスク（全会議横断）
+  const [showTasks, setShowTasks] = useState(false);
+  const [newTask, setNewTask] = useState("");
+  const [newTaskDue, setNewTaskDue] = useState("");
+  const [newTaskPrio, setNewTaskPrio] = useState("none");
+  const [taskFilter, setTaskFilter] = useState("open"); // open | all
+  const [taskEditId, setTaskEditId] = useState(null);
+  const [taskEditVal, setTaskEditVal] = useState("");
+  const [taskEditDue, setTaskEditDue] = useState("");
+  const [taskEditPrio, setTaskEditPrio] = useState("none");
+  const [remindOn, setRemindOn] = useState(false);
+  const [gSources, setGSources] = useState([]);         // 全体ソース
+  const [mSources, setMSources] = useState([]);          // この会議のソース
+  const [showSources, setShowSources] = useState(false);
+  const [srcTab, setSrcTab] = useState("meeting");       // meeting | global
+  const [srcTitle, setSrcTitle] = useState("");
+  const [srcText, setSrcText] = useState("");
+  const [showGuide, setShowGuide] = useState(false);    // 初回ガイド
+  const [diarAdv, setDiarAdv] = useState(false);        // 話者分離の詳細設定の開閉
+  const [naming, setNaming] = useState(false);          // 自動命名の実行中
+  const [vocab, setVocab] = useState("");               // 用語辞書（1行1語。「誤=正」で自動修正）
+  const [liveTranslate, setLiveTranslate] = useState(false); // リアルタイム翻訳
+  const [showChat, setShowChat] = useState(false);      // 会議横断AIチャット
+  const [chatMsgs, setChatMsgs] = useState([]);         // [{role, text}]
+  const [chatInput, setChatInput] = useState("");
+  const [chatBusy, setChatBusy] = useState(false);
+  const [mediaStatus, setMediaStatus] = useState("");   // ファイル文字起こしの進捗
+  const [pendingDel, setPendingDel] = useState(null);    // 削除確認中の会議ID
+  const [note, setNote] = useState("");                  // 操作の通知メッセージ
+  const [activeDate, setActiveDate] = useState(() => new Date());
+
+  const recRef = useRef(null), recordingRef = useRef(false), segRef = useRef([]);
+  const elapsedRef = useRef(0), curSpkRef = useRef(""), lastLenRef = useRef(0);
+  const idRef = useRef(0), scrollRef = useRef(null), langRef = useRef("ja-JP");
+  const stickRef = useRef(true);
+  const autoDiarRef = useRef(true), threshRef = useRef(0.34);
+  const audioRef = useRef({});                 // {ctx,analyser,td,fd,timer}（解析用）
+  const micRef = useRef(null);                 // セッション中に保持する単一のマイクストリーム
+  const framesRef = useRef([]);                // 直近の発言の声フレーム
+  const dispRef = useRef(null);                // タブ共有のMediaStream
+  const sttCtxRef = useRef(null);              // 取り込み用AudioContext
+  const sttNodeRef = useRef(null);             // ScriptProcessorNode
+  const sttBufRef = useRef([]);                // 取り込んだFloat32チャンク
+  const sttBusyRef = useRef(false);            // Whisper処理中フラグ（多重実行・遅延蓄積を防ぐ）
+  const vadRef = useRef(0.004);                // 現在のVADしきい値（常に最新）
+  const levelRef = useRef(0);                  // 平滑化した入力音量
+  const chunkTimerRef = useRef(null);          // チャンク処理タイマー
+  const capturingRef = useRef(false);
+  const centroidsRef = useRef([]);             // [{label,vec,n}]
+  const featByIdRef = useRef({});              // segId -> 特徴ベクトル
+  const activeIdRef = useRef(makeId());        // 現在の会議ID
+  const apiCfgRef = useRef({ key: "", model: "claude-sonnet-4-6" }); // 常に最新のAPI設定
+  const titleTouchedRef = useRef(false);       // ユーザーが会議名を手入力したか
+  const namedRef = useRef(false);              // 自動命名済みか
+  const vocabRef = useRef("");                 // 用語辞書（最新）
+  const liveTrRef = useRef(false);             // リアルタイム翻訳ON（最新）
+  const targetRef = useRef("English");         // 翻訳先（最新）
+  const mediaBusyRef = useRef(false);          // ファイル文字起こし中
+  const gSourcesRef = useRef([]); const mSourcesRef = useRef([]);
+
+  const setSegs = (arr) => { segRef.current = arr; setSegments(arr); };
+  useEffect(() => { autoDiarRef.current = autoDiar; }, [autoDiar]);
+  useEffect(() => { threshRef.current = threshold; }, [threshold]);
+
+  // ── 発言ごとの話者を推定（オンライン・クラスタリング）
+  const assignSpeaker = () => {
+    const frames = framesRef.current; framesRef.current = [];
+    if (frames.length < 4) return null;               // 声が少なすぎる
+    const vec = meanVec(frames);
+    let best = -1, bestD = Infinity;
+    centroidsRef.current.forEach((c, i) => { const d = dist(vec, c.vec); if (d < bestD) { bestD = d; best = i; } });
+    let label;
+    if (best >= 0 && bestD < threshRef.current) {
+      const c = centroidsRef.current[best];
+      c.vec = c.vec.map((v, k) => (v * c.n + vec[k]) / (c.n + 1)); c.n++;
+      label = c.label;
+    } else {
+      label = spkName(centroidsRef.current.length);
+      centroidsRef.current.push({ label, vec, n: 1 });
+      setSpeakers((prev) => (prev.includes(label) ? prev : [...prev, label]));
+      setAutoCount(centroidsRef.current.length);
+    }
+    return { label, vec };
+  };
+
+  useEffect(() => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { setSupported(false); return; }
+    const rec = new SR();
+    rec.continuous = true; rec.interimResults = true; rec.lang = langRef.current;
+    rec.onresult = (e) => {
+      let live = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const r = e.results[i];
+        if (r.isFinal) {
+          const txt = r[0].transcript.trim();
+          if (txt) {
+            let speaker = curSpkRef.current, feat = null;
+            if (autoDiarRef.current) { const a = assignSpeaker(); if (a) { speaker = a.label; feat = a.vec; } }
+            else framesRef.current = [];
+            const id = ++idRef.current;
+            if (feat) featByIdRef.current[id] = feat;
+            const fixed = applyVocab(txt);
+            setSegs([...segRef.current, { id, text: fixed, t: fmt(elapsedRef.current), speaker, hl: false }]);
+            if (liveTrRef.current) translateSegment(id, fixed);
+          }
+        } else live += r[0].transcript;
+      }
+      setInterim(live);
+    };
+    rec.onerror = (e) => { if (e.error === "not-allowed" || e.error === "service-not-allowed") { setError("マイクへのアクセスが許可されませんでした。ブラウザの権限を確認してください。"); stopRec(); } };
+    rec.onend = () => { if (recordingRef.current) { try { rec.start(); } catch (_) {} } };
+    recRef.current = rec;
+    return () => { try { rec.stop(); } catch (_) {} };
+    // eslint-disable-next-line
+  }, []);
+
+  // ── 音声解析パイプライン（自動話者分離ON & 録音中のみ）
+  // マイクは録音セッション中に1本だけ取得して保持し、文字起こしと解析で共用する → 許可は一度だけ
+  const ensureMic = async () => {
+    if (micRef.current) return micRef.current;
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+    micRef.current = stream;
+    return stream;
+  };
+  const startAnalyser = (stream) => {
+    if (audioRef.current.ctx || !stream) return;
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    try { ctx.resume(); } catch (_) {}
+    const src = ctx.createMediaStreamSource(stream);
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 1024;
+    src.connect(analyser);
+    const td = new Float32Array(analyser.fftSize);
+    const fd = new Float32Array(analyser.frequencyBinCount);
+    const timer = setInterval(() => {
+      analyser.getFloatTimeDomainData(td);
+      analyser.getFloatFrequencyData(fd);
+      const f = frameFeature(td, fd, ctx.sampleRate, analyser.fftSize);
+      if (f) { framesRef.current.push(f); if (framesRef.current.length > 400) framesRef.current.shift(); }
+    }, 60);
+    audioRef.current = { ctx, analyser, td, fd, timer };
+  };
+  const stopAnalyser = () => {
+    const a = audioRef.current;
+    if (a.timer) clearInterval(a.timer);
+    if (a.ctx) try { a.ctx.close(); } catch (_) {}
+    audioRef.current = {}; framesRef.current = [];
+  };
+  const releaseMic = () => { if (micRef.current) { micRef.current.getTracks().forEach((t) => t.stop()); micRef.current = null; } };
+
+  // 録音中に自動話者分離をトグルしたら、保持中のストリームへ解析を着脱（マイクは取り直さない）
+  useEffect(() => {
+    if (!recording) return;
+    if (autoDiar) { if (micRef.current) startAnalyser(micRef.current); } else stopAnalyser();
+    // eslint-disable-next-line
+  }, [recording, autoDiar]);
+
+  useEffect(() => { if (!recording && !capturing) return; const id = setInterval(() => { elapsedRef.current += 1; setElapsed(elapsedRef.current); }, 1000); return () => clearInterval(id); }, [recording, capturing]);
+  useEffect(() => { if (!capturing) { setLevel(0); return; } const id = setInterval(() => setLevel(levelRef.current), 200); return () => clearInterval(id); }, [capturing]);
+  useEffect(() => {
+    if ((!recording && !capturing) || !auto) return;
+    const id = setInterval(() => { const len = segRef.current.map((s) => s.text).join("").length; if (len > lastLenRef.current + 10 && !analyzing && (apiCfgRef.current.key || apiCfgRef.current.proxyUrl)) analyze(); }, 120000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line
+  }, [recording, capturing, auto, analyzing]);
+  const [atBottom, setAtBottom] = useState(true);
+  const onTranscriptScroll = () => { const el = scrollRef.current; if (!el) return; const near = el.scrollHeight - el.scrollTop - el.clientHeight < 80; stickRef.current = near; setAtBottom(near); };
+  const scrollToBottom = () => { const el = scrollRef.current; if (el) { el.scrollTop = el.scrollHeight; stickRef.current = true; setAtBottom(true); } };
+  useEffect(() => { if (stickRef.current && scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [segments, interim]);
+
+  const startRec = async () => {
+    setError("");
+    let stream;
+    try { stream = await ensureMic(); }          // ← 許可ダイアログはここで一度だけ
+    catch (e) { setError("マイクへのアクセスが許可されませんでした。ブラウザの権限を確認してください。"); return; }
+    recordingRef.current = true; setRecording(true);
+    if (autoDiarRef.current) startAnalyser(stream);
+    try { recRef.current.lang = langRef.current; recRef.current.start(); } catch (_) {}
+  };
+  const stopRec = () => {
+    recordingRef.current = false; setRecording(false); setInterim("");
+    try { recRef.current.stop(); } catch (_) {}
+    stopAnalyser(); releaseMic();
+  };
+  const changeLang = (v) => { setLang(v); langRef.current = v; if (recording) { stopRec(); setTimeout(() => startRec(), 250); } };
+
+  // ── 会議タブ音声の取り込み＋ブラウザ内Whisperで文字起こし（クラウド不要・無料）
+  const CHUNK_SEC = 8;
+  const resampleTo16k = (data, fromRate) => {
+    if (fromRate === 16000) return data;
+    const ratio = fromRate / 16000;
+    const n = Math.max(1, Math.round(data.length / ratio));
+    const out = new Float32Array(n);
+    for (let i = 0; i < n; i++) {
+      const idx = i * ratio, i0 = Math.floor(idx), i1 = Math.min(i0 + 1, data.length - 1);
+      out[i] = data[i0] * (1 - (idx - i0)) + data[i1] * (idx - i0);
+    }
+    return out;
+  };
+  const flushChunk = async () => {
+    const ctx = sttCtxRef.current; if (!ctx || sttBusyRef.current) return; // 処理中なら次の機会へ（遅延の蓄積を防ぐ）
+    const chunks = sttBufRef.current; sttBufRef.current = [];
+    if (!chunks.length) return;
+    let total = 0; chunks.forEach((c) => (total += c.length));
+    if (total < ctx.sampleRate) return; // 1秒未満は捨てる
+    const merged = new Float32Array(total); let off = 0; chunks.forEach((c) => { merged.set(c, off); off += c.length; });
+    // VAD（音量ゲート）: 静か/小さな物音だけの区間はWhisperに渡さない → ノイズの幻聴を抑制
+    let sum = 0, cnt = 0; for (let i = 0; i < merged.length; i += 8) { sum += merged[i] * merged[i]; cnt++; }
+    const rms = Math.sqrt(sum / Math.max(1, cnt));
+    if (rms < vadRef.current) return; // しきい値未満（静か/小さなノイズ）はスキップ。設定で調整可
+    const audio = resampleTo16k(merged, ctx.sampleRate);
+    sttBusyRef.current = true;
+    try {
+      const langName = (LANGS.find((l) => l.code === langRef.current) || {}).whisper || "japanese";
+      const text = await window.MeetingSTT.transcribe(audio, langName);
+      let clean = applyVocab((text || "").trim());
+      // 幻聴・ノイズ由来の極端に短い結果は捨てる
+      const core = clean.replace(/[\s。、，．.,!?！？…ー]/g, "");
+      if (clean && clean !== "[BLANK_AUDIO]" && core.length >= 2) { const id = ++idRef.current; setSegs([...segRef.current, { id, text: clean, t: fmt(elapsedRef.current), speaker: "", hl: false }]); if (liveTrRef.current) translateSegment(id, clean); }
+    } catch (e) { setError("会議音声の文字起こしに失敗しました: " + (e.message || "")); }
+    finally { sttBusyRef.current = false; }
+  };
+  const stopCapture = async () => {
+    capturingRef.current = false; setCapturing(false);
+    if (chunkTimerRef.current) clearInterval(chunkTimerRef.current);
+    await flushChunk();
+    try { sttNodeRef.current && sttNodeRef.current.disconnect(); } catch (_) {}
+    if (sttCtxRef.current) try { sttCtxRef.current.close(); } catch (_) {}
+    if (dispRef.current) dispRef.current.getTracks().forEach((t) => t.stop());
+    sttCtxRef.current = null; sttNodeRef.current = null; dispRef.current = null; sttBufRef.current = [];
+  };
+  const startCapture = async () => {
+    setError("");
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) { setError("お使いの端末・ブラウザは会議音声の取り込み（画面・タブ共有）に対応していません。PCのChromeまたはEdgeでご利用ください（スマホのブラウザは非対応です）。"); return; }
+    if (!window.MeetingSTT) { setError("文字起こしエンジンを読み込めませんでした。通信環境を確認し、ページを再読み込みしてください。"); return; }
+    setSttStatus("音声認識モデルを準備中…（初回のみダウンロード）");
+    const modelId = whisperSize === "tiny" ? "onnx-community/whisper-tiny" : "onnx-community/whisper-base";
+    try { await window.MeetingSTT.load((p) => { if (p && p.status === "progress" && p.progress != null) setSttStatus(`モデル読込中… ${Math.round(p.progress)}%`); }, modelId); }
+    catch (e) { setError("音声認識モデルの読み込みに失敗しました: " + (e.message || "")); setSttStatus(""); return; }
+    setSttStatus("");
+    let stream;
+    try { stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }); }
+    catch (e) { setError("画面共有がキャンセルされました。"); return; }
+    if (!stream.getAudioTracks().length) { setError("音声トラックがありません。共有ダイアログで会議の「タブ」を選び、「タブの音声を共有」を必ずオンにしてください。"); stream.getTracks().forEach((t) => t.stop()); return; }
+    stream.getVideoTracks().forEach((t) => t.stop()); // 映像は不要
+    dispRef.current = stream;
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    try { ctx.resume(); } catch (_) {}
+    const src = ctx.createMediaStreamSource(stream);
+    const node = ctx.createScriptProcessor(4096, 1, 1);
+    node.onaudioprocess = (e) => {
+      if (!capturingRef.current) return;
+      const ch = e.inputBuffer.getChannelData(0);
+      sttBufRef.current.push(new Float32Array(ch));
+      // 現在の入力音量（平滑化）— メーター表示・しきい値調整の目安に
+      let s = 0, n = 0; for (let i = 0; i < ch.length; i += 8) { s += ch[i] * ch[i]; n++; }
+      const r = Math.sqrt(s / Math.max(1, n));
+      levelRef.current = levelRef.current * 0.8 + r * 0.2;
+      // 処理が追いつかない場合に備え、保持する音声を直近 ~20秒に制限（古い分は破棄）
+      const cap = ctx.sampleRate * 20;
+      let tot = sttBufRef.current.reduce((acc, c) => acc + c.length, 0);
+      while (tot > cap && sttBufRef.current.length > 1) { tot -= sttBufRef.current.shift().length; }
+    };
+    const sink = ctx.createGain(); sink.gain.value = 0; // 無音シンク（再生せず処理だけ）
+    src.connect(node); node.connect(sink); sink.connect(ctx.destination);
+    sttCtxRef.current = ctx; sttNodeRef.current = node; sttBufRef.current = [];
+    capturingRef.current = true; setCapturing(true);
+    chunkTimerRef.current = setInterval(flushChunk, CHUNK_SEC * 1000);
+    stream.getAudioTracks()[0].addEventListener("ended", stopCapture); // ユーザーが共有を停止したら終了
+  };
+
+  // ── 会議セッション管理（混在防止）
+  const captureCurrent = () => ({
+    id: activeIdRef.current, title, date: activeDate.toISOString(), count: segRef.current.length,
+    data: {
+      segments: segRef.current, speakers, elapsed: elapsedRef.current, analysis, minutes, trans, notes: myNotes,
+      centroids: centroidsRef.current, featById: featByIdRef.current, idCounter: idRef.current,
+    },
+  });
+  // 文字起こし・話者・要約に加え、話者クラスタ等の内部状態もすべて初期化
+  const resetWorking = (t) => {
+    setSegs([]); setInterim(""); setElapsed(0); elapsedRef.current = 0;
+    setSpeakers([]); setCurSpeaker(""); curSpkRef.current = ""; setNewSpeaker("");
+    setQuery(""); setOnlyHl(false); setEditId(null);
+    setAnalysis(null); setMinutes(""); setTrans(""); setCorrected(""); setAnalyzedAt(null); setMyNotes(""); setFollowup(""); setAutoCount(0);
+    centroidsRef.current = []; featByIdRef.current = {}; framesRef.current = [];
+    idRef.current = 0; lastLenRef.current = 0;
+    setTitle(t || "無題の会議");
+  };
+  const flash = (msg) => { setNote(msg); setTimeout(() => setNote(""), 4000); };
+
+  const onImportFile = async (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    try { setImportText(await f.text()); } catch (_) { setError("ファイルを読み込めませんでした。"); }
+  };
+  const doImport = () => {
+    const parsed = parseTranscript(importText);
+    if (!parsed.length) { setError("読み込める文字起こしが見つかりませんでした。Zoomの .vtt ファイルか、テキストを貼り付けてください。"); return; }
+    const newSegs = parsed.map((p) => ({ id: ++idRef.current, text: p.text, t: p.t || "00:00", speaker: p.speaker || "", hl: false }));
+    const base = importMode === "append" ? segRef.current : [];
+    setSegs([...base, ...newSegs]);
+    const names = Array.from(new Set(newSegs.map((s) => s.speaker).filter(Boolean)));
+    if (names.length) setSpeakers((prev) => Array.from(new Set([...prev, ...names])));
+    setShowImport(false); setImportText(""); setError("");
+    flash(`文字起こしを取り込みました（${newSegs.length}件${names.length ? ` ・ 話者${names.length}名` : ""}）。整形議事録タブで高精度な議事録を生成できます。`);
+  };
+
+  // ── マイタスク
+  const addTask = (text, due, prio) => {
+    const t = (text || "").trim();
+    if (!t) return;
+    setTasks((prev) => [{ id: makeId(), text: t, done: false, source: title || "無題の会議", createdAt: Date.now(), due: due || "", prio: prio || "none", notified: false }, ...prev]);
+    flash("マイタスクに追加しました。");
+  };
+  const toggleTask = (id) => setTasks((prev) => prev.map((x) => (x.id === id ? { ...x, done: !x.done } : x)));
+  const delTask = (id) => setTasks((prev) => prev.filter((x) => x.id !== id));
+  const startTaskEdit = (t) => { setTaskEditId(t.id); setTaskEditVal(t.text); setTaskEditDue(t.due || ""); setTaskEditPrio(t.prio || "none"); };
+  const saveTaskEdit = () => { setTasks((prev) => prev.map((x) => (x.id === taskEditId ? { ...x, text: taskEditVal, due: taskEditDue, prio: taskEditPrio } : x))); setTaskEditId(null); };
+
+  // 期限の状態を判定
+  const dueState = (t) => {
+    if (!t.due) return { key: "none", label: "" };
+    const d = new Date(t.due), now = new Date();
+    const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startTomorrow = new Date(startToday.getTime() + 86400000);
+    const dDay = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const hasTime = /T\d/.test(t.due);
+    const fmtD = `${d.getMonth() + 1}/${d.getDate()}${hasTime ? " " + String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0") : ""}`;
+    if (d < now && !t.done) return { key: "overdue", label: fmtD, txt: "期限切れ" };
+    if (dDay.getTime() === startToday.getTime()) return { key: "today", label: fmtD, txt: "今日" };
+    if (dDay.getTime() === startTomorrow.getTime()) return { key: "soon", label: fmtD, txt: "明日" };
+    return { key: "later", label: fmtD, txt: "" };
+  };
+  const PRIO = { high: { t: "高", c: "#c8482f" }, med: { t: "中", c: "#9a7b3f" }, low: { t: "低", c: "#5c8a82" }, none: null };
+  // 並び替え：未完了→期限の近い順（期限なしは後ろ）→作成順
+  const sortTasks = (arr) => [...arr].sort((a, b) => {
+    if (!!a.done !== !!b.done) return a.done ? 1 : -1;
+    const ad = a.due ? new Date(a.due).getTime() : Infinity, bd = b.due ? new Date(b.due).getTime() : Infinity;
+    if (ad !== bd) return ad - bd;
+    return (b.createdAt || 0) - (a.createdAt || 0);
+  });
+
+  // カレンダー(.ics)へ書き出し（端末のカレンダーがリマインド通知してくれる）
+  const icsStamp = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+  const vevent = (t) => {
+    const start = t.due ? new Date(t.due) : new Date();
+    const hasTime = /T\d/.test(t.due || "");
+    const end = new Date(start.getTime() + 30 * 60000);
+    const dl = hasTime ? [`DTSTART:${icsStamp(start)}`, `DTEND:${icsStamp(end)}`] : [`DTSTART;VALUE=DATE:${icsStamp(start).slice(0, 8)}`, `DTEND;VALUE=DATE:${icsStamp(end).slice(0, 8)}`];
+    return ["BEGIN:VEVENT", `UID:${t.id}@sabotta`, `DTSTAMP:${icsStamp(new Date())}`, ...dl, `SUMMARY:${(t.text || "").replace(/[\r\n]+/g, " ")}`, `DESCRIPTION:SABOTTAタスク（${(t.source || "").replace(/[\r\n]+/g, " ")}）`, "BEGIN:VALARM", "TRIGGER:-PT15M", "ACTION:DISPLAY", "DESCRIPTION:Reminder", "END:VALARM", "END:VEVENT"];
+  };
+  const wrapCal = (events) => ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//SABOTTA//Tasks//JA", "CALSCALE:GREGORIAN", ...events, "END:VCALENDAR"].join("\r\n");
+  const dlIcs = (content, name) => { const b = new Blob([content], { type: "text/calendar" }); const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `${name}.ics`; a.click(); };
+  const exportTaskIcs = (t) => dlIcs(wrapCal(vevent(t)), `task_${(t.text || "task").slice(0, 12)}`);
+  const exportAllIcs = () => {
+    const withDue = tasks.filter((t) => t.due && !t.done);
+    if (!withDue.length) { setError("期限つきの未完了タスクがありません。"); return; }
+    dlIcs(wrapCal(withDue.flatMap(vevent)), "sabotta_tasks");
+  };
+  // ブラウザ通知リマインド（アプリを開いている間）
+  const enableReminders = async () => {
+    if (!("Notification" in window)) { setError("このブラウザは通知に対応していません。"); return; }
+    if (Notification.permission === "granted") { setRemindOn(true); flash("リマインドを有効にしました。"); return; }
+    const p = await Notification.requestPermission();
+    if (p === "granted") { setRemindOn(true); flash("リマインドを有効にしました。"); }
+    else setError("通知が許可されませんでした。ブラウザの設定で許可してください。");
+  };
+  const groupOf = (t) => { if (t.done) return "done"; const k = dueState(t).key; return k === "overdue" ? "overdue" : k === "today" ? "today" : k === "none" ? "nodue" : "upcoming"; };
+  const PRIO_OPTS = [["none", "優先度なし"], ["low", "低"], ["med", "中"], ["high", "高"]];
+  const renderTask = (t) => {
+    const ds = dueState(t), pr = PRIO[t.prio || "none"];
+    return (
+      <div className={`ma-task${t.done ? " done" : ""}`} key={t.id}>
+        <input type="checkbox" checked={t.done} onChange={() => toggleTask(t.id)} />
+        <div className="ma-task-main">
+          {taskEditId === t.id ? (
+            <div className="ma-task-editbox">
+              <label className="ma-fld"><span>タスク</span>
+                <input className="ma-fld-in" autoFocus value={taskEditVal} onChange={(e) => setTaskEditVal(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") saveTaskEdit(); }} />
+              </label>
+              <div className="ma-fldrow">
+                <label className="ma-fld"><span>期限（任意）</span>
+                  <input className="ma-fld-in" type="datetime-local" value={taskEditDue} onChange={(e) => setTaskEditDue(e.target.value)} />
+                </label>
+                <label className="ma-fld"><span>優先度</span>
+                  <select className="ma-fld-in" value={taskEditPrio} onChange={(e) => setTaskEditPrio(e.target.value)}>{PRIO_OPTS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select>
+                </label>
+                <button className="ma-addbtn" onClick={saveTaskEdit}>保存</button>
+              </div>
+            </div>
+          ) : (
+            <div className="ma-task-text" onClick={() => startTaskEdit(t)}>{t.text}</div>
+          )}
+          <div className="ma-task-meta">
+            {ds.label && <span className={`ma-due ${ds.key}`}>{ds.txt ? ds.txt + " " : ""}{ds.label}</span>}
+            {pr && <span className="ma-prio" style={{ color: pr.c }}>● {pr.t}</span>}
+            <span>{t.source}</span>
+          </div>
+        </div>
+        <div className="ma-task-rowbtns">
+          {t.due && <button className="ma-iconbtn" title="カレンダーに追加" onClick={() => exportTaskIcs(t)}><IC.calendar s={15} /></button>}
+          <button className="ma-del" onClick={() => delTask(t.id)}>削除</button>
+        </div>
+      </div>
+    );
+  };
+
+  // ── 会議名を内容からAIで自動命名
+  const autoName = async (force) => {
+    const text = segRef.current.map((s) => s.text).join(" ").slice(0, 4000);
+    if (text.trim().length < 10) { if (force) setError("自動命名するには文字起こしがもう少し必要です。"); return; }
+    if (!apiCfgRef.current.key && !apiCfgRef.current.proxyUrl) { if (force) setError("自動命名にはAI接続の設定が必要です。右上の ⚙ から設定してください。"); return; }
+    setNaming(true);
+    try {
+      const prompt = `次の会議の文字起こしの一部です。内容を端的に表す会議名を日本語で1つだけ提案してください。15文字程度、体言止め、記号・引用符・前置き・説明は付けず、会議名だけを出力してください。\n"""${text}"""`;
+      let name = (await callClaude(prompt, apiCfgRef.current)).split("\n")[0].replace(/^["「『]|["」』]$/g, "").trim().slice(0, 40);
+      if (name) { setTitle(name); namedRef.current = true; }
+    } catch (e) { if (force) setError("自動命名に失敗しました: " + (e.message || "")); }
+    finally { setNaming(false); }
+  };
+  // 内容がたまったら一度だけ自動命名（手入力済み・命名済みならしない）
+  useEffect(() => {
+    if (titleTouchedRef.current || namedRef.current || naming) return;
+    if (!apiCfgRef.current.key && !apiCfgRef.current.proxyUrl) return;
+    if (segRef.current.reduce((n, s) => n + s.text.length, 0) < 80) return;
+    const id = setTimeout(() => { if (!titleTouchedRef.current && !namedRef.current) autoName(false); }, 1500);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line
+  }, [segments]);
+
+  const newMeeting = () => {
+    if (recording) stopRec();
+    const cur = captureCurrent();
+    setMeetings((prev) => { const rest = prev.filter((x) => x.id !== cur.id); return cur.count > 0 ? [cur, ...rest] : rest; });
+    activeIdRef.current = makeId(); setActiveDate(new Date());
+    resetWorking("無題の会議"); setError(""); setMSources([]);
+    titleTouchedRef.current = false; namedRef.current = false; // 新規会議は自動命名の対象
+    flash(cur.count > 0 ? "前の会議を保存して、新しい会議を開始しました。" : "新しい会議を開始しました。");
+  };
+  const loadMeeting = (mid) => {
+    if (!mid) return;
+    if (recording) stopRec();
+    const target = meetings.find((x) => x.id === mid);
+    if (!target) return;
+    const cur = captureCurrent();
+    setMeetings((prev) => { const rest = prev.filter((x) => x.id !== mid && x.id !== cur.id); return cur.count > 0 ? [cur, ...rest] : rest; });
+    activeIdRef.current = target.id; setActiveDate(new Date(target.date)); setTitle(target.title); setMSources(loadMSrc(target.id));
+    titleTouchedRef.current = true; namedRef.current = true; // 既存会議は勝手に改名しない
+    setSegs(target.data.segments); setSpeakers(target.data.speakers);
+    setElapsed(target.data.elapsed); elapsedRef.current = target.data.elapsed;
+    setAnalysis(target.data.analysis); setMinutes(target.data.minutes); setTrans(target.data.trans); setCorrected(""); setMyNotes(target.data.notes || "");
+    centroidsRef.current = target.data.centroids || []; featByIdRef.current = target.data.featById || {}; idRef.current = target.data.idCounter || 0;
+    setAutoCount((target.data.centroids || []).length);
+    framesRef.current = []; setInterim(""); setCurSpeaker(""); curSpkRef.current = ""; setQuery(""); setOnlyHl(false); setEditId(null); setError("");
+    flash(`「${target.title || "無題の会議"}」を開きました。`);
+  };
+  const deleteMeeting = (mid) => { setMeetings((prev) => prev.filter((x) => x.id !== mid)); saveMSrc(mid, []); };
+  const toggleMeetingDone = (mid) => setMeetings((prev) => prev.map((x) => (x.id === mid ? { ...x, done: !x.done } : x)));
+
+  // ── 恒久保存：マウント時に復元
+  const loadedRef = useRef(false);
+  useEffect(() => {
+    const p = store.load();
+    if (p) {
+      if (Array.isArray(p.meetings)) setMeetings(p.meetings);
+      const a = p.active;
+      if (a && a.data) {
+        activeIdRef.current = a.id || makeId();
+        setActiveDate(a.date ? new Date(a.date) : new Date());
+        setTitle(a.title || "無題の会議");
+        setSegs(a.data.segments || []); setSpeakers(a.data.speakers || []);
+        elapsedRef.current = a.data.elapsed || 0; setElapsed(a.data.elapsed || 0);
+        setAnalysis(a.data.analysis || null); setMinutes(a.data.minutes || ""); setTrans(a.data.trans || ""); setMyNotes(a.data.notes || "");
+        centroidsRef.current = a.data.centroids || []; featByIdRef.current = a.data.featById || {}; idRef.current = a.data.idCounter || 0;
+        setAutoCount((a.data.centroids || []).length);
+      }
+    }
+    loadedRef.current = true;
+    if (p && p.active && p.active.title && p.active.title !== "無題の会議") { titleTouchedRef.current = true; namedRef.current = true; }
+    // eslint-disable-next-line
+  }, []);
+
+  // ── 恒久保存：内容が変わるたびに自動保存（初回マウントの空保存はスキップ）
+  const firstSaveRef = useRef(true);
+  useEffect(() => {
+    if (!loadedRef.current) return;
+    if (firstSaveRef.current) { firstSaveRef.current = false; return; }
+    const id = setTimeout(() => { store.save({ active: captureCurrent(), meetings, savedAt: Date.now() }); }, 700);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line
+  }, [segments, speakers, analysis, minutes, trans, title, meetings, activeDate, myNotes]);
+
+  // ── AI設定（APIキー・モデル）の復元と保存
+  useEffect(() => { const s = loadSettings(); if (s) { if (s.apiKey) setApiKey(s.apiKey); if (s.model) setModel(s.model); if (s.proxyUrl) setProxyUrl(s.proxyUrl); if (s.whisperSize) setWhisperSize(s.whisperSize); if (typeof s.vad === "number") setVad(s.vad); if (s.vocab) setVocab(s.vocab); } }, []);
+  const firstSetSaveRef = useRef(true);
+  useEffect(() => {
+    if (firstSetSaveRef.current) { firstSetSaveRef.current = false; return; }
+    saveSettings({ apiKey, model, proxyUrl, whisperSize, vad, vocab });
+  }, [apiKey, model, proxyUrl, whisperSize, vad, vocab]);
+
+  // ── マイタスクの復元と保存
+  useEffect(() => { const t = loadTasks(); if (Array.isArray(t)) setTasks(t); }, []);
+  const firstTaskSaveRef = useRef(true);
+  // ソース：全体は常時、会議個別は会議IDごとに保存
+  const mLoadedRef = useRef(false);
+  useEffect(() => { setGSources(loadGSrc()); setMSources(loadMSrc(activeIdRef.current)); mLoadedRef.current = true; }, []);
+  useEffect(() => { if (!loadOnboarded()) setShowGuide(true); }, []);
+  const dismissGuide = () => { saveOnboarded(); setShowGuide(false); };
+  const firstGSrcRef = useRef(true);
+  useEffect(() => { if (firstGSrcRef.current) { firstGSrcRef.current = false; return; } saveGSrc(gSources); }, [gSources]);
+  useEffect(() => { if (!mLoadedRef.current) return; saveMSrc(activeIdRef.current, mSources); }, [mSources]);
+  useEffect(() => {
+    if (firstTaskSaveRef.current) { firstTaskSaveRef.current = false; return; }
+    saveTasks(tasks);
+  }, [tasks]);
+  useEffect(() => { setRemindOn("Notification" in window && Notification.permission === "granted"); }, []);
+  // 期限が来た未完了タスクを通知（アプリを開いている間のみ）。一度通知したら notified を立てる
+  useEffect(() => {
+    if (!remindOn) return;
+    const check = () => {
+      const now = Date.now();
+      const due = tasks.filter((t) => !t.done && !t.notified && t.due && new Date(t.due).getTime() <= now);
+      if (!due.length) return;
+      due.forEach((t) => { try { new Notification("タスクの期限です", { body: t.text }); } catch (e) {} });
+      setTasks((prev) => prev.map((x) => (due.find((d) => d.id === x.id) ? { ...x, notified: true } : x)));
+    };
+    check();
+    const id = setInterval(check, 60000);
+    return () => clearInterval(id);
+  }, [remindOn, tasks]);
+
+  // 人数指定で再分離（k-means）
+  const recluster = () => {
+    const entries = Object.entries(featByIdRef.current);
+    const k = Math.max(1, Math.min(8, Number(kInput) || 2));
+    if (entries.length < k) { setError(`再分離には少なくとも ${k} 件の音声付き発言が必要です（現在 ${entries.length} 件）。`); return; }
+    setError("");
+    const vecs = entries.map((e) => e[1]);
+    const { assign } = kmeans(vecs, k);
+    // クラスタを初出順に 話者A,B… へ割り当て
+    const order = []; assign.forEach((cl) => { if (!order.includes(cl)) order.push(cl); });
+    const labelOf = {}; order.forEach((cl, i) => (labelOf[cl] = spkName(i)));
+    const map = {}; entries.forEach((e, i) => (map[e[0]] = labelOf[assign[i]]));
+    setSegs(segRef.current.map((s) => (map[s.id] ? { ...s, speaker: map[s.id] } : s)));
+    const labels = order.map((_, i) => spkName(i));
+    setSpeakers((prev) => Array.from(new Set([...prev, ...labels])));
+    setAutoCount(k);
+    // オンライン推定用の重心も更新
+    const cents = {}; entries.forEach((e, i) => { const l = labelOf[assign[i]]; (cents[l] = cents[l] || []).push(e[1]); });
+    centroidsRef.current = labels.map((l) => ({ label: l, vec: meanVec(cents[l]), n: cents[l].length }));
+  };
+
+  const pickSpeaker = (name) => { const v = curSpeaker === name ? "" : name; setCurSpeaker(v); curSpkRef.current = v; };
+  const addSpeaker = () => { const n = newSpeaker.trim(); if (!n) return; if (!speakers.includes(n)) setSpeakers([...speakers, n]); setNewSpeaker(""); setCurSpeaker(n); curSpkRef.current = n; };
+  const renameSpeaker = (oldName, raw) => {
+    const nn = (raw || "").trim(); setEditSpk(null);
+    if (!nn || nn === oldName) return;
+    setSpeakers((prev) => { const next = prev.map((x) => (x === oldName ? nn : x)); return next.filter((x, i) => next.indexOf(x) === i); });
+    setSegs(segRef.current.map((s) => (s.speaker === oldName ? { ...s, speaker: nn } : s)));
+    centroidsRef.current.forEach((c) => { if (c.label === oldName) c.label = nn; });
+    if (curSpkRef.current === oldName) { curSpkRef.current = nn; setCurSpeaker(nn); }
+    flash(`話者名を「${nn}」に変更しました。`);
+  };
+  const spkColor = (name) => { if (!name) return C.inkSoft; const i = speakers.indexOf(name); return SPK[(i < 0 ? 0 : i) % SPK.length]; };
+
+  const startEdit = (s) => { setEditId(s.id); setEditVal(s.text); };
+  const saveEdit = () => { setSegs(segRef.current.map((s) => (s.id === editId ? { ...s, text: editVal } : s))); setEditId(null); };
+  const delSeg = (id) => { delete featByIdRef.current[id]; setSegs(segRef.current.filter((s) => s.id !== id)); };
+  const toggleHl = (id) => setSegs(segRef.current.map((s) => (s.id === id ? { ...s, hl: !s.hl } : s)));
+  const setSegSpeaker = (id, name) => setSegs(segRef.current.map((s) => (s.id === id ? { ...s, speaker: name } : s)));
+
+  const buildText = () => segRef.current.map((s) => `[${s.t}]${s.speaker ? " " + s.speaker + ":" : ""} ${s.text}`).join("\n");
+
+  // ── ソース（参考資料）。有効なソースをプロンプトに同梱（全文投入・上限あり）
+  const SRC_BUDGET = 12000; // 同梱する合計文字数の上限（RAGなし・全文投入の安全弁）
+  const sourceBlock = () => {
+    const all = [...(gSourcesRef.current || []), ...(mSourcesRef.current || [])].filter((s) => s.on && s.text && s.text.trim());
+    if (!all.length) return "";
+    let budget = SRC_BUDGET, parts = [];
+    for (const s of all) {
+      if (budget <= 0) break;
+      const body = s.text.slice(0, budget);
+      parts.push(`【${s.title || "資料"}】\n${body}`);
+      budget -= body.length;
+    }
+    return `\n# 参考資料（ソース）\n以下はユーザーが用意した信頼できる資料です。要約・補正・アドバイス・翻訳・用語はこの資料の事実と表記を優先し、資料と矛盾する推測は避けてください。\n${parts.join("\n---\n")}\n`;
+  };
+  const addSource = (scope) => {
+    const text = srcText.trim();
+    if (!text) return;
+    const item = { id: makeId(), title: (srcTitle.trim() || "資料"), text, on: true, addedAt: Date.now() };
+    if (scope === "global") setGSources((p) => [item, ...p]); else setMSources((p) => [item, ...p]);
+    setSrcTitle(""); setSrcText(""); flash("ソースを追加しました。");
+  };
+  const onSourceFile = async (e, scope) => {
+    const f = e.target.files && e.target.files[0]; if (!f) return;
+    try { const text = await f.text(); const item = { id: makeId(), title: f.name.replace(/\.[^.]+$/, ""), text, on: true, addedAt: Date.now() }; if (scope === "global") setGSources((p) => [item, ...p]); else setMSources((p) => [item, ...p]); flash(`ソース「${item.title}」を追加しました。`); } catch (_) { setError("ファイルを読み込めませんでした（.txt / .md に対応）。"); }
+    e.target.value = "";
+  };
+  const toggleSource = (scope, id) => { const fn = (p) => p.map((x) => (x.id === id ? { ...x, on: !x.on } : x)); scope === "global" ? setGSources(fn) : setMSources(fn); };
+  const delSource = (scope, id) => { const fn = (p) => p.filter((x) => x.id !== id); scope === "global" ? setGSources(fn) : setMSources(fn); };
+  const srcSelectedChars = () => [...gSources, ...mSources].filter((s) => s.on).reduce((n, s) => n + (s.text ? s.text.length : 0), 0);
+
+  // ── 用語辞書（1行1語。「誤=正」表記で自動修正）
+  const applyVocab = (text) => {
+    let t = text;
+    for (const ln of (vocabRef.current || "").split("\n")) {
+      const i = ln.search(/[=＝]/);
+      if (i > 0) { const wrong = ln.slice(0, i).trim(); const right = ln.slice(i + 1).trim(); if (wrong && right) t = t.split(wrong).join(right); }
+    }
+    return t;
+  };
+  const vocabBlock = () => {
+    const terms = (vocabRef.current || "").split("\n").map((l) => { const i = l.search(/[=＝]/); return (i >= 0 ? l.slice(i + 1) : l).trim(); }).filter(Boolean);
+    return terms.length ? `\n# 重要用語（以下の語は必ずこの表記で統一）\n${terms.join("、")}\n` : "";
+  };
+
+  // ── リアルタイム翻訳（各発言を逐次翻訳して併記）
+  const translateSegment = async (id, text) => {
+    if (!liveTrRef.current || (!apiCfgRef.current.key && !apiCfgRef.current.proxyUrl)) return;
+    try {
+      const tr = await callClaude(`次の発言を${targetRef.current}に翻訳し、訳文だけを返してください（説明・引用符なし）。\n"""${text}"""`, apiCfgRef.current);
+      if (tr) setSegs(segRef.current.map((s) => (s.id === id ? { ...s, tr } : s)));
+    } catch (e) {}
+  };
+
+  // ── 音声/動画ファイルから文字起こし（ブラウザ内Whisper）
+  const transcribeFile = async (file, mode) => {
+    if (!file || mediaBusyRef.current) return;
+    if (!window.MeetingSTT) { setError("文字起こしエンジンを読み込めませんでした。ページを再読み込みしてください。"); return; }
+    mediaBusyRef.current = true; setError("");
+    try {
+      setMediaStatus("音声認識モデルを準備中…");
+      const modelId = whisperSize === "tiny" ? "onnx-community/whisper-tiny" : "onnx-community/whisper-base";
+      await window.MeetingSTT.load((p) => { if (p && p.status === "progress" && p.progress != null) setMediaStatus(`モデル読込中… ${Math.round(p.progress)}%`); }, modelId);
+      setMediaStatus("ファイルを読み込み中…");
+      const buf = await file.arrayBuffer();
+      const ac = new (window.AudioContext || window.webkitAudioContext)();
+      const decoded = await ac.decodeAudioData(buf);
+      const data = decoded.getChannelData(0);
+      const audio = resampleTo16k(data, decoded.sampleRate);
+      try { ac.close(); } catch (_) {}
+      const langName = (LANGS.find((l) => l.code === langRef.current) || {}).whisper || "japanese";
+      const WIN = 16000 * 30; // 30秒ごとに分割
+      const base = mode === "append" ? segRef.current.slice() : [];
+      const out = base.slice();
+      for (let off = 0, idx = 0; off < audio.length; off += WIN, idx++) {
+        setMediaStatus(`文字起こし中… ${Math.round((off / audio.length) * 100)}%`);
+        const slice = audio.subarray(off, Math.min(off + WIN, audio.length));
+        let text = "";
+        try { text = await window.MeetingSTT.transcribe(slice, langName); } catch (e) {}
+        const clean = applyVocab((text || "").trim());
+        if (clean && clean !== "[BLANK_AUDIO]") {
+          const sec = Math.floor(off / 16000);
+          out.push({ id: ++idRef.current, text: clean, t: `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`, speaker: "", hl: false });
+        }
+      }
+      setSegs(out);
+      setMediaStatus("");
+      setShowImport(false);
+      flash(`ファイルから文字起こししました（${out.length - base.length}件）。`);
+    } catch (e) {
+      setMediaStatus(""); setError("ファイルの文字起こしに失敗しました: " + (e.message || "") + "（対応形式: mp3/m4a/wav/mp4 等）");
+    } finally { mediaBusyRef.current = false; }
+  };
+
+  // ── 会議横断AIチャット
+  const chatContext = () => {
+    const parts = [];
+    const cur = segRef.current.map((s) => s.text).join(" ");
+    if (cur.trim()) parts.push(`# 現在の会議「${title}」\n${cur.slice(0, 4000)}`);
+    for (const m of meetings.slice(0, 12)) {
+      const t = (m.data?.segments || []).map((s) => s.text).join(" ");
+      if (t.trim()) parts.push(`# 会議「${m.title || "無題"}」(${new Date(m.date).toLocaleDateString("ja-JP")})\n${t.slice(0, 2500)}`);
+    }
+    return parts.join("\n\n");
+  };
+  const askChat = async () => {
+    const q = chatInput.trim();
+    if (!q || chatBusy) return;
+    if (!apiCfgRef.current.key && !apiCfgRef.current.proxyUrl) { setError("AIチャットには接続設定が必要です。右上の ⚙ から設定してください。"); return; }
+    const history = [...chatMsgs, { role: "user", text: q }];
+    setChatMsgs(history); setChatInput(""); setChatBusy(true);
+    const convo = history.map((m) => (m.role === "user" ? "ユーザー: " : "アシスタント: ") + m.text).join("\n");
+    const prompt = `あなたは会議内容に詳しいアシスタントです。以下の会議記録と参考資料を根拠に、日本語で簡潔に答えてください。記録・資料にないことは「記録からは分かりません」と答えます。${vocabBlock()}${sourceBlock()}\n\n=== 会議記録 ===\n${chatContext()}\n\n=== これまでの会話 ===\n${convo}\n\nアシスタント:`;
+    try {
+      const ans = await callClaude(prompt, apiCfgRef.current);
+      setChatMsgs((prev) => [...prev, { role: "assistant", text: ans || "(応答なし)" }]);
+    } catch (e) {
+      setChatMsgs((prev) => [...prev, { role: "assistant", text: "エラー: " + (e.message || "") }]);
+    } finally { setChatBusy(false); }
+  };
+
+  // ── 書き出し（SRT / 印刷・PDF / Word）
+  const tSec = (mmss) => { const p = (mmss || "0:0").split(":").map(Number); return (p[0] || 0) * 60 + (p[1] || 0); };
+  const toSrtTime = (sec) => { const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = Math.floor(sec % 60); return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")},000`; };
+  const exportSRT = () => {
+    const segs = segRef.current;
+    if (!segs.length) { setError("書き出す文字起こしがありません。"); return; }
+    const srt = segs.map((s, i) => {
+      const startSec = tSec(s.t);
+      const endSec = segs[i + 1] ? Math.max(tSec(segs[i + 1].t), startSec + 1) : startSec + 3;
+      return `${i + 1}\n${toSrtTime(startSec)} --> ${toSrtTime(endSec)}\n${s.speaker ? s.speaker + ": " : ""}${s.text}\n`;
+    }).join("\n");
+    download(srt, "srt");
+  };
+  const printHTML = (inner) => {
+    const w = window.open("", "_blank");
+    if (!w) { setError("ポップアップがブロックされました。印刷・PDF出力を許可してください。"); return; }
+    w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${escHtml(title)}</title><style>body{font-family:'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;line-height:1.7;max-width:760px;margin:32px auto;padding:0 16px;color:#1f1b16;} h1{font-size:22px;border-bottom:2px solid #1f1b16;padding-bottom:6px;} h2{font-size:16px;color:#c8482f;margin-top:20px;} .t{color:#9a7b3f;font-variant-numeric:tabular-nums;margin-right:8px;} .seg{padding:4px 0;border-bottom:1px dashed #ddd;} .sp{font-weight:700;}</style></head><body>${inner}<script>setTimeout(()=>window.print(),300)<\/script></body></html>`);
+    w.document.close();
+  };
+  const printTranscript = () => printHTML(`<h1>${escHtml(title)}</h1><p>${activeDate.toLocaleDateString("ja-JP")} ・ ${segments.length}発言</p>` + segRef.current.map((s) => `<div class="seg"><span class="t">${escHtml(s.t)}</span>${s.speaker ? `<span class="sp">${escHtml(s.speaker)}: </span>` : ""}${escHtml(s.text)}</div>`).join(""));
+  const mdToHtml = (md) => md.split("\n").map((l) => { if (/^# /.test(l)) return `<h1>${escHtml(l.slice(2))}</h1>`; if (/^## /.test(l)) return `<h2>${escHtml(l.slice(3))}</h2>`; if (/^[-*] /.test(l)) return `<li>${escHtml(l.slice(2))}</li>`; return l.trim() ? `<p>${escHtml(l)}</p>` : ""; }).join("");
+  const printMinutes = () => { if (!minutes) { setError("先に整形議事録を生成してください。"); return; } printHTML(mdToHtml(minutes)); };
+  const downloadDoc = (md) => {
+    const html = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'></head><body>${mdToHtml(md)}</body></html>`;
+    const b = new Blob(["\ufeff", html], { type: "application/msword" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `${title || "minutes"}_${new Date().toISOString().slice(0, 10)}.doc`; a.click();
+  };
+
+  const analyze = useCallback(async () => {
+    const full = buildText();
+    if (full.trim().length < 12) { setError("分析するには文字起こしがもう少し必要です。"); return; }
+    setError(""); setAnalyzing(true);
+    const recent = full.slice(-6000); // 直近のみ送信（会議が長くなってもトークンが肥大しない）
+    const prior = analysisRef.current ? `\n# これまでの分析（引き継いで更新する）\n${JSON.stringify(analysisRef.current)}\n` : "";
+    const prompt = `あなたは優秀な会議ファシリテーター兼アシスタントです。「これまでの分析」を土台に「直近の文字起こし」を加味して内容を更新し、必ず下記JSON形式のみで出力（前置き・コードフェンス禁止）。決定事項・アクションは累積し、重複は統合してください。
+{"summary":["要点を3〜6個"],"decisions":["決まったこと。なければ []"],"actions":[{"task":"やるべきこと","owner":"担当者（話者名等。なければ空文字）"}],"advice":["進行アドバイスや次に確認すべき質問を2〜4個"],"topics":["主要トピックの短いタグ数個"]}${vocabBlock()}${sourceBlock()}${prior}
+# 直近の文字起こし
+"""${recent}"""`;
+    try { const raw = (await callClaude(prompt, apiCfgRef.current)).replace(/```json|```/g, "").trim(); const m = raw.match(/\{[\s\S]*\}/); setAnalysis(JSON.parse(m ? m[0] : raw)); setAnalyzedAt(Date.now()); lastLenRef.current = segRef.current.map((s) => s.text).join("").length; }
+    catch (e) { setError("分析に失敗しました: " + (e.message || "") + ((apiCfgRef.current.key || apiCfgRef.current.proxyUrl) ? "" : "（AI接続が未設定の可能性。右上の ⚙ から設定してください）")); } finally { setAnalyzing(false); }
+  }, []);
+
+  const TMPL = { 汎用: "標準的な議事録として整理。", 商談: "商談メモとして、相手のニーズ・課題・予算/時期・懸念・ネクストアクションを重視。", "1on1": "1on1として、テーマ・相手の状況や悩み・合意事項・フォロー事項を重視。", 朝会: "デイリー/朝会として、各自の進捗・本日やること・ブロッカーを簡潔に。", ブレスト: "ブレストとして、出たアイデア・賛否・保留/採用・次に検討する点を整理。", 面接: "採用面接として、候補者の経歴・強み/懸念・評価ポイント・次選考の判断材料を整理。" };
+  const LEN = { 短: "要点中心に簡潔に（短め）", 標準: "標準的な詳しさで", 詳細: "経緯や背景も含めて詳細に" };
+  const TONE = { ビジネス: "敬体のビジネス文書として", カジュアル: "やわらかい口語寄りで", テック: "技術文書として具体的・簡潔に" };
+  const notesBlock = () => { const n = (myNotes || "").trim(); return n ? `\n# ユーザー自身のメモ（最優先の骨子）\n以下はユーザーが会議中に取ったメモです。これを議事録の骨子として最優先で活かし、不足や曖昧な点だけを文字起こしで補完してください（メモの意図は変えない）。\n"""${n}"""\n` : ""; };
+  const genMinutes = async () => {
+    const text = buildText();
+    if (text.trim().length < 12 && !myNotes.trim()) { setError("議事録化するには文字起こしかメモがもう少し必要です。"); return; }
+    setError(""); setMinLoad(true);
+    const prompt = `以下の会議の文字起こし（話者ラベル付き）から、日本語の整形議事録をMarkdownで作成します。会議名「${title}」。
+方針: ${TMPL[minTemplate]} 文体は${TONE[minTone]}、分量は${LEN[minLength]}まとめる。話者ラベルを活用し、誰が何を述べ・誰がどのタスクを持つかを明確に。該当なしの項目は「特になし」。出力はMarkdownのみ。
+推奨構成（会議の性質に合わせ見出しは調整可）:
+# ${title}
+## 開催情報（日時・出席者：話者ラベルから）
+## 議題
+## 議論の要点
+## 発言者ごとの要点
+## 決定事項
+## アクションアイテム（「担当者: タスク（期限）」形式。発言から担当が読み取れる場合は必ず明記）
+## ネクストステップ${notesBlock()}${vocabBlock()}${sourceBlock()}
+# 文字起こし
+"""${text}"""`;
+    try { setMinutes(await callClaude(prompt, apiCfgRef.current)); } catch (e) { setError("議事録の生成に失敗しました: " + (e.message || "") + ((apiCfgRef.current.key || apiCfgRef.current.proxyUrl) ? "" : "（AI接続が未設定の可能性。右上の ⚙ から設定してください）")); } finally { setMinLoad(false); }
+  };
+  // 会議後のフォローアップ文面を作成
+  const genFollowup = async () => {
+    const text = buildText();
+    if (text.trim().length < 12 && !minutes.trim() && !myNotes.trim()) { setError("フォローアップを作るには内容がもう少し必要です。"); return; }
+    setError(""); setFuLoad(true); setShowFollowup(true);
+    const base = minutes.trim() ? `# 議事録\n${minutes}` : `# 文字起こし\n"""${text.slice(-7000)}"""`;
+    const prompt = `次の会議内容をもとに、関係者へ送る日本語の${minTone === "カジュアル" ? "ややカジュアルな" : "丁寧なビジネス"}フォローアップメール文面を作成してください。件名、宛名は「〇〇さん」などの差し込みプレースホルダ、本文には「会議のお礼／決まったこと／各自のタスク（担当・期限）／次回予定」を簡潔に含めます。メール文面のみを出力（説明やコードフェンス不要）。${notesBlock()}${vocabBlock()}
+${base}`;
+    try { setFollowup(await callClaude(prompt, apiCfgRef.current)); } catch (e) { setFollowup(""); setShowFollowup(false); setError("フォローアップの作成に失敗しました: " + (e.message || "") + ((apiCfgRef.current.key || apiCfgRef.current.proxyUrl) ? "" : "（AI接続が未設定の可能性。右上の ⚙ から設定してください）")); } finally { setFuLoad(false); }
+  };
+
+  // 押したタイミングで全文をソース・用語に基づき校正（原文は残し、別表示）
+  const proofread = async () => {
+    const text = buildText();
+    if (text.trim().length < 12) { setError("校正するには文字起こしがもう少し必要です。"); return; }
+    setError(""); setCorrLoad(true);
+    const prompt = `次の会議の文字起こしを校正してください。音声認識による誤り（同音異義語・誤変換・明らかな言い間違い）を、参考資料（ソース）と用語に基づいて修正します。守るべきルール: タイムスタンプ [mm:ss] と話者ラベルはそのまま保持／意味は変えない／内容の追加・要約・削除はしない／自信がない箇所は無理に変えない。校正後の全文のみを出力してください。${vocabBlock()}${sourceBlock()}
+# 文字起こし
+"""${text}"""`;
+    try { setCorrected(await callClaude(prompt, apiCfgRef.current)); } catch (e) { setError("校正に失敗しました: " + (e.message || "") + ((apiCfgRef.current.key || apiCfgRef.current.proxyUrl) ? "" : "（AI接続が未設定の可能性。右上の ⚙ から設定してください）")); } finally { setCorrLoad(false); }
+  };
+
+  const translate = async () => {
+    const text = buildText();
+    if (text.trim().length < 12) { setError("翻訳するには文字起こしがもう少し必要です。"); return; }
+    setError(""); setTransLoad(true);
+    const prompt = `次の会議の文字起こしを${target}に翻訳。タイムスタンプ [mm:ss] と話者ラベルはそのまま残し、発言内容のみ自然に翻訳。翻訳結果のみ出力。${vocabBlock()}${sourceBlock()}
+"""${text}"""`;
+    try { setTrans(await callClaude(prompt, apiCfgRef.current)); } catch (e) { setError("翻訳に失敗しました: " + (e.message || "") + ((apiCfgRef.current.key || apiCfgRef.current.proxyUrl) ? "" : "（AI接続が未設定の可能性。右上の ⚙ から設定してください）")); } finally { setTransLoad(false); }
+  };
+
+  const copy = (t) => { try { navigator.clipboard?.writeText(t); flash("コピーしました。"); } catch (e) {} };
+  const download = (t, ext) => { const b = new Blob([t], { type: "text/plain" }); const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `${title || "meeting"}_${new Date().toISOString().slice(0, 10)}.${ext}`; a.click(); };
+  const hl = (text) => { if (!query) return text; return text.split(new RegExp(`(${esc(query)})`, "gi")).map((p, i) => p.toLowerCase() === query.toLowerCase() ? <mark key={i}>{p}</mark> : <React.Fragment key={i}>{p}</React.Fragment>); };
+
+  const apiCfg = { key: apiKey.trim(), model: model.trim(), proxyUrl: proxyUrl.trim() };
+  apiCfgRef.current = apiCfg;
+  vocabRef.current = vocab; liveTrRef.current = liveTranslate; targetRef.current = target;
+  gSourcesRef.current = gSources; mSourcesRef.current = mSources;
+  const analysisRef = useRef(null); analysisRef.current = analysis;
+  vadRef.current = vad;
+  const shown = segments.filter((s) => (!onlyHl || s.hl) && (!query || s.text.includes(query) || (s.speaker || "").includes(query)));
+  const chars = segments.reduce((n, s) => n + s.text.length, 0);
+  const Sec = ({ title, mini, children }) => (<div className="ma-card"><div className="ma-label"><h2>{title}</h2>{mini && <span className="ma-mini">{mini}</span>}</div>{children}</div>);
+
+  return (
+    <div className="ma">
+      <style>{STYLES}</style>
+      <div className="ma-grain" />
+      <div className="ma-toasts">
+        {error && <div className="ma-toast err" onClick={() => setError("")}>{error}<span className="ma-toast-x">✕</span></div>}
+        {note && <div className="ma-toast ok">{note}</div>}
+      </div>
+
+      {showFollowup && (
+        <div className="ma-modal-overlay" onClick={() => setShowFollowup(false)}>
+          <div className="ma-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="ma-modal-head"><span className="ma-guide-ic"><IC.chat s={18} /></span><div><div className="ma-modal-title">フォローアップ文面</div><div className="ma-modal-sub">会議のお礼・決定事項・タスク・次回予定をまとめた送付用の文面です。</div></div></div>
+            {fuLoad ? <div className="ma-empty" style={{ padding: "20px 2px" }}><span className="ma-spin" /> 作成中…</div>
+              : <><textarea className="ma-memo" style={{ minHeight: 240 }} value={followup} onChange={(e) => setFollowup(e.target.value)} />
+                <div className="ma-foottools" style={{ marginTop: 12 }}><button className="ma-tool accent" onClick={() => copy(followup)}>コピー</button><button className="ma-tool" onClick={() => download(followup, "txt")}>.txt 保存</button><button className="ma-tool" onClick={() => setShowFollowup(false)}>閉じる</button></div></>}
+          </div>
+        </div>
+      )}
+
+      {showGuide && (
+        <div className="ma-modal-overlay" onClick={dismissGuide}>
+          <div className="ma-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="ma-modal-head"><LogoMark s={44} gid="sbgGuide" /><div><div className="ma-modal-title">SABOTTA へようこそ</div><div className="ma-modal-sub">会議を、文字起こし・要約・議事録まで。</div></div></div>
+            <div className="ma-guide-item"><span className="ma-guide-ic"><IC.mic s={18} /></span><div><b>録音</b>：マイクで自分の声や対面会議を文字起こし。話者も自動で色分けします。</div></div>
+            <div className="ma-guide-item"><span className="ma-guide-ic"><IC.screen s={18} /></span><div><b>会議音声（PC専用）</b>：Zoom等のタブ音声を取り込み、相手の声も文字起こし。共有時に<b>「タブの音声を共有」</b>を必ずオンに（Chrome/Edge）。</div></div>
+            <div className="ma-guide-item"><span className="ma-guide-ic"><IC.sparkle s={18} /></span><div><b>AIで整理</b>：要約・議事録・アドバイス・翻訳・校正。<b>用語辞書</b>や<b>ソース</b>（参考資料）を登録すると精度が上がります。</div></div>
+            <div className="ma-guide-item"><span className="ma-guide-ic"><IC.book s={18} /></span><div><b>保存</b>：データはこの端末のブラウザに保存（他端末と同期されません）。大事な会議は議事録をWord/PDFで書き出して保管を。</div></div>
+            <div className="ma-guide-note">※ 初回の「会議音声」取り込みは、音声認識モデルのダウンロード（数十MB・以降は不要）が走ります。AI機能の利用には設定（⚙）でのAI接続が必要です。</div>
+            <button className="ma-addbtn" style={{ width: "100%", padding: 13, marginTop: 4 }} onClick={dismissGuide}>始める</button>
+          </div>
+        </div>
+      )}
+      <nav className="ma-rail">
+        <div className="ma-logo" title="SABOTTA"><LogoMark s={42} gid="sbgRail" /></div>
+        <button className="ma-rail-btn primary" onClick={newMeeting} title="新規会議"><span className="ic"><IC.plus /></span><label>新規</label></button>
+        <button className="ma-rail-btn" onClick={() => setShowHistory(true)} title="過去の会議">
+          <span className="ic"><IC.history /></span><label>履歴</label>{meetings.filter((m) => !m.done).length > 0 && <i className="ma-rail-badge">{meetings.filter((m) => !m.done).length}</i>}
+        </button>
+        <button className="ma-rail-btn" onClick={() => setShowTasks(true)} title="マイタスク">
+          <span className="ic"><IC.tasks /></span><label>タスク</label>{tasks.filter((t) => !t.done).length > 0 && <i className="ma-rail-badge">{tasks.filter((t) => !t.done).length}</i>}
+        </button>
+        <button className="ma-rail-btn" onClick={() => setShowChat(true)} title="AIチャット"><span className="ic"><IC.chat /></span><label>チャット</label></button>
+        <button className="ma-rail-btn" onClick={() => setShowSources(true)} title="ソース（参考資料）"><span className="ic"><IC.book /></span><label>ソース</label></button>
+        <button className="ma-rail-btn" onClick={() => setShowImport(true)} title="文字起こし取込"><span className="ic"><IC.import /></span><label>取込</label></button>
+        <div className="ma-rail-spacer" />
+        <button className="ma-rail-btn" onClick={() => setShowSettings(true)} title="設定"><span className="ic"><IC.settings /></span><label>設定</label></button>
+      </nav>
+      <div className="ma-wrap">
+        <header className="ma-top">
+          <div className="ma-brand"><LogoMark s={30} gid="sbgTop" /><div className="ma-brandtext"><span className="ma-wordmark">SABOTTA</span><span className="ma-kicker">Meeting Assistant</span></div></div>
+          <div className="ma-controls">
+            <select className="ma-sel" value={lang} onChange={(e) => changeLang(e.target.value)} title="認識言語">{LANGS.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}</select>
+            <span className={`ma-timer${recording || capturing ? " rec" : ""}`}>{(recording || capturing) && <span className="ma-recdot" />}{fmt(elapsed)}</span>
+            {!recording ? <button className="ma-rec" onClick={startRec} disabled={!supported}><IC.mic s={15} /> 録音</button> : <button className="ma-rec stop" onClick={stopRec}><span className="ma-dot live" /> 録音を停止</button>}
+            {!capturing ? <button className="ma-cap" onClick={startCapture} title="Web会議のタブ音声を取り込んで文字起こし（クラウド不要）"><IC.screen s={16} /> 会議音声</button> : <button className="ma-cap on" onClick={stopCapture}><IC.screen s={15} /> 会議音声を停止</button>}
+          </div>
+        </header>
+
+        {sttStatus && <div className="ma-warn" style={{ marginTop: 14, background: "#eef4f2", borderColor: "#cfe0da", color: "#2f6b63" }}>{sttStatus}</div>}
+        {!supported && <div className="ma-warn" style={{ marginTop: 14 }}>このブラウザは音声認識（Web Speech API）に未対応です。Chrome または Edge をご利用ください。</div>}
+        {!secureCtx && <div className="ma-warn" style={{ marginTop: 14 }}>⚠ 安全な接続ではないため、ブラウザがマイク許可を記憶できず毎回確認が出ます。<strong>https://</strong> で配信するか、Chrome の <strong>chrome://flags/#unsafely-treat-insecure-origin-as-secure</strong> にこのページのアドレスを登録して再起動してください。</div>}
+
+        <div className="ma-meetingbar">
+          <div className="ma-mb-left">
+            <div className="ma-title-row">
+              <input className="ma-titleInput" value={title} onChange={(e) => { setTitle(e.target.value); titleTouchedRef.current = true; }} placeholder="会議名を入力（または自動命名）" />
+              <button className="ma-namebtn" onClick={() => autoName(true)} disabled={naming} title="会議の内容からAIが会議名を生成します">{naming ? <span className="ma-spin" /> : <><IC.sparkle s={15} /> AIで命名</>}</button>
+            </div>
+          </div>
+          <div className="ma-meta ma-mb-right" style={{ marginTop: 0 }}>
+            <span>{activeDate.toLocaleDateString("ja-JP")}</span>
+            <span>{segments.length} 発言 / {chars} 文字</span>
+            {autoDiar && <span>話者 {autoCount}</span>}
+            <span className="ma-saved">自動保存</span>
+          </div>
+        </div>
+
+        {showHistory && (
+          <div className="ma-overlay" onClick={() => { setShowHistory(false); setPendingDel(null); }}>
+            <div className="ma-drawer" onClick={(e) => e.stopPropagation()}>
+              <div className="ma-drawer-head">
+                <h2>会議の履歴</h2>
+                <button className="ma-x" onClick={() => { setShowHistory(false); setPendingDel(null); }}>✕</button>
+              </div>
+              <div className="ma-drawer-body">
+                {/* 現在の会議 */}
+                <div className="ma-hist cur">
+                  <div className="ma-hist-main">
+                    <div className="ma-hist-title">{title || "無題の会議"} <span className="ma-badge">現在</span></div>
+                    <div className="ma-hist-meta">{activeDate.toLocaleDateString("ja-JP")} ・ {fmt(elapsed)} ・ {segments.length}発言{autoDiar ? ` ・ ${autoCount}名` : ""}</div>
+                    <div className="ma-hist-prev">{segments.map((s) => s.text).join(" ").slice(0, 90) || "（まだ発言がありません）"}</div>
+                  </div>
+                </div>
+
+                <div className="ma-hist-sep">保存済みの過去の会議</div>
+                {meetings.length === 0 && <p className="ma-empty" style={{ padding: "8px 2px" }}>過去の会議はまだありません。「＋ 新規会議」で会議を切り替えると、それまでの会議がここに保存されます。</p>}
+                {meetings.map((m) => (
+                  <div className={`ma-hist${m.done ? " done" : ""}`} key={m.id}>
+                    <div className="ma-hist-main" onClick={() => { loadMeeting(m.id); setShowHistory(false); }}>
+                      <div className="ma-hist-title">{m.done && <span className="ma-hist-done-chip">✓ 完了</span>}{m.title || "無題の会議"}</div>
+                      <div className="ma-hist-meta">{new Date(m.date).toLocaleDateString("ja-JP")} ・ {fmt(m.data?.elapsed || 0)} ・ {m.count}発言{(m.data?.speakers || []).length ? ` ・ ${(m.data.speakers).length}名` : ""}</div>
+                      <div className="ma-hist-prev">{(m.data?.segments || []).map((s) => s.text).join(" ").slice(0, 90) || "（発言なし）"}</div>
+                    </div>
+                    <div className="ma-hist-act">
+                      <button className="ma-mini-btn" onClick={() => { loadMeeting(m.id); setShowHistory(false); }}>開く</button>
+                      <button className={`ma-mini-btn${m.done ? " on" : ""}`} onClick={() => toggleMeetingDone(m.id)} title="完了にすると履歴バッジの数に数えられなくなります">{m.done ? "未完了に戻す" : "完了にする"}</button>
+                      {pendingDel === m.id ? (
+                        <span className="ma-del-confirm">
+                          <button className="ma-del-yes" onClick={() => { deleteMeeting(m.id); setPendingDel(null); }}>削除する</button>
+                          <button className="ma-del-no" onClick={() => setPendingDel(null)}>やめる</button>
+                        </span>
+                      ) : (
+                        <button className="ma-del" onClick={() => setPendingDel(m.id)}>削除</button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showSettings && (
+          <div className="ma-overlay" onClick={() => setShowSettings(false)}>
+            <div className="ma-drawer" onClick={(e) => e.stopPropagation()}>
+              <div className="ma-drawer-head">
+                <h2>AI設定</h2>
+                <button className="ma-x" onClick={() => setShowSettings(false)}>✕</button>
+              </div>
+              <div className="ma-drawer-body">
+                <p className="ma-set-note">要約・整形議事録・翻訳・自動命名は Claude を使います。接続方法は2通りです。</p>
+                <label className="ma-set-label">① プロキシURL（推奨・配布向け）</label>
+                <input className="ma-set-input" value={proxyUrl} onChange={(e) => setProxyUrl(e.target.value)} placeholder="https://sabotta-proxy.xxxx.workers.dev" autoComplete="off" />
+                <p className="ma-set-note" style={{ marginTop: 6 }}>自分のバックエンド（Cloudflare Workers等）にAPIキーを置き、そのURLをここに入れます。<strong>キーはサーバー側に隠れ、利用者はキー不要</strong>。配布するならこちら。</p>
+                <label className="ma-set-label">② Anthropic APIキー（個人のローカル利用向け）</label>
+                <input className="ma-set-input" type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} placeholder="sk-ant-..." autoComplete="off" />
+                <p className="ma-set-warn" style={{ marginTop: 6 }}>⚠ ②は公開URLに置くとソースからキーを読まれます。自分だけのローカル利用に限定してください（プロキシURLを設定した場合はそちらが優先されます）。</p>
+                <label className="ma-set-label">Claudeモデル</label>
+                <input className="ma-set-input" value={model} onChange={(e) => setModel(e.target.value)} list="ma-models" placeholder="claude-sonnet-4-6" />
+                <datalist id="ma-models">
+                  <option value="claude-opus-4-8" />
+                  <option value="claude-sonnet-4-6" />
+                  <option value="claude-haiku-4-5-20251001" />
+                </datalist>
+                <label className="ma-set-label">会議文字起こしモデル（タブ音声・速度↔精度）</label>
+                <select className="ma-set-input" value={whisperSize} onChange={(e) => setWhisperSize(e.target.value)}>
+                  <option value="tiny">tiny（速い・軽い／精度は低め）</option>
+                  <option value="base">base（標準・やや重い）</option>
+                </select>
+                <p className="ma-set-note" style={{ marginTop: 6 }}>会議の文字起こしが重い・遅い場合は <strong>tiny</strong> に。切り替えは次回の「会議音声を取込」開始時に反映されます。</p>
+                <label className="ma-set-label">用語辞書（固有名詞・専門用語）</label>
+                <textarea className="ma-set-input" style={{ minHeight: 90, resize: "vertical", fontFamily: "monospace", fontSize: 12 }} value={vocab} onChange={(e) => setVocab(e.target.value)} placeholder={"1行に1語。正しい表記を登録（要約・議事録・翻訳で統一されます）\n例: SABOTTA\n例: 営業DX推進室\n誤変換を直す場合は「誤=正」:\n例: さぼった=SABOTTA"} />
+                <p className="ma-set-note" style={{ marginTop: 6 }}>登録した語はAIの要約・議事録・翻訳で表記が統一されます。「誤=正」の行は、文字起こしに対して自動で置換補正します。</p>
+                <label className="ma-set-label">認識する音量のしきい値（小さい声も拾う ↔ ノイズを抑える）</label>
+                <input type="range" min="0.001" max="0.02" step="0.0005" value={vad} onChange={(e) => setVad(Number(e.target.value))} style={{ width: "100%", accentColor: "#c8482f" }} />
+                <div className="ma-vad-meter">
+                  <div className="ma-vad-fill" style={{ width: `${Math.min(level / 0.03, 1) * 100}%` }} />
+                  <div className="ma-vad-mark" style={{ left: `${Math.min(vad / 0.03, 1) * 100}%` }} />
+                </div>
+                <p className="ma-set-note" style={{ marginTop: 4 }}>{capturing ? "緑のバー＝今の音量、縦線＝しきい値。話している時にバーが線を超えるように調整してください。" : "「会議音声を取込」中に現在の音量バーが表示され、調整しやすくなります。声が拾われない時はしきい値を左へ。"}</p>
+                <div className="ma-set-status">状態: {proxyUrl ? "✓ プロキシ設定済み" : apiKey ? "✓ APIキー設定済み（このブラウザに保存）" : "未設定"}</div>
+                <div className="ma-privacy">
+                  <div className="ma-privacy-h">データの取り扱いとセキュリティ</div>
+                  会議・タスク・ソースなどのデータは<strong>この端末のブラウザ内にのみ保存</strong>されます（他の端末やアカウントとは同期されません。ブラウザの履歴消去やプライベートモードでは消える場合があります）。アップロードしたソース資料・会議の音声/文字起こしは、暗号化通信（TLS）で処理されます。<strong>AIの学習には一切利用されません</strong>（Anthropicの商用API／AWS Bedrock・Google Cloud経由のClaudeは「入力データを学習に使わない」ポリシーが標準適用されるため）。生成完了後、データがAIプロバイダー側に保持されることはありません。なお、システムである以上「絶対にゼロリスク」とは言えませんが、上記により機密情報が学習を通じて漏れるリスクは防げます。<br />※ 無料のWeb版Claude等は規約が異なります。必ず商用APIまたはプロキシ経由でご利用ください。
+                </div>
+                <button className="ma-set-close" onClick={() => setShowSettings(false)}>閉じる</button>
+                <button className="ma-set-close" style={{ marginTop: 8, background: "transparent", color: C.inkSoft, border: `1px solid ${C.line}` }} onClick={() => { setShowSettings(false); setShowGuide(true); }}>使い方を見る</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showImport && (
+          <div className="ma-overlay" onClick={() => setShowImport(false)}>
+            <div className="ma-drawer" onClick={(e) => e.stopPropagation()}>
+              <div className="ma-drawer-head">
+                <h2>文字起こしを取り込む</h2>
+                <button className="ma-x" onClick={() => setShowImport(false)}>✕</button>
+              </div>
+              <div className="ma-drawer-body">
+                <p className="ma-set-note">Zoom などで書き出した文字起こし（<strong>.vtt</strong> ファイルや、コピーしたテキスト）を取り込みます。Zoom の文字起こしは<strong>話者名つきで高精度</strong>なので、これを基にすると「誰が何を話したか・誰のタスクか」が明確な議事録を作れます。取り込み後、右の「整形議事録」タブで生成してください。</p>
+                <label className="ma-set-label">ファイルを選択（.vtt / .txt / .srt）</label>
+                <input className="ma-set-input" type="file" accept=".vtt,.txt,.srt" onChange={onImportFile} />
+                <label className="ma-set-label">またはテキストを貼り付け</label>
+                <textarea className="ma-set-input" style={{ minHeight: 160, resize: "vertical", fontFamily: "monospace", fontSize: 12 }} value={importText} onChange={(e) => setImportText(e.target.value)} placeholder={"WEBVTT\n\n00:00:03.000 --> 00:00:07.000\n田中: それでは会議を始めます…"} />
+                <label className="ma-set-label">取り込み方法</label>
+                <div className="ma-imp-modes">
+                  <label className={`ma-imp-mode${importMode === "replace" ? " on" : ""}`}><input type="radio" name="impmode" checked={importMode === "replace"} onChange={() => setImportMode("replace")} /> 置き換える（高精度版に差し替え）</label>
+                  <label className={`ma-imp-mode${importMode === "append" ? " on" : ""}`}><input type="radio" name="impmode" checked={importMode === "append"} onChange={() => setImportMode("append")} /> 現在の内容に追記する</label>
+                </div>
+                <button className="ma-set-close" style={{ borderColor: "#2f6b63", color: "#fff", background: "#2f6b63" }} onClick={doImport}>テキストを取り込む</button>
+                <p className="ma-set-note" style={{ marginTop: 12 }}>※ Zoomでの書き出し方: クラウドレコーディングの「音声トランスクリプト（.vtt）」をダウンロード、またはライブ文字起こし中に「トランスクリプトを保存」。話者名が含まれていれば、そのまま話者として取り込まれます。</p>
+
+                <div style={{ borderTop: `1px solid ${"#d8d0c1"}`, margin: "18px 0 0", paddingTop: 16 }}>
+                  <label className="ma-set-label">音声・動画ファイルから文字起こし（ブラウザ内Whisper・無料）</label>
+                  <p className="ma-set-note">録音済みの mp3 / m4a / wav / mp4 などを選ぶと、その場で文字起こしします（クラウド送信なし）。長いファイルは時間がかかります。⚙の「会議文字起こしモデル」で速度↔精度を調整できます。</p>
+                  <input className="ma-set-input" type="file" accept="audio/*,video/*" disabled={!!mediaStatus} onChange={(e) => { const f = e.target.files && e.target.files[0]; if (f) transcribeFile(f, importMode); }} />
+                  {mediaStatus && <div className="ma-set-status">{mediaStatus}</div>}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showTasks && (
+          <div className="ma-overlay" onClick={() => { setShowTasks(false); setTaskEditId(null); }}>
+            <div className="ma-drawer" onClick={(e) => e.stopPropagation()}>
+              <div className="ma-drawer-head">
+                <h2>マイタスク</h2>
+                <button className="ma-x" onClick={() => { setShowTasks(false); setTaskEditId(null); }}>✕</button>
+              </div>
+              <div className="ma-drawer-body">
+                <div className="ma-addbox">
+                  <label className="ma-fld"><span>タスク</span>
+                    <input className="ma-fld-in" value={newTask} placeholder="例: 見積書を送る" onChange={(e) => setNewTask(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { addTask(newTask, newTaskDue, newTaskPrio); setNewTask(""); setNewTaskDue(""); setNewTaskPrio("none"); } }} />
+                  </label>
+                  <div className="ma-fldrow">
+                    <label className="ma-fld"><span>期限（任意）</span>
+                      <input className="ma-fld-in" type="datetime-local" value={newTaskDue} onChange={(e) => setNewTaskDue(e.target.value)} />
+                    </label>
+                    <label className="ma-fld"><span>優先度</span>
+                      <select className="ma-fld-in" value={newTaskPrio} onChange={(e) => setNewTaskPrio(e.target.value)}>{PRIO_OPTS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select>
+                    </label>
+                    <button className="ma-addbtn" onClick={() => { addTask(newTask, newTaskDue, newTaskPrio); setNewTask(""); setNewTaskDue(""); setNewTaskPrio("none"); }}>追加</button>
+                  </div>
+                </div>
+
+                <div className="ma-task-bar">
+                  <div className="ma-task-filter">
+                    <button className={`ma-tf${taskFilter === "open" ? " on" : ""}`} onClick={() => setTaskFilter("open")}>未完了（{tasks.filter((t) => !t.done).length}）</button>
+                    <button className={`ma-tf${taskFilter === "all" ? " on" : ""}`} onClick={() => setTaskFilter("all")}>すべて（{tasks.length}）</button>
+                  </div>
+                  <div className="ma-task-actions">
+                    <button className={`ma-tf${remindOn ? " on" : ""}`} onClick={remindOn ? () => setRemindOn(false) : enableReminders} title="期限が来たらブラウザ通知（アプリを開いている間）"><IC.bell s={14} /> {remindOn ? "リマインドON" : "リマインド"}</button>
+                    <button className="ma-tf" onClick={exportAllIcs} title="期限つきタスクをまとめてカレンダーへ"><IC.calendar s={14} /> カレンダー</button>
+                  </div>
+                </div>
+
+                {(() => { const od = tasks.filter((t) => !t.done && dueState(t).key === "overdue").length; const td = tasks.filter((t) => !t.done && dueState(t).key === "today").length; return (od || td) ? <div className="ma-reminder-line">{od > 0 && <span className="od">⚠ 期限切れ {od}件</span>}{td > 0 && <span className="td">今日が期限 {td}件</span>}</div> : null; })()}
+
+                {tasks.filter((t) => taskFilter === "all" || !t.done).length === 0 && (
+                  <p className="ma-empty" style={{ padding: "10px 2px" }}>タスクはまだありません。文字起こしの各発言の「＋✓」、要約タブのアクションアイテムの「＋」、または上の入力欄から追加できます。期限と優先度も設定できます。</p>
+                )}
+
+                {(() => {
+                  const visible = sortTasks(tasks.filter((t) => taskFilter === "all" || !t.done));
+                  return [["overdue", "期限切れ"], ["today", "今日"], ["upcoming", "今後"], ["nodue", "期限なし"], ["done", "完了"]].map(([g, lbl]) => {
+                    const items = visible.filter((t) => groupOf(t) === g);
+                    if (!items.length) return null;
+                    return <div className="ma-task-group" key={g}><div className={`ma-task-grouphead ${g}`}>{lbl}（{items.length}）</div>{items.map(renderTask)}</div>;
+                  });
+                })()}
+
+                {tasks.length > 0 && <p className="ma-set-note" style={{ marginTop: 14 }}>※ タスクはこのブラウザに保存され、会議をまたいで貯まります。確実なリマインドは「📅 カレンダー」で端末のカレンダーに登録するのがおすすめです（閉じていても通知されます）。</p>}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showChat && (
+          <div className="ma-overlay" onClick={() => setShowChat(false)}>
+            <div className="ma-drawer" onClick={(e) => e.stopPropagation()}>
+              <div className="ma-drawer-head">
+                <h2>AIチャット</h2>
+                <button className="ma-x" onClick={() => setShowChat(false)}>✕</button>
+              </div>
+              <div className="ma-drawer-body ma-chat-body">
+                <p className="ma-set-note">現在の会議と保存済みの過去の会議の内容をもとに質問できます。例:「私の担当タスクは?」「前回決まったことは?」「予算の話はどうなった?」</p>
+                <div className="ma-chat-log">
+                  {chatMsgs.length === 0 && <p className="ma-empty" style={{ padding: "8px 2px" }}>下の欄から質問してください。</p>}
+                  {chatMsgs.map((m, i) => (
+                    <div key={i} className={`ma-chat-msg ${m.role}`}><div className="ma-chat-bubble">{m.text}</div></div>
+                  ))}
+                  {chatBusy && <div className="ma-chat-msg assistant"><div className="ma-chat-bubble"><span className="ma-spin" /></div></div>}
+                </div>
+              </div>
+              <div className="ma-chat-input">
+                <input value={chatInput} placeholder="会議について質問…" onChange={(e) => setChatInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") askChat(); }} />
+                <button onClick={askChat} disabled={chatBusy}>送信</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showSources && (() => {
+          const list = srcTab === "global" ? gSources : mSources;
+          const sel = srcSelectedChars();
+          return (
+            <div className="ma-overlay" onClick={() => setShowSources(false)}>
+              <div className="ma-drawer" onClick={(e) => e.stopPropagation()}>
+                <div className="ma-drawer-head">
+                  <h2>ソース（参考資料）</h2>
+                  <button className="ma-x" onClick={() => setShowSources(false)}>✕</button>
+                </div>
+                <div className="ma-drawer-body">
+                  <p className="ma-set-note">事前資料・用語集・アジェンダ等を登録すると、要約・アドバイス・議事録・翻訳・用語がこの内容に基づいて生成され、的外れな出力を防げます。ONにしたソースだけがAIに渡されます。</p>
+                  <div className="ma-task-filter" style={{ marginBottom: 12 }}>
+                    <button className={`ma-tf${srcTab === "meeting" ? " on" : ""}`} onClick={() => setSrcTab("meeting")}>この会議（{mSources.length}）</button>
+                    <button className={`ma-tf${srcTab === "global" ? " on" : ""}`} onClick={() => setSrcTab("global")}>アプリ全体（{gSources.length}）</button>
+                  </div>
+                  <div className="ma-addbox">
+                    <label className="ma-fld"><span>タイトル</span><input className="ma-fld-in" value={srcTitle} onChange={(e) => setSrcTitle(e.target.value)} placeholder={srcTab === "global" ? "例: 社内用語集" : "例: 本日のアジェンダ"} /></label>
+                    <label className="ma-fld"><span>内容（貼り付け）</span><textarea className="ma-fld-in" style={{ minHeight: 100, resize: "vertical" }} value={srcText} onChange={(e) => setSrcText(e.target.value)} placeholder="資料の本文を貼り付け…" /></label>
+                    <div className="ma-fldrow">
+                      <label className="ma-fld"><span>またはファイル（.txt / .md）</span><input className="ma-fld-in" type="file" accept=".txt,.md,text/plain" onChange={(e) => onSourceFile(e, srcTab)} /></label>
+                      <button className="ma-addbtn" onClick={() => addSource(srcTab)}>追加</button>
+                    </div>
+                  </div>
+                  <div className="ma-set-status" style={{ marginTop: 4 }}>AIに渡す合計: 約 {sel.toLocaleString()} 文字{sel > SRC_BUDGET ? `（上限 ${SRC_BUDGET.toLocaleString()} 文字を超える分は送信時に省略されます）` : ""}</div>
+                  {list.length === 0 && <p className="ma-empty" style={{ padding: "10px 2px" }}>{srcTab === "global" ? "全会議で使う資料（用語集・製品情報など）を登録します。" : "この会議用の資料（アジェンダ・関連資料など）を登録します。"}</p>}
+                  {list.map((s) => (
+                    <div className={`ma-task${s.on ? "" : " done"}`} key={s.id}>
+                      <input type="checkbox" checked={s.on} onChange={() => toggleSource(srcTab, s.id)} title="AIに渡す/渡さない" />
+                      <div className="ma-task-main">
+                        <div className="ma-task-text" style={{ cursor: "default" }}>{s.title}</div>
+                        <div className="ma-task-meta"><span>{(s.text ? s.text.length : 0).toLocaleString()} 文字</span><span>{s.on ? "ON（AIに渡す）" : "OFF"}</span></div>
+                      </div>
+                      <button className="ma-del" onClick={() => delSource(srcTab, s.id)}>削除</button>
+                    </div>
+                  ))}
+                  <p className="ma-set-note" style={{ marginTop: 14 }}>※ 「この会議」のソースはその会議にのみ、「アプリ全体」のソースは全会議に適用されます。資料が数万字を超えるほど大きい場合は、関連箇所だけを抽出する方式（RAG）への拡張を検討します。</p>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
+        <div className="ma-grid">
+          <div className="ma-l">
+            <div className="ma-card">
+              <div className="ma-label"><h2>文字起こし</h2>{(recording || capturing) && <span className="ma-recpill">{recording ? "● 録音中" : "● 会議音声 取込中"}</span>}<span className="ma-mini">{shown.length}/{segments.length} 表示</span></div>
+
+              {/* 自動話者分離 */}
+              <div className="ma-diar">
+                <div className="ma-diarhead">
+                  <label className="ma-switch"><input type="checkbox" checked={autoDiar} onChange={(e) => setAutoDiar(e.target.checked)} /> 🤖 自動話者分離</label>
+                  <span className="ma-mini">{autoDiar ? `検出 ${autoCount} 名` : "OFF（手動ラベル）"}</span>
+                  {autoDiar && <button className="ma-diar-adv" onClick={() => setDiarAdv((v) => !v)}>{diarAdv ? "詳細を隠す" : "詳細設定"}</button>}
+                </div>
+                {autoDiar && diarAdv && (
+                  <div className="ma-diarbody">
+                    <div className="ma-slider">
+                      <span>← 細かく分ける</span>
+                      <input type="range" min="0.18" max="0.55" step="0.01" value={threshold} onChange={(e) => setThreshold(Number(e.target.value))} />
+                      <span>まとめる →</span>
+                    </div>
+                    <div className="ma-recl">
+                      <span>人数を指定して再分離:</span>
+                      <input type="number" min="1" max="8" value={kInput} onChange={(e) => setKInput(e.target.value)} />
+                      <span>名</span>
+                      <button className="ma-mini-btn" onClick={recluster}>再分離</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* 話者チップ（手動補正・命名） */}
+              <div className="ma-spkbar">
+                <span className="lab" title="チップをダブルクリックで名前を変更できます">話者:</span>
+                {speakers.map((s) => (
+                  editSpk === s
+                    ? <input key={s} className="ma-spkadd" autoFocus defaultValue={s} onBlur={(e) => renameSpeaker(s, e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") e.target.blur(); else if (e.key === "Escape") setEditSpk(null); }} style={{ borderColor: spkColor(s), width: 90 }} />
+                    : <button key={s} className={`ma-chip${curSpeaker === s ? " on" : ""}`} onClick={() => pickSpeaker(s)} onDoubleClick={() => setEditSpk(s)} title="クリックで選択／ダブルクリックで名前を変更" style={{ borderColor: spkColor(s), color: curSpeaker === s ? "#fff" : spkColor(s), background: curSpeaker === s ? spkColor(s) : "transparent" }}>{s}</button>
+                ))}
+                <input className="ma-spkadd" value={newSpeaker} placeholder="＋ 追加" onChange={(e) => setNewSpeaker(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addSpeaker()} />
+              </div>
+
+              <div className="ma-tools">
+                <input className="ma-search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="🔍 文字起こし内を検索" />
+                <label className="ma-toggle"><input type="checkbox" checked={onlyHl} onChange={(e) => setOnlyHl(e.target.checked)} /> 重要のみ</label>
+                <label className="ma-toggle"><input type="checkbox" checked={liveTranslate} onChange={(e) => setLiveTranslate(e.target.checked)} /> リアルタイム翻訳</label>
+                {liveTranslate && <select className="ma-sel" style={{ padding: "5px 7px", fontSize: 12 }} value={target} onChange={(e) => setTarget(e.target.value)}>{TRANSLATE_TO.map((t) => <option key={t} value={t}>{t}</option>)}</select>}
+              </div>
+
+              <div className="ma-transcript" ref={scrollRef} onScroll={onTranscriptScroll}>
+                {segments.length === 0 && !interim && (
+                  <p className="ma-empty">「録音」でマイクからの文字起こしと自動話者分離が始まります（発言ごとに話者A/B/C…を推定して色分け、誤りは手動修正や「人数を指定して再分離」で補正可）。<br /><br />Web会議の相手の声を文字起こしするには上部の「会議音声」を押し、共有ダイアログで会議の<strong>タブ</strong>を選んで<strong>「タブの音声を共有」をオン</strong>にしてください（PCのChrome/Edge専用）。文字起こしはブラウザ内（あなたのPC）で行われ、クラウドには送られません。</p>
+                )}
+                {shown.map((s) => (
+                  <div key={s.id} className={`ma-seg${s.hl ? " hl" : ""}`}>
+                    <span className="ma-ts">{s.t}</span>
+                    <div className="ma-segmain">
+                      {(speakers.length > 0 || s.speaker) && (
+                        <select className="ma-spklab" value={s.speaker || ""} onChange={(e) => setSegSpeaker(s.id, e.target.value)} style={{ color: spkColor(s.speaker) }}>
+                          <option value="">（話者なし）</option>
+                          {speakers.map((sp) => <option key={sp} value={sp}>{sp}</option>)}
+                        </select>
+                      )}
+                      {editId === s.id
+                        ? <textarea className="ma-edit" rows={2} autoFocus value={editVal} onChange={(e) => setEditVal(e.target.value)} onBlur={saveEdit} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); saveEdit(); } }} />
+                        : <div className="ma-segtext" onClick={() => startEdit(s)}>{hl(s.text)}</div>}
+                      {s.tr && <div className="ma-tr">{s.tr}</div>}
+                    </div>
+                    <div className="ma-act">
+                      <button className="ma-ibtn" onClick={() => addTask(s.text)} title="自分のタスクに追加">＋✓</button>
+                      <button className={`ma-ibtn star${s.hl ? " on" : ""}`} onClick={() => toggleHl(s.id)} title="重要マーク">★</button>
+                      <button className="ma-ibtn" onClick={() => delSeg(s.id)} title="削除">✕</button>
+                    </div>
+                  </div>
+                ))}
+                {interim && <div className="ma-interim">{interim}…</div>}
+                {!atBottom && segments.length > 4 && <button className="ma-jump" onClick={scrollToBottom}>↓ 最新の発言へ</button>}
+              </div>
+
+              {segments.length > 0 && (
+                <div className="ma-foottools"><button className="ma-tool" onClick={() => copy(buildText())}>コピー</button><button className="ma-tool" onClick={() => download(buildText(), "txt")}>.txt</button><button className="ma-tool" onClick={exportSRT}>.srt</button><button className="ma-tool" onClick={printTranscript}>印刷/PDF</button></div>
+              )}
+            </div>
+          </div>
+
+          <div className="ma-r">
+            <div className="ma-card">
+              <div className="ma-tabs">{[["ai", "要約・アドバイス"], ["memo", "メモ"], ["minutes", "整形議事録"], ["proof", "校正"], ["translate", "翻訳"]].map(([k, v]) => <button key={k} className={`ma-tab${tab === k ? " on" : ""}`} onClick={() => setTab(k)}>{v}</button>)}</div>
+              {(() => { const sc = [...gSources, ...mSources].filter((x) => x.on).length; const vc = (vocab || "").split("\n").filter((l) => l.trim()).length; return (sc > 0 || vc > 0) ? <div className="ma-grounding" onClick={() => setShowSources(true)} title="クリックでソースを確認"><IC.book s={13} /> AIが参照中：{sc > 0 ? `ソース${sc}件` : ""}{sc > 0 && vc > 0 ? "・" : ""}{vc > 0 ? `用語${vc}件` : ""}</div> : null; })()}
+              {!apiKey && !proxyUrl && <div className="ma-warn">AI機能（要約・議事録・翻訳・自動命名）には接続設定が必要です。右上の ⚙ から「プロキシURL」または「APIキー」を設定してください。（Claude.ai アプリ内では不要）</div>}
+              <div className="ma-rbody">
+
+              {tab === "ai" && (<>
+                <button className="ma-btn" onClick={analyze} disabled={analyzing}>{analyzing ? <><span className="ma-spin" /> 分析中…</> : "▷ AIで要約・アドバイスを生成"}</button>
+                <label className="ma-auto"><input type="checkbox" checked={auto} onChange={(e) => setAuto(e.target.checked)} /> 録音・取込中は約2分ごとに自動更新</label>
+                {!analysis && !analyzing && <p className="ma-empty" style={{ padding: "6px 2px" }}>会話がたまったらボタンを押すと、要点・決定事項・アクション・進行アドバイスを整理します。</p>}
+                {(analyzedAt || analyzing) && <div className="ma-mini" style={{ marginBottom: 6 }}>{analyzing ? "更新中…" : `最終更新 ${new Date(analyzedAt).toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })}`}</div>}
+                {analysis && (<div className="ma-aigrid">
+                  <Sec title="要約" mini="SUMMARY"><ul className="ma-list">{(analysis.summary || []).map((x, i) => <li key={i}>{x}</li>)}</ul></Sec>
+                  {(analysis.decisions || []).length > 0 && <Sec title="決定事項" mini="DECISIONS"><ul className="ma-list">{analysis.decisions.map((x, i) => <li key={i}>{x}</li>)}</ul></Sec>}
+                  {(analysis.actions || []).length > 0 && <Sec title="アクションアイテム" mini="TO-DO">{analysis.actions.map((a, i) => <div className="ma-action" key={i}><span className="t">{a.task}</span>{a.owner ? <span className="ma-owner">{a.owner}</span> : null}<button className="ma-addtask" title="マイタスクに追加" onClick={() => addTask(a.owner ? `${a.task}（${a.owner}）` : a.task)}>＋</button></div>)}</Sec>}
+                  {(analysis.advice || []).length > 0 && <Sec title="アドバイス" mini="ADVICE"><ul className="ma-list ma-advice">{analysis.advice.map((x, i) => <li key={i}>{x}</li>)}</ul></Sec>}
+                  {(analysis.topics || []).length > 0 && <Sec title="トピック" mini="TAGS"><div className="ma-tags">{analysis.topics.map((x, i) => <span className="ma-tag" key={i}>#{x}</span>)}</div></Sec>}
+                </div>)}
+              </>)}
+
+              {tab === "memo" && (<>
+                <p className="ma-empty" style={{ padding: "2px 2px 8px" }}>会議中に要点や気づきをメモしておくと、議事録の生成時にAIが<strong>このメモを骨子</strong>として整形し、抜けを文字起こしで補完します（Granola方式）。</p>
+                <textarea className="ma-memo" value={myNotes} onChange={(e) => setMyNotes(e.target.value)} placeholder={"例）\n・予算は来期で確定、上限300万\n・田中さんが先方に見積り依頼（今週中）\n・次回は要件定義のレビュー"} />
+                <div className="ma-mini" style={{ marginTop: 8 }}>{myNotes.trim() ? `${myNotes.trim().length} 文字 ・ 議事録に反映されます` : "自動保存されます"}</div>
+              </>)}
+
+              {tab === "minutes" && (<>
+                <div className="ma-optrow">
+                  <label>形式<select value={minTemplate} onChange={(e) => setMinTemplate(e.target.value)}>{["汎用", "商談", "1on1", "朝会", "ブレスト", "面接"].map((x) => <option key={x} value={x}>{x}</option>)}</select></label>
+                  <label>長さ<select value={minLength} onChange={(e) => setMinLength(e.target.value)}>{["短", "標準", "詳細"].map((x) => <option key={x} value={x}>{x}</option>)}</select></label>
+                  <label>トーン<select value={minTone} onChange={(e) => setMinTone(e.target.value)}>{["ビジネス", "カジュアル", "テック"].map((x) => <option key={x} value={x}>{x}</option>)}</select></label>
+                </div>
+                <button className="ma-btn" onClick={genMinutes} disabled={minLoad}>{minLoad ? <><span className="ma-spin" /> 作成中…</> : "▷ 整形された議事録を生成"}</button>
+                {myNotes.trim() && <div className="ma-mini" style={{ margin: "-6px 0 8px" }}>あなたのメモを骨子に反映します</div>}
+                {!minutes && !minLoad && <p className="ma-empty" style={{ padding: "6px 2px" }}>出席者・議題・決定事項・アクションを構造化した、そのまま提出できる議事録を作成します。</p>}
+                {minutes && (<><MD text={minutes} /><div className="ma-foottools" style={{ marginTop: 14 }}><button className="ma-tool" onClick={() => copy(minutes)}>コピー</button><button className="ma-tool" onClick={() => download(minutes, "md")}>.md</button><button className="ma-tool" onClick={() => downloadDoc(minutes)}>Word(.doc)</button><button className="ma-tool" onClick={printMinutes}>印刷/PDF</button><button className="ma-tool accent" onClick={genFollowup} disabled={fuLoad}>{fuLoad ? "作成中…" : "✉ フォローアップ文面"}</button></div></>)}
+              </>)}
+
+              {tab === "proof" && (<>
+                <button className="ma-btn" onClick={proofread} disabled={corrLoad}>{corrLoad ? <><span className="ma-spin" /> 校正中…</> : "▷ 全文をソース基準で校正"}</button>
+                {!corrected && !corrLoad && <p className="ma-empty" style={{ padding: "6px 2px" }}>文字起こし全文を、登録したソース・用語に基づいて校正します。音声認識の誤変換や用語の表記ゆれを直した結果を、<strong>原文は残したまま</strong>ここに別表示します。</p>}
+                {corrected && (<><div style={{ whiteSpace: "pre-wrap", fontSize: 14, lineHeight: 1.7 }}>{corrected}</div><div className="ma-foottools" style={{ marginTop: 14 }}><button className="ma-tool" onClick={() => copy(corrected)}>コピー</button><button className="ma-tool" onClick={() => download(corrected, "txt")}>.txt 保存</button></div></>)}
+              </>)}
+
+              {tab === "translate" && (<>
+                <div className="ma-row">
+                  <select className="ma-sel" style={{ flex: 1 }} value={target} onChange={(e) => setTarget(e.target.value)}>{TRANSLATE_TO.map((t) => <option key={t} value={t}>{t}</option>)}</select>
+                  <button className="ma-btn" style={{ margin: 0, width: "auto", padding: "12px 18px" }} onClick={translate} disabled={transLoad}>{transLoad ? <span className="ma-spin" /> : "翻訳"}</button>
+                </div>
+                {!trans && !transLoad && <p className="ma-empty" style={{ padding: "6px 2px" }}>文字起こし全体を選んだ言語に翻訳します（タイムスタンプ・話者は保持）。</p>}
+                {trans && (<><div style={{ whiteSpace: "pre-wrap", fontSize: 14, lineHeight: 1.7 }}>{trans}</div><div className="ma-foottools" style={{ marginTop: 14 }}><button className="ma-tool" onClick={() => copy(trans)}>コピー</button><button className="ma-tool" onClick={() => download(trans, "txt")}>.txt 保存</button></div></>)}
+              </>)}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p className="ma-foot">
+          ※ 自動話者分離はブラウザ内で声の高さ・スペクトル特徴を抽出し、発言ごとにクラスタリングする<strong>近似手法</strong>です。声質が似た同性の話者などは取り違えることがあります。感度スライダーや「人数を指定して再分離」で調整してください。<br />
+          ※ 文字起こし(Web Speech API)と声の解析(Web Audio API)で同時にマイクを使います。<br />
+          ※ 高精度な話者分離が必要な場合は、Whisper系の文字起こし＋専用ダイアライゼーション(AssemblyAI / Deepgram / pyannote 等)への置き換えが有効です（要APIキー・バックエンド）。
+        </p>
+      </div>
+    </div>
+  );
+}
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(<MeetingAssistant />);
+</script>
+</body>
+</html>
