@@ -823,11 +823,11 @@ function MeetingAssistant() {
   useEffect(() => { if (!recording && !capturing && !ocrOn) return; const id = setInterval(() => { elapsedRef.current += 1; setElapsed(elapsedRef.current); }, 1000); return () => clearInterval(id); }, [recording, capturing, ocrOn]);
   useEffect(() => { if (!capturing) { setLevel(0); return; } const id = setInterval(() => setLevel(levelRef.current), 200); return () => clearInterval(id); }, [capturing]);
   useEffect(() => {
-    if ((!recording && !capturing) || !auto) return;
+    if ((!recording && !capturing && !ocrOn) || !auto) return;
     const id = setInterval(() => { const len = segRef.current.map((s) => s.text).join("").length; if (len > lastLenRef.current + 10 && !analyzing && (apiCfgRef.current.key || apiCfgRef.current.proxyUrl)) analyze(); }, 120000);
     return () => clearInterval(id);
     // eslint-disable-next-line
-  }, [recording, capturing, auto, analyzing]);
+  }, [recording, capturing, ocrOn, auto, analyzing]);
   const [atBottom, setAtBottom] = useState(true);
   const onTranscriptScroll = () => { const el = scrollRef.current; if (!el) return; const near = el.scrollHeight - el.scrollTop - el.clientHeight < 80; stickRef.current = near; setAtBottom(near); };
   const scrollToBottom = () => { const el = scrollRef.current; if (el) { el.scrollTop = el.scrollHeight; stickRef.current = true; setAtBottom(true); } };
@@ -957,17 +957,27 @@ function MeetingAssistant() {
         cx2.putImageData(img, 0, 0);
       } catch (_) { /* 取得失敗時は元画像のまま認識 */ }
       const { data } = await ocrWorkerRef.current.recognize(canvas);
-      const lines = (data.text || "").split("\n").map(normLine).filter((l) => l && l.replace(/[^0-9A-Za-z\u3040-\u30ff\u4e00-\u9faf]/g, "").length >= 2);
+      // 「名前＋時刻」の見出し行と、続く内容行を1つの発言にまとめる（Zoom文字起こしパネル対応）
+      const rawLines = (data.text || "").split("\n").map(normLine).filter(Boolean);
+      const headerRe = /^(.{1,24}?)\s+\d{1,2}:\d{2}(:\d{2})?\s*$/;   // 例: 山田太郎 10:23
+      const inlineRe = /^([^:：]{2,24})[:：]\s*(.+)$/;               // 例: 山田太郎: こんにちは（フロート字幕）
+      const timeOnly = /^\(?\d{1,2}:\d{2}(:\d{2})?\)?$/;            // 時刻だけの行
+      const meaningful = (t) => t && t.replace(/[^0-9A-Za-z\u3040-\u30ff\u4e00-\u9faf]/g, "").length >= 2;
+      const pairs = []; let cur = null;
+      for (const l of rawLines) {
+        const hm = l.match(headerRe), im = l.match(inlineRe);
+        if (im && meaningful(im[2])) { if (cur) { pairs.push(cur); cur = null; } pairs.push({ speaker: im[1].trim(), text: im[2].trim() }); }
+        else if (hm) { if (cur) pairs.push(cur); cur = { speaker: hm[1].trim(), text: "" }; }
+        else if (timeOnly.test(l)) { /* 時刻だけの行は捨てる */ }
+        else { if (cur) cur.text = (cur.text ? cur.text + " " : "") + l; else pairs.push({ speaker: "", text: l }); }
+      }
+      if (cur) pairs.push(cur);
+      const clean = pairs.filter((p) => meaningful(p.text)).map((p) => ({ speaker: p.speaker, text: p.text }));
       const emitted = ocrEmittedRef.current;
-      const fresh = lines.filter((l) => !emitted.includes(l));
+      const fresh = clean.filter((p) => !emitted.includes(p.speaker + "\u0001" + p.text));
       if (fresh.length) {
-        ocrEmittedRef.current = [...emitted, ...fresh].slice(-80);
-        const additions = fresh.map((line) => {
-          let speaker = "", text = line;
-          const m = line.match(/^([^:：]{1,24})[:：]\s*(.+)$/);
-          if (m && m[2].trim().length >= 2) { speaker = m[1].trim(); text = m[2].trim(); }
-          return { id: ++idRef.current, text: applyVocab(text), t: fmt(elapsedRef.current), speaker, hl: false };
-        });
+        ocrEmittedRef.current = [...emitted, ...fresh.map((p) => p.speaker + "\u0001" + p.text)].slice(-80);
+        const additions = fresh.map((p) => ({ id: ++idRef.current, text: applyVocab(p.text), t: fmt(elapsedRef.current), speaker: p.speaker, hl: false }));
         setSegs([...segRef.current, ...additions]);
       }
     } catch (e) { /* 単発の失敗は無視して次の周期へ */ }
@@ -1253,6 +1263,7 @@ function MeetingAssistant() {
   useEffect(() => { setGSources(loadGSrc()); setMSources(loadMSrc(activeIdRef.current)); mLoadedRef.current = true; }, []);
   useEffect(() => { if (!loadOnboarded()) setShowGuide(true); }, []);
   const dismissGuide = () => { saveOnboarded(); setShowGuide(false); };
+  const openOnly = (w) => { setShowHistory(w === "history"); setShowTasks(w === "tasks"); setShowChat(w === "chat"); setShowSources(w === "sources"); setShowImport(w === "import"); setShowSettings(w === "settings"); };
   const firstGSrcRef = useRef(true);
   useEffect(() => { if (firstGSrcRef.current) { firstGSrcRef.current = false; return; } saveGSrc(gSources); }, [gSources]);
   useEffect(() => { if (!mLoadedRef.current) return; saveMSrc(activeIdRef.current, mSources); }, [mSources]);
@@ -1602,17 +1613,17 @@ ${base}`;
       )}
       <nav className="ma-rail">
         <div className="ma-logo" title="SABOTTA"><LogoMark s={42} gid="sbgRail" /></div>
-        <button className="ma-rail-btn" onClick={() => setShowHistory(true)} title="過去の会議">
+        <button className="ma-rail-btn" onClick={() => openOnly("history")} title="過去の会議">
           <span className="ic"><IC.history /></span><label>履歴</label>{meetings.filter((m) => !m.done).length > 0 && <i className="ma-rail-badge">{meetings.filter((m) => !m.done).length}</i>}
         </button>
-        <button className="ma-rail-btn" onClick={() => setShowTasks(true)} title="マイタスク">
+        <button className="ma-rail-btn" onClick={() => openOnly("tasks")} title="マイタスク">
           <span className="ic"><IC.tasks /></span><label>タスク</label>{tasks.filter((t) => !t.done).length > 0 && <i className="ma-rail-badge">{tasks.filter((t) => !t.done).length}</i>}
         </button>
-        <button className="ma-rail-btn" onClick={() => setShowChat(true)} title="AIチャット"><span className="ic"><IC.chat /></span><label>チャット</label></button>
-        <button className="ma-rail-btn" onClick={() => setShowSources(true)} title="ソース（参考資料）"><span className="ic"><IC.book /></span><label>ソース</label></button>
-        <button className="ma-rail-btn" onClick={() => setShowImport(true)} title="文字起こし取込"><span className="ic"><IC.import /></span><label>取込</label></button>
+        <button className="ma-rail-btn" onClick={() => openOnly("chat")} title="AIチャット"><span className="ic"><IC.chat /></span><label>チャット</label></button>
+        <button className="ma-rail-btn" onClick={() => openOnly("sources")} title="ソース（参考資料）"><span className="ic"><IC.book /></span><label>ソース</label></button>
+        <button className="ma-rail-btn" onClick={() => openOnly("import")} title="文字起こし取込"><span className="ic"><IC.import /></span><label>取込</label></button>
         <div className="ma-rail-spacer" />
-        <button className="ma-rail-btn" onClick={() => setShowSettings(true)} title="設定"><span className="ic"><IC.settings /></span><label>設定</label></button>
+        <button className="ma-rail-btn" onClick={() => openOnly("settings")} title="設定"><span className="ic"><IC.settings /></span><label>設定</label></button>
       </nav>
       <div className="ma-wrap">
         <header className="ma-top">
@@ -1985,7 +1996,7 @@ ${base}`;
           <div className="ma-r">
             <div className="ma-card">
               <div className="ma-tabs">{[["ai", "要約・アドバイス"], ["memo", "メモ"], ["minutes", "整形議事録"], ["proof", "校正"], ["translate", "翻訳"]].map(([k, v]) => <button key={k} className={`ma-tab${tab === k ? " on" : ""}`} onClick={() => setTab(k)}>{v}</button>)}</div>
-              {(() => { const sc = [...gSources, ...mSources].filter((x) => x.on).length; const vc = (vocab || "").split("\n").filter((l) => l.trim()).length; return (sc > 0 || vc > 0) ? <div className="ma-grounding" onClick={() => setShowSources(true)} title="クリックでソースを確認"><IC.book s={13} /> AIが参照中：{sc > 0 ? `ソース${sc}件` : ""}{sc > 0 && vc > 0 ? "・" : ""}{vc > 0 ? `用語${vc}件` : ""}</div> : null; })()}
+              {(() => { const sc = [...gSources, ...mSources].filter((x) => x.on).length; const vc = (vocab || "").split("\n").filter((l) => l.trim()).length; return (sc > 0 || vc > 0) ? <div className="ma-grounding" onClick={() => openOnly("sources")} title="クリックでソースを確認"><IC.book s={13} /> AIが参照中：{sc > 0 ? `ソース${sc}件` : ""}{sc > 0 && vc > 0 ? "・" : ""}{vc > 0 ? `用語${vc}件` : ""}</div> : null; })()}
               {!apiKey && !proxyUrl && <div className="ma-warn">AI機能（要約・議事録・翻訳・自動命名）には接続設定が必要です。右上の ⚙ から「プロキシURL」または「APIキー」を設定してください。（Claude.ai アプリ内では不要）</div>}
               <div className="ma-rbody">
 
