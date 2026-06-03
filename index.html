@@ -230,6 +230,28 @@ const store = {
 const SETTINGS_KEY = "sabotta-settings-v1";
 const loadSettings = () => { try { const r = window.localStorage.getItem(SETTINGS_KEY); return r ? JSON.parse(r) : null; } catch (e) { return null; } };
 const saveSettings = (o) => { try { window.localStorage.setItem(SETTINGS_KEY, JSON.stringify(o)); } catch (e) {} };
+// float32(16k mono) を WAV Blob に変換（ローカル音声認識サーバー送信用）
+const floatToWav = (samples, sampleRate) => {
+  const buf = new ArrayBuffer(44 + samples.length * 2); const view = new DataView(buf);
+  const w = (off, s) => { for (let i = 0; i < s.length; i++) view.setUint8(off + i, s.charCodeAt(i)); };
+  w(0, "RIFF"); view.setUint32(4, 36 + samples.length * 2, true); w(8, "WAVE"); w(12, "fmt ");
+  view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+  view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true);
+  w(36, "data"); view.setUint32(40, samples.length * 2, true);
+  let off = 44; for (let i = 0; i < samples.length; i++) { const s = Math.max(-1, Math.min(1, samples[i])); view.setInt16(off, s < 0 ? s * 0x8000 : s * 0x7fff, true); off += 2; }
+  return new Blob([view], { type: "audio/wav" });
+};
+const transcribeViaServer = async (samples, sampleRate, langCode, url) => {
+  const fd = new FormData();
+  fd.append("file", floatToWav(samples, sampleRate), "audio.wav");
+  fd.append("model", "whisper-1"); fd.append("response_format", "json");
+  if (langCode) fd.append("language", langCode);
+  const res = await fetch(url, { method: "POST", body: fd });
+  if (!res.ok) throw new Error("server " + res.status);
+  const ct = res.headers.get("content-type") || "";
+  if (ct.includes("application/json")) { const j = await res.json(); return (j.text || j.transcription || (j.results && j.results[0] && j.results[0].text) || "").trim(); }
+  return (await res.text()).trim();
+};
 // マイタスク（会議をまたいで保持）
 const TASKS_KEY = "sabotta-tasks-v1";
 const loadTasks = () => { try { const r = window.localStorage.getItem(TASKS_KEY); return r ? JSON.parse(r) : null; } catch (e) { return null; } };
@@ -648,6 +670,8 @@ function MeetingAssistant() {
   const [model, setModel] = useState("claude-sonnet-4-6");
   const [proxyUrl, setProxyUrl] = useState("");          // バックエンドプロキシURL（推奨）
   const [whisperSize, setWhisperSize] = useState("base"); // 会議文字起こしモデル: tiny(速い) / base(標準)
+  const [localAsrUrl, setLocalAsrUrl] = useState("");      // 任意：ローカル音声認識サーバーのURL（未設定ならブラウザ内認識）
+  const localFallbackNotedRef = useRef(false);
   const [vad, setVad] = useState(0.004);                 // 認識する音量のしきい値（VAD）
   const [level, setLevel] = useState(0);                 // 現在の入力音量（メーター表示用）
   const [capturing, setCapturing] = useState(false);    // 会議タブ音声の取り込み中
@@ -710,6 +734,7 @@ function MeetingAssistant() {
   const capturingRef = useRef(false);
   const ocrStreamRef = useRef(null), ocrVideoRef = useRef(null), ocrTimerRef = useRef(null), ocrWorkerRef = useRef(null), ocrBusyRef = useRef(false), ocrEmittedRef = useRef([]), ocrOnRef = useRef(false);
   const regionBoxRef = useRef(null), regionVideoRef = useRef(null), regionDragRef = useRef(null), ocrRegionRef = useRef(null);
+  const wasActiveRef = useRef(false); // 直前まで録音/会議音声/字幕読み込みのいずれかが動いていたか
   const centroidsRef = useRef([]);             // [{label,vec,n}]
   const featByIdRef = useRef({});              // segId -> 特徴ベクトル
   const activeIdRef = useRef(makeId());        // 現在の会議ID
@@ -828,6 +853,19 @@ function MeetingAssistant() {
     return () => clearInterval(id);
     // eslint-disable-next-line
   }, [recording, capturing, ocrOn, auto, analyzing]);
+  // 会議終了（録音・会議音声・字幕読み込みが全て停止）したら、全体の要約・アドバイスを自動更新
+  useEffect(() => {
+    const active = recording || capturing || ocrOn;
+    if (active) { wasActiveRef.current = true; return; }
+    if (wasActiveRef.current) {
+      wasActiveRef.current = false;
+      if (auto && (apiCfgRef.current.key || apiCfgRef.current.proxyUrl) && segRef.current.length > 0) {
+        flash("会議が終了しました。全体の要約・アドバイスを作成します…");
+        setTimeout(() => { if (!analyzing) analyze(); }, 600);
+      }
+    }
+    // eslint-disable-next-line
+  }, [recording, capturing, ocrOn]);
   const [atBottom, setAtBottom] = useState(true);
   const onTranscriptScroll = () => { const el = scrollRef.current; if (!el) return; const near = el.scrollHeight - el.scrollTop - el.clientHeight < 80; stickRef.current = near; setAtBottom(near); };
   const scrollToBottom = () => { const el = scrollRef.current; if (el) { el.scrollTop = el.scrollHeight; stickRef.current = true; setAtBottom(true); } };
@@ -877,7 +915,16 @@ function MeetingAssistant() {
     sttBusyRef.current = true;
     try {
       const langName = (LANGS.find((l) => l.code === langRef.current) || {}).whisper || "japanese";
-      const text = await window.MeetingSTT.transcribe(audio, langName);
+      const srvUrl = (apiCfgRef.current.localAsrUrl || "").trim();
+      let text = "";
+      if (srvUrl) {
+        try { text = await transcribeViaServer(audio, 16000, (langRef.current || "ja").slice(0, 2), srvUrl); }
+        catch (e) {
+          if (window.MeetingSTT) { try { text = await window.MeetingSTT.transcribe(audio, langName); if (!localFallbackNotedRef.current) { flash("ローカル音声認識サーバーに接続できないため、ブラウザ内認識に切り替えました。"); localFallbackNotedRef.current = true; } } catch (_) {} }
+        }
+      } else {
+        text = await window.MeetingSTT.transcribe(audio, langName);
+      }
       let clean = applyVocab((text || "").trim());
       // 幻聴・ノイズ由来の極端に短い結果は捨てる
       const core = clean.replace(/[\s。、，．.,!?！？…ー]/g, "");
@@ -929,7 +976,7 @@ function MeetingAssistant() {
     const sink = ctx.createGain(); sink.gain.value = 0; // 無音シンク（再生せず処理だけ）
     src.connect(node); node.connect(sink); sink.connect(ctx.destination);
     sttCtxRef.current = ctx; sttNodeRef.current = node; sttBufRef.current = [];
-    capturingRef.current = true; setCapturing(true);
+    capturingRef.current = true; setCapturing(true); localFallbackNotedRef.current = false;
     chunkTimerRef.current = setInterval(flushChunk, CHUNK_SEC * 1000);
     stream.getAudioTracks()[0].addEventListener("ended", stopCapture); // ユーザーが共有を停止したら終了
   };
@@ -1182,6 +1229,7 @@ function MeetingAssistant() {
   }, [segments]);
 
   const newMeeting = () => {
+    wasActiveRef.current = false; // 会議切替による停止では終了要約を出さない
     if (recording) stopRec();
     if (capturingRef.current) stopCapture();
     if (ocrOnRef.current) stopCaptionOCR();
@@ -1194,6 +1242,7 @@ function MeetingAssistant() {
   };
   const loadMeeting = (mid) => {
     if (!mid) return;
+    wasActiveRef.current = false; // 会議切替による停止では終了要約を出さない
     if (recording) stopRec();
     if (capturingRef.current) stopCapture();
     if (ocrOnRef.current) stopCaptionOCR();
@@ -1248,12 +1297,12 @@ function MeetingAssistant() {
   }, [segments, speakers, analysis, minutes, trans, title, meetings, activeDate, myNotes]);
 
   // ── AI設定（APIキー・モデル）の復元と保存
-  useEffect(() => { const s = loadSettings(); if (s) { if (s.apiKey) setApiKey(s.apiKey); if (s.model) setModel(s.model); if (s.proxyUrl) setProxyUrl(s.proxyUrl); if (s.whisperSize) setWhisperSize(s.whisperSize); if (typeof s.vad === "number") setVad(s.vad); if (s.vocab) setVocab(s.vocab); } }, []);
+  useEffect(() => { const s = loadSettings(); if (s) { if (s.apiKey) setApiKey(s.apiKey); if (s.model) setModel(s.model); if (s.proxyUrl) setProxyUrl(s.proxyUrl); if (s.whisperSize) setWhisperSize(s.whisperSize); if (typeof s.vad === "number") setVad(s.vad); if (s.vocab) setVocab(s.vocab); if (s.localAsrUrl) setLocalAsrUrl(s.localAsrUrl); } }, []);
   const firstSetSaveRef = useRef(true);
   useEffect(() => {
     if (firstSetSaveRef.current) { firstSetSaveRef.current = false; return; }
-    saveSettings({ apiKey, model, proxyUrl, whisperSize, vad, vocab });
-  }, [apiKey, model, proxyUrl, whisperSize, vad, vocab]);
+    saveSettings({ apiKey, model, proxyUrl, whisperSize, vad, vocab, localAsrUrl });
+  }, [apiKey, model, proxyUrl, whisperSize, vad, vocab, localAsrUrl]);
 
   // ── マイタスクの復元と保存
   useEffect(() => { const t = loadTasks(); if (Array.isArray(t)) setTasks(t); }, []);
@@ -1549,7 +1598,7 @@ ${base}`;
   const download = (t, ext) => { const b = new Blob([t], { type: "text/plain" }); const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `${title || "meeting"}_${new Date().toISOString().slice(0, 10)}.${ext}`; a.click(); };
   const hl = (text) => { if (!query) return text; return text.split(new RegExp(`(${esc(query)})`, "gi")).map((p, i) => p.toLowerCase() === query.toLowerCase() ? <mark key={i}>{p}</mark> : <React.Fragment key={i}>{p}</React.Fragment>); };
 
-  const apiCfg = { key: apiKey.trim(), model: model.trim(), proxyUrl: proxyUrl.trim() };
+  const apiCfg = { key: apiKey.trim(), model: model.trim(), proxyUrl: proxyUrl.trim(), localAsrUrl: localAsrUrl.trim() };
   apiCfgRef.current = apiCfg;
   vocabRef.current = vocab; liveTrRef.current = liveTranslate; targetRef.current = target;
   gSourcesRef.current = gSources; mSourcesRef.current = mSources;
@@ -1733,6 +1782,9 @@ ${base}`;
                   <option value="base">base（標準・やや重い）</option>
                 </select>
                 <p className="ma-set-note" style={{ marginTop: 6 }}>会議の文字起こしが重い・遅い場合は <strong>tiny</strong> に。切り替えは次回の「会議音声を取込」開始時に反映されます。</p>
+                <label className="ma-set-label">ローカル音声認識サーバー（任意・上級者向け）</label>
+                <input className="ma-set-input" value={localAsrUrl} onChange={(e) => setLocalAsrUrl(e.target.value)} placeholder="例: http://localhost:8080/inference" />
+                <p className="ma-set-note" style={{ marginTop: 6 }}>自分のPCでWhisperサーバーを動かしている場合のみ入力。設定すると「会議音声」をこのサーバーで高精度に文字起こしします（音声は外部に出ません）。<strong>空欄ならブラウザ内認識</strong>のままで、接続できない時は自動でブラウザ内認識に戻ります。</p>
                 <label className="ma-set-label">用語辞書（固有名詞・専門用語）</label>
                 <textarea className="ma-set-input" style={{ minHeight: 90, resize: "vertical", fontFamily: "monospace", fontSize: 12 }} value={vocab} onChange={(e) => setVocab(e.target.value)} placeholder={"1行に1語。正しい表記を登録（要約・議事録・翻訳で統一されます）\n例: SABOTTA\n例: 営業DX推進室\n誤変換を直す場合は「誤=正」:\n例: さぼった=SABOTTA"} />
                 <p className="ma-set-note" style={{ marginTop: 6 }}>登録した語はAIの要約・議事録・翻訳で表記が統一されます。「誤=正」の行は、文字起こしに対して自動で置換補正します。</p>
