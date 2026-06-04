@@ -2,41 +2,50 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>SABOTTA</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDQwIDQwIiBmaWxsPSJub25lIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSIxMS41IiBmaWxsPSJ1cmwoI2cpIi8+PHRleHQgeD0iMjYuMyIgeT0iMTIuNiIgZm9udC1zaXplPSI3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIiBmb250LWZhbWlseT0iQXJpYWwiPno8L3RleHQ+PHRleHQgeD0iMzEuOCIgeT0iOC4yIiBmb250LXNpemU9IjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiIGZvbnQtZmFtaWx5PSJBcmlhbCIgb3BhY2l0eT0iMC44Ij56PC90ZXh0PjxjaXJjbGUgY3g9IjE4IiBjeT0iMTgiIHI9IjguNiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0xMiAxNy40IHEyIDEuOSA0IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0yMCAxNy40IHEyIDEuOSA0IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xNSAyMi4yIHEzIDEuNSA2IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xMy41IDI2IGw0LjUgMyA0LjUgLTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xOCAyOCBsLTIuNiAyLjYgMi42IDguNCAyLjYgLTguNCB6IiBmaWxsPSIjZmZmIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iNCIgeTE9IjIiIHgyPSIzNiIgeTI9IjM4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI2Q0NTAyZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2U4NzQzZiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" />
-<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDQwIDQwIiBmaWxsPSJub25lIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSIxMS41IiBmaWxsPSJ1cmwoI2cpIi8+PHRleHQgeD0iMjYuMyIgeT0iMTIuNiIgZm9udC1zaXplPSI3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIiBmb250LWZhbWlseT0iQXJpYWwiPno8L3RleHQ+PHRleHQgeD0iMzEuOCIgeT0iOC4yIiBmb250LXNpemU9IjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiIGZvbnQtZmFtaWx5PSJBcmlhbCIgb3BhY2l0eT0iMC44Ij56PC90ZXh0PjxjaXJjbGUgY3g9IjE4IiBjeT0iMTgiIHI9IjguNiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0xMiAxNy40IHEyIDEuOSA0IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0yMCAxNy40IHEyIDEuOSA0IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xNSAyMi4yIHEzIDEuNSA2IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NmNGUyZSIgc3Ryb2tlLXdpZHRoPSIxLjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xMy41IDI2IGw0LjUgMyA0LjUgLTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xOCAyOCBsLTIuNiAyLjYgMi42IDguNCAyLjYgLTguNCB6IiBmaWxsPSIjZmZmIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iNCIgeTE9IjIiIHgyPSIzNiIgeTI9IjM4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI2Q0NTAyZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2U4NzQzZiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SABOTTA — Meeting Assistant + Slack</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDQwIDQwIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSIxMS41IiBmaWxsPSIjZDQ1MDJmIi8+PHRleHQgeD0iMjYuMyIgeT0iMTMiIGZvbnQtc2l6ZT0iNyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiIgZm9udC1mYW1pbHk9IkFyaWFsIj56PC90ZXh0Pjx0ZXh0IHg9IjMxLjgiIHk9IjguNiIgZm9udC1zaXplPSI1IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIiBmb250LWZhbWlseT0iQXJpYWwiIG9wYWNpdHk9IjAuOCI+ejwvdGV4dD48Y2lyY2xlIGN4PSIxOCIgY3k9IjE4IiByPSI4LjYiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNMTIgMTcuNCBxMiAxLjkgNCAwIiBmaWxsPSJub25lIiBzdHJva2U9IiNjZjRlMmUiIHN0cm9rZS13aWR0aD0iMS40IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMjAgMTcuNCBxMiAxLjkgNCAwIiBmaWxsPSJub25lIiBzdHJva2U9IiNjZjRlMmUiIHN0cm9rZS13aWR0aD0iMS40IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTUgMjIuMiBxMyAxLjUgNiAwIiBmaWxsPSJub25lIiBzdHJva2U9IiNjZjRlMmUiIHN0cm9rZS13aWR0aD0iMS4zIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.6/babel.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.1/tesseract.min.js"></script>
 <script type="module">
-  import { pipeline, env } from "https://esm.sh/@huggingface/transformers@3";
+  // 会議音声のブラウザ内文字起こし（transformers.js / Whisper）。window.MeetingSTT を提供。
+  import { pipeline, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.3.3";
   env.allowLocalModels = false;
-  let transcriber = null, loadedModel = null;
   window.MeetingSTT = {
-    async load(progress, modelId) {
+    _p: null, _id: null, _loading: null,
+    async load(cb, modelId) {
       modelId = modelId || "onnx-community/whisper-base";
-      if (transcriber && loadedModel === modelId) return;
-      transcriber = null; loadedModel = null;
+      if (this._p && this._id === modelId) return;
+      if (this._loading) { try { await this._loading; } catch (e) {} if (this._p && this._id === modelId) return; }
+      this._id = modelId;
       let device = "wasm";
       try { if (navigator.gpu) device = "webgpu"; } catch (e) {}
-      try {
-        transcriber = await pipeline("automatic-speech-recognition", modelId, { device, progress_callback: progress });
-      } catch (e) {
-        transcriber = await pipeline("automatic-speech-recognition", modelId, { device: "wasm", progress_callback: progress });
-      }
-      loadedModel = modelId;
+      const opts = { progress_callback: cb };
+      this._loading = (async () => {
+        try { this._p = await pipeline("automatic-speech-recognition", modelId, { ...opts, device }); }
+        catch (e) { this._p = await pipeline("automatic-speech-recognition", modelId, { ...opts, device: "wasm" }); }
+      })();
+      try { await this._loading; } finally { this._loading = null; }
     },
-    async transcribe(float32_16k, language) {
-      if (!transcriber) throw new Error("model not loaded");
-      const out = await transcriber(float32_16k, { chunk_length_s: 30, language: language || "japanese", task: "transcribe" });
+    async transcribe(audio, language) {
+      if (!this._p) await this.load(null, this._id || "onnx-community/whisper-base");
+      const out = await this._p(audio, {
+        language: language || undefined, task: "transcribe",
+        chunk_length_s: 8, stride_length_s: 2, return_timestamps: false,
+      });
       return (out && out.text ? out.text : "").trim();
-    }
+    },
   };
 </script>
-<style> html,body,#root{ margin:0; min-height:100%; } </style>
+<style>
+  html, body, #root { height: 100%; }
+  body { margin: 0; }
+</style>
 </head>
 <body>
 <div id="root"></div>
@@ -153,6 +162,8 @@ const IC = {
   book: (p) => <Sv {...p}><path d="M5 4.5h9.5A2.5 2.5 0 0 1 17 7v12.5a2 2 0 0 0-2-2H5z" /><path d="M5 4.5A1.5 1.5 0 0 0 3.5 6v13A1.5 1.5 0 0 0 5 20.5h10" /><path d="M7.5 9h6M7.5 12.5h4" /></Sv>,
   captions: (p) => <Sv {...p}><rect x="3" y="5" width="18" height="14" rx="2.4" /><path d="M7.5 11.5a2 2 0 1 0 0 2.6M16.5 11.5a2 2 0 1 0 0 2.6" /></Sv>,
   sparkle: (p) => <Sv {...p}><path d="M12 3.8l1.6 4.8 4.8 1.6-4.8 1.6L12 16.6l-1.6-4.8L5.6 10.2 10.4 8.6Z" fill="currentColor" stroke="none" /><path d="M18.4 4l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7Z" fill="currentColor" stroke="none" opacity=".65" /></Sv>,
+  slack: (p) => <Sv {...p}><path d="M9.2 4 7.6 20M16.4 4 14.8 20M4.6 9h15M3.6 15h15" /></Sv>,
+  back: (p) => <Sv {...p}><path d="M14.5 5.5 8 12l6.5 6.5" /></Sv>,
 };
 // ===== SABOTTA ロゴ（音声波形のマーク + ワードマーク）=====
 const LogoMark = ({ s = 40, gid = "sbg" }) => (
@@ -333,6 +344,7 @@ const STYLES = `
 .ma-rail-btn:hover{ background:${C.paper2}; color:${C.ink}; }
 .ma-rail-btn.primary{ color:${C.accent}; }
 .ma-rail-btn.primary:hover{ background:rgba(200,72,47,.1); }
+.ma-rail-btn.on{ background:rgba(200,72,47,.12); color:${C.accent}; }
 .ma-rail-badge{ position:absolute; top:4px; right:10px; min-width:16px; height:16px; padding:0 4px; border-radius:8px; background:${C.accent}; color:#fff; font-size:10px; font-weight:700; font-style:normal; display:flex; align-items:center; justify-content:center; }
 .ma-rail-spacer{ flex:1; }
 .ma-wrap{ position:relative; z-index:1; flex:0 1 1640px; min-width:0; max-width:1640px; margin-inline:auto; padding:22px 30px 60px; }
@@ -453,7 +465,7 @@ const STYLES = `
 .ma-toast.err{ background:#fbeee9; border:1px solid ${C.accentSoft}; color:${C.accent}; cursor:pointer; }
 .ma-toast.ok{ background:#eef4f2; border:1px solid #cfe0da; color:#2f6b63; }
 .ma-toast-x{ margin-left:auto; font-weight:700; opacity:.55; }
-.ma-overlay{ position:fixed; inset:0; z-index:50; background:rgba(31,27,22,.42); backdrop-filter:blur(2px); display:flex; justify-content:flex-end; animation:fade .18s ease; }
+.ma-overlay{ position:fixed; top:0; left:76px; right:0; bottom:0; z-index:40; background:${C.paper}; display:flex; animation:fade .16s ease; }
 .ma-modal-overlay{ position:fixed; inset:0; z-index:60; background:rgba(31,27,22,.5); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; padding:18px; animation:fade .18s ease; }
 .ma-modal{ width:min(440px,96vw); max-height:90vh; overflow-y:auto; background:${C.paper}; border-radius:18px; padding:22px; box-shadow:0 20px 60px rgba(0,0,0,.3); animation:fade .2s ease; }
 .ma-modal-head{ display:flex; align-items:center; gap:13px; margin-bottom:16px; }
@@ -468,12 +480,12 @@ const STYLES = `
 .ma-region-sel{ position:absolute; border:2px solid ${C.accent}; background:rgba(200,72,47,.18); pointer-events:none; box-shadow:0 0 0 9999px rgba(0,0,0,.35); }
 .ma-modal-actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
 @keyframes fade{ from{opacity:0;} to{opacity:1;} }
-.ma-drawer{ width:min(460px,92vw); height:100%; background:${C.paper}; box-shadow:-12px 0 50px rgba(0,0,0,.18); display:flex; flex-direction:column; animation:slide .22s cubic-bezier(.2,.8,.2,1); }
+.ma-drawer{ width:100%; height:100%; background:${C.paper}; display:flex; flex-direction:column; animation:fade .16s ease; }
 @keyframes slide{ from{transform:translateX(40px);opacity:.6;} to{transform:translateX(0);opacity:1;} }
-.ma-drawer-head{ display:flex; align-items:center; justify-content:space-between; padding:18px 20px; border-bottom:2px solid ${C.ink}; }
+.ma-drawer-head{ display:flex; align-items:center; justify-content:space-between; padding:18px 20px; border-bottom:2px solid ${C.ink}; width:100%; max-width:920px; margin-inline:auto; }
 .ma-drawer-head h2{ font-family:'Shippori Mincho',serif; font-size:20px; font-weight:800; letter-spacing:.06em; }
 .ma-x{ border:none; background:transparent; font-size:18px; cursor:pointer; color:${C.inkSoft}; padding:4px 8px; border-radius:3px; } .ma-x:hover{ background:rgba(0,0,0,.06); color:${C.ink}; }
-.ma-drawer-body{ flex:1; overflow-y:auto; overflow-x:hidden; padding:16px 20px 28px; }
+.ma-drawer-body{ flex:1; overflow-y:auto; overflow-x:hidden; padding:16px 20px 28px; width:100%; max-width:920px; margin-inline:auto; }
 .ma-drawer-body::-webkit-scrollbar{ width:7px; } .ma-drawer-body::-webkit-scrollbar-thumb{ background:${C.line}; border-radius:4px; }
 .ma-hist-sep{ font-size:11px; letter-spacing:.14em; color:${C.inkSoft}; text-transform:uppercase; margin:18px 0 10px; padding-bottom:5px; border-bottom:1px solid ${C.line}; }
 .ma-hist{ display:flex; gap:10px; align-items:flex-start; justify-content:space-between; padding:13px; border:1px solid ${C.line}; border-radius:4px; background:rgba(255,255,255,.55); margin-bottom:10px; transition:.15s; }
@@ -610,14 +622,806 @@ const STYLES = `
   .ma-card{ padding:15px 15px; border-radius:12px; }
   .ma-transcript{ height:auto; max-height:54vh; }
   .ma-drawer{ width:100%; }
+  .ma-overlay{ left:0; }
   .ma-fldrow{ flex-direction:column; align-items:stretch; gap:10px; }
   .ma-addbtn{ width:100%; padding:12px; }
   .ma-fld-in, .ma-search, .ma-set-input, .ma-chat-input input, .ma-memo, .ma-optrow select{ font-size:16px; }
   .ma-act{ opacity:1; }
   .ma-ibtn{ padding:6px 10px; font-size:16px; }
-  .ma-drawer-body{ padding:16px 16px 28px; }
+  .ma-drawer-body{ padding:16px 16px 96px; }
 }
+
+/* ===== Slack 統合パネル（SABOTTA 配色・明朝＋ゴシックに統一）===== */
+.sb-slack{
+  --s-bg:#f4f1ea; --s-surface:#fffdf8; --s-surface2:#efe9dd; --s-border:#d8d0c1;
+  --s-text:#1f1b16; --s-muted:#5c554b; --s-subtle:#8b8478;
+  --s-accent:#c8482f; --s-accent-l:#f3e3de; --s-accent-d:#a83a23;
+  --s-teal:#2f6b63; --s-teal-l:#e3efec; --s-amber:#9a7b3f; --s-amber-l:#efe6d4;
+  --s-red:#b02929; --s-red-l:#f6e6e2; --s-green:#5f7a3a; --s-green-l:#e9efe0;
+  color:var(--s-text); font-size:14px; line-height:1.6;
+}
+.sb-slack *{ box-sizing:border-box; }
+.sb-layout{ display:flex; gap:16px; align-items:flex-start; }
+.sb-side{ width:218px; min-width:218px; display:flex; flex-direction:column; gap:6px; }
+.sb-main{ flex:1; min-width:0; }
+.sb-nav{ display:flex; flex-direction:column; gap:2px; }
+.sb-nav-item{ display:flex; align-items:center; gap:9px; padding:9px 12px; border-radius:10px; cursor:pointer; color:var(--s-muted); font-size:13.5px; border:1px solid transparent; transition:background .12s,color .12s,border-color .12s; user-select:none; }
+.sb-nav-item:hover{ background:var(--s-surface); color:var(--s-text); }
+.sb-nav-item.active{ background:var(--s-accent-l); color:var(--s-accent-d); border-color:#e3c5bc; font-weight:600; }
+.sb-nav-icon{ width:20px; text-align:center; font-size:15px; flex-shrink:0; }
+.sb-nav-badge{ margin-left:auto; background:var(--s-accent); color:#fff; border-radius:9px; font-size:10px; font-weight:700; padding:1px 7px; min-width:18px; text-align:center; }
+.sb-me{ font-size:11.5px; color:var(--s-subtle); padding:2px 4px 6px; }
+.sb-divider{ height:1px; background:var(--s-border); margin:6px 2px; }
+.sb-pollwrap{ background:var(--s-surface); border:1px solid var(--s-border); border-radius:12px; padding:10px; }
+.sb-poll-title{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--s-subtle); margin:2px 0 6px; }
+.sb-toggle{ display:flex; align-items:center; justify-content:space-between; padding:7px 9px; border-radius:9px; cursor:pointer; margin-bottom:8px; border:1px solid var(--s-border); }
+.sb-toggle.on{ background:var(--s-teal-l); border-color:#bcd6cf; }
+.sb-toggle.off{ background:var(--s-red-l); border-color:#e3c2bc; }
+.sb-toggle-label{ font-size:11.5px; font-weight:600; }
+.sb-toggle.on .sb-toggle-label{ color:var(--s-teal); }
+.sb-toggle.off .sb-toggle-label{ color:var(--s-red); }
+.sb-toggle-knob{ width:34px; height:18px; border-radius:9px; position:relative; flex-shrink:0; transition:background .2s; }
+.sb-toggle.on .sb-toggle-knob{ background:var(--s-teal); }
+.sb-toggle.off .sb-toggle-knob{ background:var(--s-subtle); }
+.sb-toggle-knob::after{ content:""; position:absolute; top:2px; width:14px; height:14px; border-radius:50%; background:#fff; transition:left .2s; left:2px; }
+.sb-toggle.on .sb-toggle-knob::after{ left:18px; }
+.sb-radio{ display:flex; align-items:center; gap:8px; padding:5px 6px; border-radius:7px; cursor:pointer; font-size:12.5px; color:var(--s-muted); }
+.sb-radio:hover{ background:var(--s-bg); }
+.sb-radio.active{ color:var(--s-accent-d); font-weight:600; }
+.sb-radio-dot{ width:14px; height:14px; border-radius:50%; border:1.5px solid var(--s-border); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+.sb-radio.active .sb-radio-dot{ border-color:var(--s-accent); }
+.sb-radio-dot i{ width:7px; height:7px; border-radius:50%; background:var(--s-accent); display:block; }
+.sb-datebox{ padding:4px 6px 2px; }
+.sb-datelabel{ font-size:11px; color:var(--s-muted); margin-bottom:3px; }
+.sb-date-input{ width:100%; padding:6px 8px; border:1px solid var(--s-border); border-radius:8px; background:var(--s-surface); color:var(--s-text); font-size:12.5px; font-family:inherit; margin-bottom:6px; }
+.sb-prio-check{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--s-muted); padding:6px 4px 2px; cursor:pointer; }
+.sb-pollbtn{ width:100%; padding:11px; border:none; border-radius:11px; background:var(--s-accent); color:#fff; font-size:13.5px; font-weight:700; cursor:pointer; font-family:inherit; transition:background .15s; }
+.sb-pollbtn:hover{ background:var(--s-accent-d); }
+.sb-pollbtn:disabled{ opacity:.6; cursor:default; }
+.sb-progress-lab{ font-size:10.5px; color:var(--s-subtle); margin:6px 0 3px; }
+.sb-progress-bar{ height:4px; background:var(--s-border); border-radius:2px; overflow:hidden; }
+.sb-progress-fill{ height:100%; background:var(--s-accent); transition:width .3s; }
+.sb-lastpoll{ font-size:11px; color:var(--s-subtle); text-align:center; padding-top:6px; }
+
+/* 見出し・本文 */
+.sb-slack .page-title{ font-family:'Shippori Mincho', serif; font-size:23px; font-weight:700; letter-spacing:.01em; margin-bottom:4px; }
+.sb-slack .page-subtitle{ font-size:12.5px; color:var(--s-muted); margin-bottom:16px; }
+.sb-slack .section-head{ font-family:'Shippori Mincho', serif; font-size:13px; font-weight:700; color:var(--s-muted); margin:16px 0 8px; letter-spacing:.02em; }
+.sb-slack .card{ background:var(--s-surface); border:1px solid var(--s-border); border-radius:14px; padding:16px; box-shadow:0 1px 2px rgba(31,27,22,.04); }
+.sb-slack .card-sm{ padding:12px 14px; }
+.sb-slack .card-header{ display:flex; align-items:center; justify-content:space-between; }
+.sb-slack .card-title{ font-family:'Shippori Mincho', serif; font-size:15px; font-weight:700; }
+.sb-slack .meta-row{ font-size:11.5px; color:var(--s-subtle); }
+.sb-slack .channel-badge{ display:inline-flex; align-items:center; gap:4px; font-size:13px; font-weight:600; color:var(--s-text); }
+.sb-slack .priority-star{ color:var(--s-amber); }
+
+/* 統計 */
+.sb-slack .stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
+.sb-slack .stat-card{ background:var(--s-surface); border:1px solid var(--s-border); border-radius:14px; padding:14px; text-align:center; }
+.sb-slack .stat-icon{ font-size:18px; }
+.sb-slack .stat-num{ font-family:'Shippori Mincho', serif; font-weight:700; margin:4px 0 2px; }
+.sb-slack .stat-label{ font-size:11px; color:var(--s-muted); }
+
+/* ボタン */
+.sb-slack .btn{ border:1px solid var(--s-border); background:var(--s-surface); color:var(--s-text); border-radius:9px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; transition:background .12s,border-color .12s; }
+.sb-slack .btn:hover{ background:var(--s-bg); }
+.sb-slack .btn:disabled{ opacity:.5; cursor:default; }
+.sb-slack .btn-sm{ padding:5px 10px; font-size:12px; }
+.sb-slack .btn-primary{ background:var(--s-accent); border-color:var(--s-accent); color:#fff; }
+.sb-slack .btn-primary:hover{ background:var(--s-accent-d); }
+.sb-slack .btn-ghost{ background:transparent; border-color:transparent; color:var(--s-accent-d); }
+.sb-slack .btn-ghost:hover{ background:var(--s-accent-l); }
+.sb-slack .btn-danger{ background:var(--s-red-l); border-color:#e3c2bc; color:var(--s-red); }
+.sb-slack .inline-ai-btn{ margin-top:10px; background:var(--s-accent-l); border:1px solid #e3c5bc; color:var(--s-accent-d); border-radius:9px; padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; }
+.sb-slack .inline-ai-btn:hover{ background:#eed7d0; }
+.sb-slack .icon-btn{ border:1px solid var(--s-border); background:var(--s-surface); border-radius:8px; width:30px; height:30px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; color:var(--s-muted); }
+.sb-slack .icon-btn:hover{ background:var(--s-bg); }
+.sb-slack .icon-btn.approve{ color:var(--s-teal); border-color:#bcd6cf; }
+.sb-slack .icon-btn.danger{ color:var(--s-red); }
+
+/* 要約マークダウン */
+.sb-slack .summary-md{ font-size:13.5px; line-height:1.85; color:var(--s-text); white-space:pre-wrap; }
+.sb-slack .summary-md strong{ color:var(--s-accent-d); }
+.sb-slack .accordion-header{ display:flex; align-items:center; gap:8px; cursor:pointer; }
+.sb-slack .accordion-arrow{ color:var(--s-subtle); font-size:10px; }
+
+/* タスク */
+.sb-slack .filter-bar{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; align-items:center; }
+.sb-slack .filter-input{ flex:1; min-width:180px; padding:8px 12px; border:1px solid var(--s-border); border-radius:9px; background:var(--s-surface); color:var(--s-text); font-size:13px; font-family:inherit; }
+.sb-slack .filter-btn{ border:1px solid var(--s-border); background:var(--s-surface); color:var(--s-muted); border-radius:8px; padding:6px 11px; font-size:12px; cursor:pointer; font-family:inherit; }
+.sb-slack .filter-btn.active{ background:var(--s-accent-l); border-color:#e3c5bc; color:var(--s-accent-d); font-weight:600; }
+.sb-slack .task-item{ display:flex; align-items:flex-start; gap:11px; padding:11px 4px; border-bottom:1px solid var(--s-border); }
+.sb-slack .task-item:last-child{ border-bottom:none; }
+.sb-slack .task-check{ width:19px; height:19px; border:1.7px solid var(--s-border); border-radius:6px; cursor:pointer; flex-shrink:0; margin-top:1px; transition:background .12s,border-color .12s; }
+.sb-slack .task-check:hover{ border-color:var(--s-accent); }
+.sb-slack .task-check.done{ background:var(--s-teal); border-color:var(--s-teal); position:relative; }
+.sb-slack .task-check.done::after{ content:"✓"; color:#fff; font-size:13px; position:absolute; left:3px; top:-2px; }
+.sb-slack .task-body{ flex:1; min-width:0; }
+.sb-slack .task-desc{ font-size:13.5px; }
+.sb-slack .task-desc.done{ text-decoration:line-through; color:var(--s-subtle); }
+.sb-slack .task-tags{ display:flex; flex-wrap:wrap; gap:5px; margin-top:5px; }
+.sb-slack .tag{ font-size:10.5px; padding:1px 7px; border-radius:7px; background:var(--s-surface2); color:var(--s-muted); border:1px solid var(--s-border); }
+.sb-slack .tag-channel{ background:var(--s-accent-l); color:var(--s-accent-d); border-color:#e3c5bc; }
+.sb-slack .tag-due{ background:var(--s-amber-l); color:var(--s-amber); border-color:#ddcba6; }
+.sb-slack .tag-low{ background:var(--s-red-l); color:var(--s-red); border-color:#e3c2bc; }
+.sb-slack .tag-assignee{ background:var(--s-teal-l); color:var(--s-teal); border-color:#bcd6cf; }
+.sb-slack .tag-manual{ background:var(--s-surface2); }
+.sb-slack .tag-remind{ background:var(--s-amber-l); color:var(--s-amber); border-color:#ddcba6; }
+.sb-slack .task-actions{ display:flex; gap:5px; flex-shrink:0; }
+.sb-slack .inbox-header{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.sb-slack .inbox-title{ font-weight:700; font-size:13.5px; color:var(--s-accent-d); }
+.sb-slack .inbox-count{ background:var(--s-accent); color:#fff; border-radius:8px; font-size:10px; font-weight:700; padding:1px 7px; }
+.sb-slack .remind-pulse{ animation:sbpulse 2s infinite; }
+@keyframes sbpulse{ 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
+
+/* チャット */
+.sb-slack .chat-wrap{ display:flex; flex-direction:column; height:min(60vh,560px); padding:0; overflow:hidden; }
+.sb-slack .chat-messages{ flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:14px; }
+.sb-slack .msg{ display:flex; gap:9px; align-items:flex-start; }
+.sb-slack .msg.user{ flex-direction:row-reverse; }
+.sb-slack .msg-avatar{ width:30px; height:30px; border-radius:50%; background:var(--s-surface2); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+.sb-slack .msg-bubble{ max-width:78%; padding:10px 13px; border-radius:13px; font-size:13.5px; line-height:1.7; white-space:pre-wrap; word-break:break-word; }
+.sb-slack .msg.assistant .msg-bubble{ background:var(--s-surface2); border:1px solid var(--s-border); }
+.sb-slack .msg.user .msg-bubble{ background:var(--s-accent); color:#fff; }
+.sb-slack .typing-dot{ display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--s-subtle); margin:0 2px; animation:sbtype 1.2s infinite; }
+.sb-slack .typing-dot:nth-child(2){ animation-delay:.2s; } .sb-slack .typing-dot:nth-child(3){ animation-delay:.4s; }
+@keyframes sbtype{ 0%,60%,100%{ transform:translateY(0); opacity:.4; } 30%{ transform:translateY(-4px); opacity:1; } }
+.sb-slack .quick-prompts{ display:flex; flex-wrap:wrap; gap:8px; padding:0 16px 12px; }
+.sb-slack .quick-btn{ border:1px solid var(--s-border); background:var(--s-surface); color:var(--s-muted); border-radius:9px; padding:7px 12px; font-size:12px; cursor:pointer; font-family:inherit; }
+.sb-slack .quick-btn:hover{ background:var(--s-accent-l); color:var(--s-accent-d); }
+.sb-slack .chat-input-row{ display:flex; gap:9px; padding:12px 16px; border-top:1px solid var(--s-border); background:var(--s-surface2); align-items:flex-end; }
+.sb-slack .chat-input{ flex:1; resize:none; border:1px solid var(--s-border); border-radius:10px; padding:10px 12px; font-size:14px; font-family:inherit; background:var(--s-surface); color:var(--s-text); max-height:120px; line-height:1.5; }
+.sb-slack .send-btn{ width:40px; height:40px; border:none; border-radius:10px; background:var(--s-accent); color:#fff; font-size:16px; cursor:pointer; flex-shrink:0; }
+.sb-slack .send-btn:disabled{ opacity:.5; cursor:default; }
+
+/* 設定 */
+.sb-slack .settings-form{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+.sb-slack .settings-input{ flex:1; min-width:150px; padding:8px 12px; border:1px solid var(--s-border); border-radius:9px; background:var(--s-surface); color:var(--s-text); font-size:13px; font-family:inherit; }
+.sb-slack .ch-row{ display:flex; align-items:center; justify-content:space-between; padding:9px 4px; border-bottom:1px solid var(--s-border); }
+.sb-slack .ch-row:last-child{ border-bottom:none; }
+.sb-slack .ch-name{ font-size:13.5px; font-weight:600; }
+.sb-slack .ch-id{ font-size:11px; color:var(--s-subtle); font-family:ui-monospace,monospace; }
+.sb-slack .ch-actions{ display:flex; gap:6px; }
+.sb-slack code{ font-family:ui-monospace,monospace; font-size:12px; }
+
+/* モーダル */
+.sb-slack-modal-bg{ position:fixed; inset:0; background:rgba(31,27,22,.42); display:flex; align-items:center; justify-content:center; z-index:60; padding:16px; }
+.sb-slack .modal{ background:var(--s-surface); border:1px solid var(--s-border); border-radius:16px; padding:22px; width:min(440px,96vw); box-shadow:0 18px 48px rgba(31,27,22,.22); }
+.sb-slack .modal-title{ font-family:'Shippori Mincho', serif; font-size:17px; font-weight:700; margin-bottom:14px; }
+.sb-slack .modal-field{ margin-bottom:12px; }
+.sb-slack .modal-label{ font-size:12px; color:var(--s-muted); margin-bottom:5px; font-weight:600; }
+.sb-slack .modal-input{ width:100%; padding:9px 12px; border:1px solid var(--s-border); border-radius:9px; background:var(--s-surface); color:var(--s-text); font-size:14px; font-family:inherit; }
+.sb-slack .modal-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:16px; }
+
+/* 共通：空・ローディング */
+.sb-slack .empty{ text-align:center; padding:48px 16px; color:var(--s-muted); font-size:13.5px; line-height:1.9; }
+.sb-slack .empty-icon{ font-size:30px; display:block; margin-bottom:10px; }
+.sb-slack .spinner{ width:24px; height:24px; border:3px solid var(--s-border); border-top-color:var(--s-accent); border-radius:50%; animation:sbspin .8s linear infinite; display:inline-block; }
+@keyframes sbspin{ to{ transform:rotate(360deg); } }
+
+/* 未接続ガイド */
+.sb-disconnected{ text-align:center; padding:34px 18px; }
+.sb-disconnected .sb-dc-ic{ font-size:34px; }
+.sb-disconnected h3{ font-family:'Shippori Mincho', serif; font-size:18px; margin:10px 0 6px; }
+.sb-disconnected p{ font-size:13px; color:var(--s-muted); line-height:1.9; max-width:460px; margin:0 auto 14px; }
+.sb-dc-steps{ text-align:left; max-width:460px; margin:0 auto 16px; font-size:12.5px; color:var(--s-muted); line-height:1.95; }
+.sb-dc-steps code{ background:var(--s-surface2); padding:1px 6px; border-radius:5px; }
+.sb-urlrow{ display:flex; gap:8px; max-width:460px; margin:0 auto; }
+.sb-offbar{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; background:var(--s-amber-l); border:1px solid #ddcba6; color:var(--s-amber); border-radius:11px; padding:9px 12px; margin-bottom:14px; font-size:12.5px; }
+.sb-offbar-msg{ font-weight:600; }
+.sb-offbar-actions{ display:flex; align-items:center; gap:7px; }
+.sb-offbar-input{ width:170px; padding:6px 9px; border:1px solid var(--s-border); border-radius:8px; background:var(--s-surface); color:var(--s-text); font-size:12px; font-family:inherit; }
+.sb-tabs{ display:flex; flex-wrap:wrap; gap:4px; border-bottom:1px solid var(--s-border); margin-bottom:14px; }
+.sb-tab{ display:inline-flex; align-items:center; gap:6px; border:none; background:transparent; color:var(--s-muted); font-family:'Shippori Mincho', serif; font-size:14px; font-weight:600; padding:9px 14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; border-radius:9px 9px 0 0; }
+.sb-tab:hover{ color:var(--s-text); background:var(--s-surface); }
+.sb-tab.on{ color:var(--s-accent-d); border-bottom-color:var(--s-accent); }
+.sb-tab-ic{ font-size:14px; }
+.sb-tab-badge{ background:var(--s-accent); color:#fff; border-radius:9px; font-size:10px; font-weight:700; padding:0 6px; min-width:16px; text-align:center; }
+.sb-toolbar{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; background:var(--s-surface); border:1px solid var(--s-border); border-radius:11px; padding:8px 10px; margin-bottom:16px; }
+.sb-me-inline{ font-size:11.5px; color:var(--s-subtle); }
+.sb-tb-sep{ width:1px; height:18px; background:var(--s-border); }
+.sb-tb-label{ font-size:11.5px; color:var(--s-muted); }
+.sb-chip{ border:1px solid var(--s-border); background:var(--s-surface); border-radius:8px; padding:5px 10px; font-size:12px; cursor:pointer; font-family:inherit; color:var(--s-text); }
+.sb-chip.on{ background:var(--s-teal-l); border-color:#bcd6cf; color:var(--s-teal); font-weight:600; }
+.sb-chip.off{ background:var(--s-red-l); border-color:#e3c2bc; color:var(--s-red); font-weight:600; }
+.sb-chip-check{ display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--s-muted); cursor:pointer; }
+.sb-mini-select, .sb-mini-date{ border:1px solid var(--s-border); border-radius:8px; padding:5px 8px; font-size:12px; background:var(--s-surface); color:var(--s-text); font-family:inherit; }
+.sb-pollbtn-sm{ border:none; border-radius:8px; background:var(--s-accent); color:#fff; padding:6px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit; }
+.sb-pollbtn-sm:hover{ background:var(--s-accent-d); }
+.sb-pollbtn-sm:disabled{ opacity:.6; cursor:default; }
+.sb-tb-progress{ display:inline-flex; align-items:center; gap:6px; }
+.sb-page{ max-width:920px; margin:0 auto; }
+
+/* 全画面 Slack モード（専用レール＋戻る） */
+.sb-screen{ position:fixed; inset:0; z-index:60; background:#f4f1ea; display:flex; flex-direction:column; font-family:'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, sans-serif; color:#1f1b16; }
+.sb-screen-bar{ display:flex; align-items:center; gap:14px; padding:11px 16px; background:#ebe6db; border-bottom:1px solid #d8d0c1; }
+.sb-screen-title{ font-family:'Shippori Mincho', serif; font-weight:700; font-size:16px; }
+.sb-screen-body{ flex:1; overflow:auto; padding:24px 20px; }
+.sb-back{ display:inline-flex; align-items:center; gap:6px; border:1px solid #d8d0c1; background:#fffdf8; color:#1f1b16; border-radius:9px; padding:7px 13px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; }
+.sb-back:hover{ background:#f4f1ea; }
+.sb-back-ar{ font-size:15px; line-height:1; }
+.sb-shell{ flex:1; display:flex; min-height:0; }
+.sb-rail2{ width:236px; min-width:236px; background:var(--s-surface2); border-right:1px solid var(--s-border); display:flex; flex-direction:column; gap:5px; padding:14px 12px; overflow-y:auto; }
+.sb-rail2-brand{ display:flex; align-items:center; gap:10px; padding:2px 4px 8px; }
+.sb-rail2-bt{ display:flex; flex-direction:column; line-height:1.15; }
+.sb-rail2-name{ font-family:'Shippori Mincho', serif; font-weight:800; font-size:16px; letter-spacing:.04em; }
+.sb-rail2-kick{ font-size:10.5px; color:var(--s-subtle); }
+.sb-back2{ display:flex; align-items:center; gap:7px; width:100%; border:1px solid var(--s-border); background:var(--s-surface); color:var(--s-accent-d); border-radius:9px; padding:8px 11px; font-size:12.5px; font-weight:600; cursor:pointer; font-family:inherit; margin-bottom:6px; }
+.sb-back2:hover{ background:var(--s-accent-l); border-color:#e3c5bc; }
+.sb-rail2-nav{ display:flex; flex-direction:column; gap:2px; }
+.sb-rail2-btn{ display:flex; align-items:center; gap:10px; width:100%; border:1px solid transparent; background:transparent; color:var(--s-muted); border-radius:10px; padding:9px 11px; font-size:13.5px; cursor:pointer; font-family:inherit; text-align:left; }
+.sb-rail2-btn:hover{ background:var(--s-surface); color:var(--s-text); }
+.sb-rail2-btn.on{ background:var(--s-accent-l); border-color:#e3c5bc; color:var(--s-accent-d); font-weight:700; }
+.sb-rail2-ic{ width:20px; text-align:center; font-size:15px; }
+.sb-rail2-lab{ flex:1; }
+.sb-rail2-badge{ background:var(--s-accent); color:#fff; border-radius:9px; font-size:10px; font-weight:700; padding:1px 7px; }
+.sb-rail2-spacer{ flex:1; min-height:8px; }
+.sb-connchip{ font-size:11px; text-align:center; padding:6px; border-radius:8px; border:1px solid var(--s-border); }
+.sb-connchip.ok{ background:var(--s-teal-l); color:var(--s-teal); border-color:#bcd6cf; }
+.sb-connchip.off{ background:var(--s-red-l); color:var(--s-red); border-color:#e3c2bc; }
+.sb-screen-main{ flex:1; overflow:auto; padding:26px 30px; }
+@media (max-width: 720px){
+  .sb-shell{ flex-direction:column; }
+  .sb-rail2{ width:100%; min-width:0; }
+  .sb-rail2-nav{ flex-direction:row; flex-wrap:wrap; }
+  .sb-rail2-btn{ width:auto; }
+  .sb-screen-main{ padding:16px 14px 92px; }
+}
+
+@media (max-width: 720px){
+  .sb-layout{ flex-direction:column; }
+  .sb-side{ width:100%; min-width:0; }
+  .sb-slack .stats-grid{ grid-template-columns:repeat(2,1fr); }
+}
+
+.ma-drawer.sb-wide{ width:min(1000px,98vw); max-width:1000px; }
 `;
+
+// ═══════════════════════════════════════════════════════════════
+//  Slack 統合パネル（既存 FastAPI バックエンドの API をそのまま利用）
+//  UI は SABOTTA に統一（明朝＋ゴシック・朱/金/緑）。
+//  バックエンド未接続でも壊れず、接続ガイドを表示する。
+// ═══════════════════════════════════════════════════════════════
+let SLACK_BASE = ""; // 同一オリジン配信なら空文字、別URLなら http://localhost:8000 等
+async function slApi(path, opts = {}) {
+  const res = await fetch(SLACK_BASE + path, { headers: { "Content-Type": "application/json" }, ...opts });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+function slTimeAgo(iso) {
+  if (!iso) return "—";
+  const d = (Date.now() - new Date(iso)) / 1000;
+  if (d < 60) return "たった今";
+  if (d < 3600) return `${Math.floor(d / 60)}分前`;
+  if (d < 86400) return `${Math.floor(d / 3600)}時間前`;
+  return `${Math.floor(d / 86400)}日前`;
+}
+function slToday() { return new Date().toISOString().slice(0, 10); }
+function slMd(text) { return (text || "").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/^- /gm, "• "); }
+function slConfirm(msg) { try { return (typeof window !== "undefined" && window.confirm) ? window.confirm(msg) : true; } catch (e) { return true; } }
+
+// ── Today ───────────────────────────────────────────────────────
+function SlackToday({ setPage, setChatHint }) {
+  const [stats, setStats] = useState(null);
+  const [summaries, setSummaries] = useState([]);
+  const [inbox, setInbox] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const load = useCallback(async () => {
+    const [s, sum, tasks] = await Promise.all([
+      slApi("/api/stats"),
+      slApi("/api/summaries"),
+      slApi("/api/tasks?include_done=false&only_mine=true&inbox=true"),
+    ]);
+    setStats(s); setSummaries(sum.filter((x) => x.priority === 1).slice(0, 3)); setInbox(tasks.slice(0, 5)); setLoading(false);
+  }, []);
+  useEffect(() => { load().catch(() => setLoading(false)); const t = setInterval(() => load().catch(() => {}), 60000); return () => clearInterval(t); }, [load]);
+  if (loading) return <div className="empty"><div className="spinner" /></div>;
+  if (!stats) return <div className="empty">統計を取得できませんでした。</div>;
+  return (
+    <div>
+      <h1 className="page-title">Today</h1>
+      <p className="page-subtitle">{new Date().toLocaleDateString("ja-JP", { year: "numeric", month: "long", day: "numeric", weekday: "long" })}</p>
+      <div className="stats-grid">
+        {[
+          { icon: "📥", num: stats.inbox, label: "未確認タスク", color: "var(--s-accent)" },
+          { icon: "✅", num: stats.todo, label: "対応中タスク", color: "var(--s-teal)" },
+          { icon: "📋", num: stats.summarized, label: "要約済みチャンネル", color: "var(--s-amber)" },
+          { icon: "⚡", num: stats.last_poll ? slTimeAgo(stats.last_poll) : "—", label: "最終取得", color: "var(--s-muted)", isText: true },
+        ].map((s, i) => (
+          <div key={i} className="stat-card">
+            <div className="stat-icon">{s.icon}</div>
+            <div className="stat-num" style={{ color: s.color, fontSize: s.isText ? "15px" : "26px" }}>{s.num}</div>
+            <div className="stat-label">{s.label}</div>
+          </div>
+        ))}
+      </div>
+      {inbox.length > 0 && (
+        <div className="card" style={{ marginBottom: 16 }}>
+          <div className="card-header">
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontWeight: 700, fontSize: 14 }}>📥 未確認タスク</span>
+              <span style={{ background: "var(--s-accent)", color: "#fff", borderRadius: 8, fontSize: 10, fontWeight: 700, padding: "1px 6px" }}>{stats.inbox}</span>
+            </div>
+            <button className="btn btn-ghost btn-sm" onClick={() => setPage("tasks")}>すべて見る →</button>
+          </div>
+          {inbox.map((t) => (
+            <div key={t.id} className="task-item" style={{ paddingTop: 7, paddingBottom: 7 }}>
+              <div className="task-body">
+                <div className="task-desc">{t.description}</div>
+                <div className="task-tags">
+                  <span className="tag tag-channel">#{t.channel_name}</span>
+                  {t.due && <span className="tag tag-due">📅 {t.due}</span>}
+                  {t.confidence === "low" && <span className="tag tag-low">要確認</span>}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {summaries.length > 0 && (
+        <div>
+          <div className="section-head">⭐ 重要チャンネルの最新要約</div>
+          {summaries.map((s) => (
+            <div key={s.id} className="card card-sm" style={{ marginBottom: 10 }}>
+              <div className="card-header" style={{ marginBottom: 8 }}>
+                <span className="channel-badge"><span className="priority-star">⭐</span> #{s.channel_name}</span>
+                <span className="meta-row">{slTimeAgo(s.created_at)}</span>
+              </div>
+              <div className="summary-md" dangerouslySetInnerHTML={{ __html: slMd(s.content.slice(0, 200) + (s.content.length > 200 ? "…" : "")) }} />
+              <button className="inline-ai-btn" onClick={() => { setChatHint(`summary:#${s.channel_name}`); setPage("chat"); }}>🤖 この要約について質問する</button>
+            </div>
+          ))}
+          <button className="btn btn-ghost btn-sm" onClick={() => setPage("summaries")} style={{ marginTop: 4 }}>すべての要約を見る →</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── 要約 ────────────────────────────────────────────────────────
+function SlackSummaries({ setChatHint, setPage }) {
+  const [summaries, setSummaries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState({});
+  useEffect(() => {
+    slApi("/api/summaries").then((d) => { setSummaries(d); const o = {}; d.forEach((s) => { if (s.priority === 1) o[s.id] = true; }); setOpen(o); }).catch(() => {}).finally(() => setLoading(false));
+    const t = setInterval(() => slApi("/api/summaries").then(setSummaries).catch(() => {}), 30000);
+    return () => clearInterval(t);
+  }, []);
+  const togglePriority = async (s) => {
+    const newP = s.priority === 1 ? 0 : 1;
+    await slApi(`/api/channels/${s.channel_id}/priority`, { method: "PATCH", body: JSON.stringify({ priority: newP }) });
+    setSummaries((ss) => ss.map((x) => x.channel_id === s.channel_id ? { ...x, priority: newP } : x));
+  };
+  if (loading) return <div className="empty"><div className="spinner" /></div>;
+  if (!summaries.length) return <div className="empty"><span className="empty-icon">📋</span>要約がまだありません。<br />左の「⚡ 取得」ボタンを押してください。</div>;
+  const priority = summaries.filter((s) => s.priority === 1);
+  const normal = summaries.filter((s) => s.priority !== 1);
+  const renderSummary = (s) => (
+    <div key={s.id} className="card card-sm" style={{ marginBottom: 10 }}>
+      <div className="accordion-header" onClick={() => setOpen((o) => ({ ...o, [s.id]: !o[s.id] }))}>
+        <span className="accordion-arrow" style={{ transform: open[s.id] ? "rotate(90deg)" : "rotate(0deg)", transition: "transform .2s" }}>▶</span>
+        <span className="channel-badge">{s.priority === 1 && <span className="priority-star">⭐</span>} #{s.channel_name}</span>
+        <span className="meta-row" style={{ marginLeft: "auto" }}>{slTimeAgo(s.created_at)}</span>
+        <button className="icon-btn" title={s.priority === 1 ? "重要解除" : "重要にする"} onClick={(e) => { e.stopPropagation(); togglePriority(s); }} style={{ fontSize: 15 }}>{s.priority === 1 ? "⭐" : "☆"}</button>
+      </div>
+      {open[s.id] && (
+        <div style={{ marginTop: 10 }}>
+          <div className="summary-md" dangerouslySetInnerHTML={{ __html: slMd(s.content) }} />
+          <button className="inline-ai-btn" onClick={() => { setChatHint(`summary:#${s.channel_name}`); setPage("chat"); }}>🤖 この要約について質問する</button>
+        </div>
+      )}
+    </div>
+  );
+  return (
+    <div>
+      <h1 className="page-title">チャンネル要約</h1>
+      <p className="page-subtitle">チャンネル名の横の ☆ で重要チャンネルに設定できます</p>
+      {priority.length > 0 && <><div className="section-head">⭐ 重要チャンネル</div>{priority.map(renderSummary)}</>}
+      {normal.length > 0 && <><div className="section-head">通常チャンネル</div>{normal.map(renderSummary)}</>}
+    </div>
+  );
+}
+
+// ── タスク用モーダル ────────────────────────────────────────────
+function SlackAddTaskModal({ onClose, onAdded }) {
+  const [desc, setDesc] = useState(""); const [assignee, setAssignee] = useState(""); const [due, setDue] = useState(""); const [saving, setSaving] = useState(false);
+  const save = async () => {
+    if (!desc.trim()) return; setSaving(true);
+    try { await slApi("/api/tasks", { method: "POST", body: JSON.stringify({ description: desc, assignee, due }) }); onAdded(); onClose(); }
+    catch (e) { setSaving(false); }
+  };
+  return (
+    <div className="sb-slack-modal-bg" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="sb-slack"><div className="modal">
+        <div className="modal-title">＋ タスクを追加</div>
+        <div className="modal-field"><div className="modal-label">タスク内容 *</div><input className="modal-input" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="例: 〇〇さんに報告する" autoFocus onKeyDown={(e) => e.key === "Enter" && save()} /></div>
+        <div className="modal-field"><div className="modal-label">担当者</div><input className="modal-input" value={assignee} onChange={(e) => setAssignee(e.target.value)} placeholder="自分" /></div>
+        <div className="modal-field"><div className="modal-label">期限</div><input className="modal-input" type="date" value={due} onChange={(e) => setDue(e.target.value)} /></div>
+        <div className="modal-actions"><button className="btn btn-ghost" onClick={onClose}>キャンセル</button><button className="btn btn-primary" onClick={save} disabled={saving || !desc.trim()}>追加</button></div>
+      </div></div>
+    </div>
+  );
+}
+function SlackReminderModal({ task, onClose, onSaved }) {
+  const [dt, setDt] = useState(task.remind_at ? task.remind_at.slice(0, 16) : ""); const [saving, setSaving] = useState(false);
+  const save = async () => { setSaving(true); const iso = dt ? new Date(dt).toISOString() : ""; await slApi(`/api/tasks/${task.id}/reminder`, { method: "POST", body: JSON.stringify({ remind_at: iso }) }); onSaved(); onClose(); };
+  const clear = async () => { await slApi(`/api/tasks/${task.id}/reminder`, { method: "POST", body: JSON.stringify({ remind_at: "" }) }); onSaved(); onClose(); };
+  return (
+    <div className="sb-slack-modal-bg" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="sb-slack"><div className="modal">
+        <div className="modal-title">🔔 リマインダー設定</div>
+        <p style={{ fontSize: 13, color: "var(--s-muted)", marginBottom: 14, lineHeight: 1.6 }}>{task.description}</p>
+        <div className="modal-field"><div className="modal-label">通知日時</div><input className="modal-input" type="datetime-local" value={dt} onChange={(e) => setDt(e.target.value)} /></div>
+        <div className="modal-actions">{task.remind_at && <button className="btn btn-ghost" onClick={clear}>クリア</button>}<button className="btn btn-ghost" onClick={onClose}>キャンセル</button><button className="btn btn-primary" onClick={save} disabled={saving || !dt}>設定</button></div>
+      </div></div>
+    </div>
+  );
+}
+
+// ── タスク ──────────────────────────────────────────────────────
+function SlackTasks({ setChatHint, setPage }) {
+  const [tasks, setTasks] = useState([]); const [loading, setLoading] = useState(true);
+  const [showDone, setShowDone] = useState(false); const [onlyMine, setOnlyMine] = useState(true);
+  const [filter, setFilter] = useState(""); const [showAdd, setShowAdd] = useState(false);
+  const [reminderTask, setReminderTask] = useState(null); const [dueReminders, setDueReminders] = useState([]);
+  const [localTasks, setLocalTasks] = useState(() => { const t = loadTasks(); return Array.isArray(t) ? t : []; });
+  const toggleLocal = (id) => { setLocalTasks((prev) => { const next = prev.map((x) => x.id === id ? { ...x, done: !x.done } : x); saveTasks(next); return next; }); };
+  const delLocal = (id) => { if (!slConfirm("この会議タスクを削除しますか？")) return; setLocalTasks((prev) => { const next = prev.filter((x) => x.id !== id); saveTasks(next); return next; }); };
+  const load = useCallback(() => slApi("/api/tasks?include_done=true").then(setTasks).catch(() => {}).finally(() => setLoading(false)), []);
+  useEffect(() => { load(); const checkR = () => slApi("/api/tasks/reminders").then(setDueReminders).catch(() => {}); checkR(); const t = setInterval(checkR, 60000); return () => clearInterval(t); }, [load]);
+  const toggle = async (task) => { const d = !task.done; setTasks((ts) => ts.map((t) => t.id === task.id ? { ...t, done: d, inbox: 0 } : t)); await slApi(`/api/tasks/${task.id}`, { method: "PATCH", body: JSON.stringify({ done: d }) }); };
+  const approve = async (task) => { setTasks((ts) => ts.map((t) => t.id === task.id ? { ...t, inbox: 0 } : t)); await slApi(`/api/tasks/${task.id}/approve`, { method: "POST" }); };
+  const del = async (task) => { if (!slConfirm(`「${task.description}」を削除しますか？`)) return; setTasks((ts) => ts.filter((t) => t.id !== task.id)); await slApi(`/api/tasks/${task.id}`, { method: "DELETE" }); };
+  const baseList = tasks.filter((t) => showDone || !t.done).filter((t) => !onlyMine || t.is_mine).filter((t) => !filter || t.description.includes(filter) || (t.assignee || "").includes(filter) || (t.channel_name || "").includes(filter));
+  const inboxTasks = baseList.filter((t) => t.inbox && !t.done);
+  const todoTasks = baseList.filter((t) => !t.inbox && !t.done);
+  const doneTasks = showDone ? baseList.filter((t) => t.done) : [];
+  const undone = tasks.filter((t) => !t.done && (!onlyMine || t.is_mine)).length;
+  const localShown = localTasks.filter((t) => showDone || !t.done).filter((t) => !filter || (t.text || "").includes(filter) || (t.source || "").includes(filter));
+  const TaskRow = ({ t, showApprove }) => (
+    <div className="task-item">
+      <div className={`task-check ${t.done ? "done" : ""}`} onClick={() => toggle(t)} />
+      <div className="task-body">
+        <div className={`task-desc ${t.done ? "done" : ""}`}>{t.description}</div>
+        <div className="task-tags">
+          {t.assignee && <span className="tag tag-assignee">👤 {t.assignee}</span>}
+          {t.due && <span className="tag tag-due">📅 {t.due}</span>}
+          <span className="tag tag-channel">#{t.channel_name}</span>
+          {t.confidence === "low" && <span className="tag tag-low">⚠ 要確認</span>}
+          {t.source === "manual" && <span className="tag tag-manual">手動</span>}
+          {t.remind_at && <span className="tag tag-remind remind-pulse">🔔 {new Date(t.remind_at).toLocaleString("ja-JP", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })}</span>}
+        </div>
+      </div>
+      <div className="task-actions">
+        {showApprove && <button className="icon-btn approve" title="確認済みにする" onClick={() => approve(t)}>✓</button>}
+        <button className="icon-btn" title="リマインダー" onClick={() => setReminderTask(t)}>🔔</button>
+        <button className="icon-btn danger" title="削除" onClick={() => del(t)}>🗑</button>
+      </div>
+    </div>
+  );
+  if (loading) return <div className="empty"><div className="spinner" /></div>;
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16, gap: 8, flexWrap: "wrap" }}>
+        <h1 className="page-title" style={{ marginBottom: 0 }}>タスク<span style={{ fontSize: 13, fontWeight: 400, color: "var(--s-muted)", marginLeft: 8 }}>未完了 {undone}件</span></h1>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button className="btn btn-ghost btn-sm" onClick={() => { setChatHint("tasks:all"); setPage("chat"); }}>🤖 AIに整理してもらう</button>
+          <button className="btn btn-primary btn-sm" onClick={() => setShowAdd(true)}>＋ 追加</button>
+        </div>
+      </div>
+      {dueReminders.map((t) => (
+        <div key={t.id} className="card card-sm remind-pulse" style={{ borderColor: "var(--s-amber)", background: "var(--s-amber-l)", marginBottom: 8 }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: "var(--s-amber)" }}>🔔 リマインダー: </span><span style={{ fontSize: 13 }}>{t.description}</span><span className="tag tag-channel" style={{ marginLeft: 6 }}>#{t.channel_name}</span>
+        </div>
+      ))}
+      <div className="filter-bar">
+        <input className="filter-input" placeholder="タスク・担当者・チャンネルで絞り込み" value={filter} onChange={(e) => setFilter(e.target.value)} />
+        <button className={`filter-btn ${onlyMine ? "active" : ""}`} onClick={() => setOnlyMine(true)}>自分のタスク</button>
+        <button className={`filter-btn ${!onlyMine ? "active" : ""}`} onClick={() => setOnlyMine(false)}>すべて</button>
+        <button className={`filter-btn ${!showDone ? "active" : ""}`} onClick={() => setShowDone(false)}>未完了</button>
+        <button className={`filter-btn ${showDone ? "active" : ""}`} onClick={() => setShowDone(true)}>完了含む</button>
+      </div>
+      {inboxTasks.length > 0 && (
+        <div className="card" style={{ marginBottom: 12 }}>
+          <div className="inbox-header"><span className="inbox-title">📥 未確認の新着タスク</span><span className="inbox-count">{inboxTasks.length}</span><span style={{ fontSize: 11, color: "var(--s-muted)", marginLeft: 4 }}>✓ で確認済みに、🗑 で削除</span></div>
+          {inboxTasks.map((t) => <TaskRow key={t.id} t={t} showApprove={true} />)}
+        </div>
+      )}
+      {todoTasks.length > 0 && (
+        <div className="card" style={{ marginBottom: 12 }}><div className="section-head" style={{ marginTop: 0 }}>対応中 ({todoTasks.length}件)</div>{todoTasks.map((t) => <TaskRow key={t.id} t={t} showApprove={false} />)}</div>
+      )}
+      {showDone && doneTasks.length > 0 && (
+        <div className="card"><div className="section-head" style={{ marginTop: 0 }}>完了済み ({doneTasks.length}件)</div>{doneTasks.map((t) => <TaskRow key={t.id} t={t} showApprove={false} />)}</div>
+      )}
+      {localShown.length > 0 && (
+        <div className="card" style={{ marginBottom: 12 }}>
+          <div className="section-head" style={{ marginTop: 0 }}>🗒 会議のタスク（SABOTTA）（{localShown.length}件）</div>
+          {localShown.map((t) => (
+            <div key={t.id} className="task-item">
+              <div className={`task-check ${t.done ? "done" : ""}`} onClick={() => toggleLocal(t.id)} />
+              <div className="task-body">
+                <div className={`task-desc ${t.done ? "done" : ""}`}>{t.text}</div>
+                <div className="task-tags">
+                  {t.due && <span className="tag tag-due">📅 {String(t.due).replace("T", " ")}</span>}
+                  {t.source && <span className="tag tag-channel">🗒 {t.source}</span>}
+                  <span className="tag tag-manual">会議</span>
+                </div>
+              </div>
+              <div className="task-actions">
+                <button className="icon-btn danger" title="削除" onClick={() => delLocal(t.id)}>🗑</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {inboxTasks.length === 0 && todoTasks.length === 0 && doneTasks.length === 0 && localShown.length === 0 && <div className="empty"><span className="empty-icon">✅</span>タスクはありません</div>}
+      {showAdd && <SlackAddTaskModal onClose={() => setShowAdd(false)} onAdded={load} />}
+      {reminderTask && <SlackReminderModal task={reminderTask} onClose={() => setReminderTask(null)} onSaved={load} />}
+    </div>
+  );
+}
+
+// ── AIアドバイス ────────────────────────────────────────────────
+function SlackChat({ contextHint, clearHint }) {
+  const initMsg = contextHint ? `${contextHint} について教えて` : "";
+  const [messages, setMessages] = useState([{ role: "assistant", content: "こんにちは。全チャンネルの要約・タスク情報を把握しています。\n優先順位の整理、次のアクション提案、業務改善アドバイスなど何でも相談してください。" }]);
+  const [input, setInput] = useState(initMsg); const [loading, setLoading] = useState(false); const [hint] = useState(contextHint || "");
+  const bottomRef = useRef(null);
+  useEffect(() => { bottomRef.current && bottomRef.current.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+  useEffect(() => { clearHint(); }, []);
+  const send = async (text) => {
+    const content = text || input.trim(); if (!content || loading) return;
+    const newMsgs = [...messages, { role: "user", content }]; setMessages(newMsgs); setInput(""); setLoading(true);
+    try { const data = await slApi("/api/chat", { method: "POST", body: JSON.stringify({ messages: newMsgs, context_hint: hint }) }); setMessages((m) => [...m, { role: "assistant", content: data.reply }]); }
+    catch (e) { setMessages((m) => [...m, { role: "assistant", content: "エラー: " + e.message }]); }
+    finally { setLoading(false); }
+  };
+  const quickPrompts = ["今日やるべきことを優先順位付けして", "未確認タスクの中で特に重要なものは？", "今週中に対応すべき期限のタスクを教えて", "タスクが多い場合の効率的な進め方をアドバイスして"];
+  return (
+    <div>
+      <h1 className="page-title">AI アドバイス</h1>
+      <p className="page-subtitle">要約・タスク情報をもとに、業務をサポートします</p>
+      <div className="chat-wrap card">
+        <div className="chat-messages">
+          {messages.map((m, i) => (<div key={i} className={`msg ${m.role}`}><div className="msg-avatar">{m.role === "user" ? "🙋" : "🤖"}</div><div className="msg-bubble">{m.content}</div></div>))}
+          {loading && <div className="msg assistant"><div className="msg-avatar">🤖</div><div className="msg-bubble"><span className="typing-dot" /><span className="typing-dot" /><span className="typing-dot" /></div></div>}
+          <div ref={bottomRef} />
+        </div>
+        {messages.length <= 1 && <div className="quick-prompts">{quickPrompts.map((p, i) => <button key={i} className="quick-btn" onClick={() => send(p)}>{p}</button>)}</div>}
+        <div className="chat-input-row">
+          <textarea className="chat-input" placeholder="質問・相談を入力…（Shift+Enter で改行、Enter で送信）" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }} rows={1} />
+          <button className="send-btn" onClick={() => send()} disabled={loading || !input.trim()}>➤</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── 設定（監視チャンネル）────────────────────────────────────────
+function SlackChannelSettings() {
+  const [channels, setChannels] = useState([]); const [newId, setNewId] = useState(""); const [newName, setNewName] = useState(""); const [saving, setSaving] = useState(false);
+  const load = () => slApi("/api/channels").then(setChannels).catch(() => {});
+  useEffect(() => { load(); }, []);
+  const add = async () => { if (!newId.trim() || !newName.trim()) return; setSaving(true); await slApi("/api/channels", { method: "POST", body: JSON.stringify({ id: newId.trim(), name: newName.trim() }) }); setNewId(""); setNewName(""); await load(); setSaving(false); };
+  const remove = async (id) => { if (!slConfirm("このチャンネルを削除しますか？")) return; await slApi(`/api/channels/${id}`, { method: "DELETE" }); load(); };
+  const togglePriority = async (ch) => { const newP = ch.priority === 1 ? 0 : 1; await slApi(`/api/channels/${ch.id}/priority`, { method: "PATCH", body: JSON.stringify({ priority: newP }) }); load(); };
+  const priority = channels.filter((c) => c.priority === 1); const normal = channels.filter((c) => c.priority !== 1);
+  return (
+    <div>
+      <h1 className="page-title">Slack 設定</h1>
+      <div className="card">
+        <div className="card-header"><div className="card-title">監視チャンネル</div></div>
+        <p style={{ fontSize: 12, color: "var(--s-muted)", margin: "8px 0 14px", lineHeight: 1.8 }}>⭐ <strong>重要チャンネル</strong>は1時間ごとに自動分析されます。<br />通常チャンネルは「⚡ 取得」を押したときのみ分析されます。</p>
+        <div className="settings-form">
+          <input className="settings-input" placeholder="チャンネルID (C0XXXXXXX)" value={newId} onChange={(e) => setNewId(e.target.value)} />
+          <input className="settings-input" placeholder="チャンネル名" value={newName} onChange={(e) => setNewName(e.target.value)} />
+          <button className="btn btn-primary" onClick={add} disabled={saving || !newId || !newName}>追加</button>
+        </div>
+        {!channels.length ? <div className="empty" style={{ padding: "16px 0" }}>チャンネルが登録されていません</div> : <>
+          {priority.length > 0 && <><div className="section-head" style={{ color: "var(--s-amber)" }}>⭐ 重要チャンネル（自動分析）</div>
+            {priority.map((ch) => (<div key={ch.id} className="ch-row"><div><div className="ch-name">#{ch.name}</div><div className="ch-id">{ch.id}</div></div><div className="ch-actions"><button className="btn btn-sm" style={{ background: "var(--s-amber-l)", color: "var(--s-amber)", borderColor: "#ddcba6" }} onClick={() => togglePriority(ch)}>⭐ 重要</button><button className="btn btn-danger btn-sm" onClick={() => remove(ch.id)}>削除</button></div></div>))}
+          </>}
+          {normal.length > 0 && <><div className="section-head">通常チャンネル（手動のみ）</div>
+            {normal.map((ch) => (<div key={ch.id} className="ch-row"><div><div className="ch-name">#{ch.name}</div><div className="ch-id">{ch.id}</div></div><div className="ch-actions"><button className="btn btn-ghost btn-sm" onClick={() => togglePriority(ch)}>☆ 重要にする</button><button className="btn btn-danger btn-sm" onClick={() => remove(ch.id)}>削除</button></div></div>))}
+          </>}
+        </>}
+      </div>
+      <div className="card" style={{ marginTop: 14 }}>
+        <div className="card-title" style={{ marginBottom: 10 }}>ヒント</div>
+        <p style={{ fontSize: 13, color: "var(--s-muted)", lineHeight: 1.9 }}>• チャンネルIDはSlackでチャンネルを右クリック →「チャンネルの詳細」→ 一番下に表示されます<br />• <code>python3 select_channels.py</code> を使うと一覧から選んで一括登録できます<br />• タスクの「要確認」は自動抽出時にAIが判断に悩んだものです。不要なら削除してください</p>
+      </div>
+    </div>
+  );
+}
+
+// ── セットアップ（トークン入力）──────────────────────────────────
+function SlackSetupWizard({ setup, onSaved }) {
+  const [slack, setSlack] = useState(""); const [anth, setAnth] = useState(""); const [saving, setSaving] = useState(false); const [error, setError] = useState("");
+  const save = async () => {
+    setSaving(true); setError("");
+    try { await slApi("/api/setup/tokens", { method: "POST", body: JSON.stringify({ slack_token: slack, anthropic_key: anth }) }); onSaved(); }
+    catch (e) { let msg = e.message; try { msg = JSON.parse(e.message).detail || msg; } catch (_) {} setError(msg); }
+    finally { setSaving(false); }
+  };
+  return (
+    <div style={{ maxWidth: 560, margin: "8px auto" }}>
+      <h1 className="page-title">🚀 Slack 連携をはじめる</h1>
+      <p className="page-subtitle">2つのトークンを貼り付けて保存してください。入力値はあなたのPC内にのみ保存され、外部には送信されません。</p>
+      <div className="card">
+        <div className="modal-field">
+          <div className="modal-label">{setup && setup.has_slack_token ? "✅ " : ""}Slack User Token（xoxp- で始まる）</div>
+          <input className="modal-input" value={slack} onChange={(e) => setSlack(e.target.value)} placeholder={setup && setup.has_slack_token ? "設定済み（変更する場合のみ入力）" : "xoxp-..."} type="password" autoComplete="off" />
+          <div style={{ fontSize: 11, color: "var(--s-subtle)", marginTop: 6, lineHeight: 1.6 }}>取得方法: <a href="https://api.slack.com/apps" target="_blank" rel="noreferrer" style={{ color: "var(--s-accent-d)" }}>api.slack.com/apps</a> でアプリ作成 → OAuth &amp; Permissions → User Token Scopes に channels:history / groups:history / channels:read / groups:read / users:read を追加 → Install</div>
+        </div>
+        <div className="modal-field" style={{ marginTop: 14 }}>
+          <div className="modal-label">{setup && setup.has_anthropic_key ? "✅ " : ""}Anthropic API Key（sk-ant- で始まる）</div>
+          <input className="modal-input" value={anth} onChange={(e) => setAnth(e.target.value)} placeholder={setup && setup.has_anthropic_key ? "設定済み（変更する場合のみ入力）" : "sk-ant-..."} type="password" autoComplete="off" />
+          <div style={{ fontSize: 11, color: "var(--s-subtle)", marginTop: 6 }}>取得方法: <a href="https://console.anthropic.com/keys" target="_blank" rel="noreferrer" style={{ color: "var(--s-accent-d)" }}>console.anthropic.com/keys</a> で Create Key</div>
+        </div>
+        {error && <div style={{ background: "var(--s-red-l)", color: "var(--s-red)", padding: "8px 12px", borderRadius: 8, fontSize: 12, marginTop: 12 }}>⚠️ {error}</div>}
+        <button className="btn btn-primary" style={{ marginTop: 16, width: "100%", padding: "11px" }} onClick={save} disabled={saving || (!slack && !(setup && setup.has_slack_token)) || (!anth && !(setup && setup.has_anthropic_key))}>{saving ? "確認中…" : "保存して始める"}</button>
+      </div>
+      <p style={{ fontSize: 11, color: "var(--s-subtle)", textAlign: "center", marginTop: 10 }}>Slackトークンが正しいか自動で確認します（数秒かかることがあります）</p>
+    </div>
+  );
+}
+
+// ── Slack パネル本体（接続管理＋ナビ＋取得コントロール）──────────
+function SlackPanel({ base, onChangeBase, onBack }) {
+  SLACK_BASE = (base || "").trim().replace(/\/+$/, "");
+  const [conn, setConn] = useState("checking"); // checking | ok | off
+  const [setup, setSetup] = useState(null);
+  const [page, setPage] = useState("today");
+  const [chatHint, setChatHint] = useState("");
+  const [stats, setStats] = useState(null);
+  const [autoPoll, setAutoPoll] = useState(true);
+  const [pollMode, setPollMode] = useState("today");
+  const [dateFrom, setDateFrom] = useState(slToday());
+  const [dateTo, setDateTo] = useState(slToday());
+  const [priorityOnly, setPriorityOnly] = useState(false);
+  const [polling, setPolling] = useState(false);
+  const [progress, setProgress] = useState(null);
+  const [lastPoll, setLastPoll] = useState(null);
+  const [urlDraft, setUrlDraft] = useState(base || "");
+  const [skipped, setSkipped] = useState(false); // 未接続でもスキップして中を見る
+
+  const check = useCallback(async () => {
+    setConn("checking");
+    try {
+      const s = await slApi("/api/setup");
+      setSetup(s); setConn("ok");
+      slApi("/api/stats").then(setStats).catch(() => {});
+      slApi("/api/auto-poll").then((d) => setAutoPoll(d.enabled)).catch(() => {});
+    } catch (e) { setConn("off"); }
+  }, [base]);
+  useEffect(() => { check(); }, [check]);
+  useEffect(() => { if (conn !== "ok") return; const t = setInterval(() => slApi("/api/stats").then(setStats).catch(() => {}), 30000); return () => clearInterval(t); }, [conn]);
+
+  const toggleAutoPoll = async () => { const next = !autoPoll; setAutoPoll(next); try { await slApi(next ? "/api/auto-poll/resume" : "/api/auto-poll/pause", { method: "POST" }); } catch (e) { setAutoPoll(!next); } };
+  const modeLabel = { today: "本日分", range: "期間指定", incremental: "前回以降" };
+  const pollNow = async () => {
+    setPolling(true);
+    const pt = setInterval(() => slApi("/api/poll/status").then(setProgress).catch(() => {}), 800);
+    try { await slApi("/api/poll", { method: "POST", body: JSON.stringify({ mode: pollMode, date_from: dateFrom, date_to: dateTo, priority_only: priorityOnly }) }); setLastPoll(new Date().toISOString()); slApi("/api/stats").then(setStats).catch(() => {}); }
+    catch (e) {} finally { clearInterval(pt); setProgress(null); setPolling(false); }
+  };
+  const applyUrl = () => { const v = urlDraft.trim().replace(/\/+$/, ""); onChangeBase(v); };
+
+  const Back = <button className="sb-back" onClick={onBack} title="SABOTTA に戻る"><span className="sb-back-ar">←</span> SABOTTA に戻る</button>;
+
+  if (conn === "checking") return (
+    <div className="sb-screen">
+      <div className="sb-screen-bar">{Back}<span className="sb-screen-title">Slack</span></div>
+      <div className="sb-screen-body"><div className="sb-slack"><div className="empty"><div className="spinner" /><div style={{ marginTop: 12 }}>Slackバックエンドに接続中…</div></div></div></div>
+    </div>
+  );
+
+  if (conn === "off" && !skipped) return (
+    <div className="sb-screen">
+      <div className="sb-screen-bar">{Back}<span className="sb-screen-title">Slack</span></div>
+      <div className="sb-screen-body"><div className="sb-slack"><div className="sb-disconnected">
+        <div className="sb-dc-ic">🔌</div>
+        <h3>Slackバックエンドに接続できません</h3>
+        <p>Slackの要約・タスク機能には、付属のローカルサーバー（Python / FastAPI）が必要です。会議アシスタント機能はサーバーなしでそのまま使えます。</p>
+        <div className="sb-dc-steps">
+          <div><strong>起動方法</strong></div>
+          1. 同梱の <code>起動_Mac.command</code> または <code>起動_Windows.bat</code> をダブルクリック（初回はトークン設定が必要）。<br />
+          2. もしくはターミナルで <code>bash start.sh</code> を実行。<br />
+          3. 起動後、このページが <code>http://localhost:8000</code> で配信されていれば自動接続します。
+        </div>
+        <div className="sb-dc-steps"><div><strong>別のアドレスで動かしている場合</strong>（このHTMLをGitHub Pages等から開いている場合など）はURLを指定してください：</div></div>
+        <div className="sb-urlrow">
+          <input className="modal-input" value={urlDraft} onChange={(e) => setUrlDraft(e.target.value)} placeholder="http://localhost:8000" />
+          <button className="btn btn-primary" onClick={applyUrl}>接続</button>
+          <button className="btn" onClick={check}>再試行</button>
+        </div>
+        <div style={{ marginTop: 16 }}>
+          <button className="btn btn-ghost" onClick={() => setSkipped(true)}>スキップして中を見る（プレビュー）→</button>
+        </div>
+        <p style={{ marginTop: 12, fontSize: 11.5 }}>※ <code>https://</code> のページから <code>http://localhost</code> へは、ブラウザの混在コンテンツ制限で接続できないことがあります。その場合はバックエンドが配信する <code>http://localhost:8000</code> を直接開いてください。</p>
+      </div></div></div>
+    </div>
+  );
+
+  if (setup && !setup.ready) return (
+    <div className="sb-screen">
+      <div className="sb-screen-bar">{Back}<span className="sb-screen-title">Slack 連携</span></div>
+      <div className="sb-screen-body"><div className="sb-slack"><SlackSetupWizard setup={setup} onSaved={check} /></div></div>
+    </div>
+  );
+
+  const navItems = [
+    { id: "today", icon: IC.calendar, label: "Today" },
+    { id: "summaries", icon: IC.book, label: "要約" },
+    { id: "tasks", icon: IC.tasks, label: "タスク", badge: stats && stats.inbox > 0 ? stats.inbox : null },
+    { id: "chat", icon: IC.sparkle, label: "アドバイス" },
+    { id: "settings", icon: IC.settings, label: "設定" },
+  ];
+
+  return (
+    <div className="sb-screen">
+      <div className="sb-slack sb-shell">
+        <nav className="ma-rail">
+          <div className="ma-logo" title="SABOTTA"><LogoMark s={42} gid="sbgSlack" /></div>
+          <button className="ma-rail-btn" onClick={onBack} title="SABOTTA に戻る"><span className="ic"><IC.back /></span><label>戻る</label></button>
+          {navItems.map((n) => (
+            <button key={n.id} className={`ma-rail-btn ${page === n.id ? "on" : ""}`} onClick={() => setPage(n.id)} title={n.label}>
+              <span className="ic">{n.icon({})}</span><label>{n.label}</label>{n.badge ? <i className="ma-rail-badge">{n.badge}</i> : null}
+            </button>
+          ))}
+          <div className="ma-rail-spacer" />
+        </nav>
+        <main className="sb-screen-main">
+          <div className="sb-toolbar">
+            {setup && setup.me && setup.me.name && <span className="sb-me-inline">👤 {setup.me.name}</span>}
+            <span className={`sb-chip ${conn === "ok" ? "on" : "off"}`}>{conn === "ok" ? "🟢 接続中" : "🔴 未接続"}</span>
+            <span className="sb-tb-sep" />
+            <button className={`sb-chip ${autoPoll ? "on" : "off"}`} onClick={toggleAutoPoll} title="重要チャンネルを1時間ごとに自動取得">{autoPoll ? "🟢 自動取得 オン" : "🔴 自動取得 オフ"}</button>
+            <span className="sb-tb-label">取得範囲</span>
+            <select className="sb-mini-select" value={pollMode} onChange={(e) => setPollMode(e.target.value)}>
+              <option value="today">本日分</option>
+              <option value="range">期間指定</option>
+              <option value="incremental">前回以降</option>
+            </select>
+            {pollMode === "range" && (<>
+              <input type="date" className="sb-mini-date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} />
+              <span className="sb-tb-label">〜</span>
+              <input type="date" className="sb-mini-date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} />
+            </>)}
+            <label className="sb-chip-check"><input type="checkbox" checked={priorityOnly} onChange={(e) => setPriorityOnly(e.target.checked)} style={{ accentColor: "#c8482f" }} />重要のみ</label>
+            <button className="sb-pollbtn-sm" onClick={pollNow} disabled={polling}>{polling ? "取得中…" : "⚡ 取得"}</button>
+            {polling && progress && progress.total > 0 && (
+              <span className="sb-tb-progress">
+                <span className="sb-progress-lab" style={{ margin: 0 }}>{progress.current ? `#${progress.current}` : "準備中"}（{progress.done}/{progress.total}）</span>
+                <span className="sb-progress-bar" style={{ width: 90 }}><span className="sb-progress-fill" style={{ width: `${progress.total ? Math.round(progress.done / progress.total * 100) : 0}%` }} /></span>
+              </span>
+            )}
+            {lastPoll && !polling && <span className="sb-tb-label">最終: {slTimeAgo(lastPoll)}</span>}
+          </div>
+          {conn !== "ok" && (
+            <div className="sb-offbar">
+              <span className="sb-offbar-msg">🔌 バックエンド未接続のプレビュー表示中 — 取得や保存はできません</span>
+              <span className="sb-offbar-actions">
+                <input className="sb-offbar-input" value={urlDraft} onChange={(e) => setUrlDraft(e.target.value)} placeholder="http://localhost:8000" />
+                <button className="btn btn-sm btn-primary" onClick={applyUrl}>接続</button>
+                <button className="btn btn-sm" onClick={check}>再接続</button>
+              </span>
+            </div>
+          )}
+          <div className="sb-page">
+            {page === "today" && <SlackToday setPage={setPage} setChatHint={setChatHint} />}
+            {page === "summaries" && <SlackSummaries setChatHint={setChatHint} setPage={setPage} />}
+            {page === "tasks" && <SlackTasks setChatHint={setChatHint} setPage={setPage} />}
+            {page === "chat" && <SlackChat contextHint={chatHint} clearHint={() => setChatHint("")} />}
+            {page === "settings" && <SlackChannelSettings />}
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
+
 
 function MeetingAssistant() {
   const [supported, setSupported] = useState(true);
@@ -666,6 +1470,8 @@ function MeetingAssistant() {
   const [meetings, setMeetings] = useState([]);          // 保存済みの他の会議
   const [showHistory, setShowHistory] = useState(false); // 履歴パネルの表示
   const [showSettings, setShowSettings] = useState(false); // AI設定パネルの表示
+  const [showSlack, setShowSlack] = useState(false);    // Slack 統合パネルの表示
+  const [slackUrl, setSlackUrl] = useState("");         // Slack バックエンドURL（空＝同一オリジン）
   const [apiKey, setApiKey] = useState("");              // 自分のAnthropic APIキー
   const [model, setModel] = useState("claude-sonnet-4-6");
   const [proxyUrl, setProxyUrl] = useState("");          // バックエンドプロキシURL（推奨）
@@ -685,6 +1491,7 @@ function MeetingAssistant() {
   const [importText, setImportText] = useState("");
   const [importMode, setImportMode] = useState("replace");
   const [tasks, setTasks] = useState([]);               // マイタスク（全会議横断）
+  const [slackTasks, setSlackTasks] = useState([]);     // Slack（バックエンド）タスクの共有表示
   const [showTasks, setShowTasks] = useState(false);
   const [newTask, setNewTask] = useState("");
   const [newTaskDue, setNewTaskDue] = useState("");
@@ -1114,6 +1921,14 @@ function MeetingAssistant() {
   };
   const toggleTask = (id) => setTasks((prev) => prev.map((x) => (x.id === id ? { ...x, done: !x.done } : x)));
   const delTask = (id) => setTasks((prev) => prev.filter((x) => x.id !== id));
+  // ── Slack（バックエンド）タスクをマイタスクと共有表示
+  const refreshSlackTasks = useCallback(() => {
+    SLACK_BASE = (slackUrl || "").trim().replace(/\/+$/, "");
+    slApi("/api/tasks?include_done=true").then((d) => setSlackTasks(Array.isArray(d) ? d : [])).catch(() => setSlackTasks([]));
+  }, [slackUrl]);
+  const toggleSlackTask = (t) => { SLACK_BASE = (slackUrl || "").trim().replace(/\/+$/, ""); const d = !t.done; setSlackTasks((ts) => ts.map((x) => (x.id === t.id ? { ...x, done: d, inbox: 0 } : x))); slApi(`/api/tasks/${t.id}`, { method: "PATCH", body: JSON.stringify({ done: d }) }).catch(() => {}); };
+  const delSlackTask = (t) => { SLACK_BASE = (slackUrl || "").trim().replace(/\/+$/, ""); setSlackTasks((ts) => ts.filter((x) => x.id !== t.id)); slApi(`/api/tasks/${t.id}`, { method: "DELETE" }).catch(() => {}); };
+  useEffect(() => { if (showTasks) refreshSlackTasks(); }, [showTasks, refreshSlackTasks]);
   const startTaskEdit = (t) => { setTaskEditId(t.id); setTaskEditVal(t.text); setTaskEditDue(t.due || ""); setTaskEditPrio(t.prio || "none"); };
   const saveTaskEdit = () => { setTasks((prev) => prev.map((x) => (x.id === taskEditId ? { ...x, text: taskEditVal, due: taskEditDue, prio: taskEditPrio } : x))); setTaskEditId(null); };
 
@@ -1297,12 +2112,12 @@ function MeetingAssistant() {
   }, [segments, speakers, analysis, minutes, trans, title, meetings, activeDate, myNotes]);
 
   // ── AI設定（APIキー・モデル）の復元と保存
-  useEffect(() => { const s = loadSettings(); if (s) { if (s.apiKey) setApiKey(s.apiKey); if (s.model) setModel(s.model); if (s.proxyUrl) setProxyUrl(s.proxyUrl); if (s.whisperSize) setWhisperSize(s.whisperSize); if (typeof s.vad === "number") setVad(s.vad); if (s.vocab) setVocab(s.vocab); if (s.localAsrUrl) setLocalAsrUrl(s.localAsrUrl); } }, []);
+  useEffect(() => { const s = loadSettings(); if (s) { if (s.apiKey) setApiKey(s.apiKey); if (s.model) setModel(s.model); if (s.proxyUrl) setProxyUrl(s.proxyUrl); if (s.whisperSize) setWhisperSize(s.whisperSize); if (typeof s.vad === "number") setVad(s.vad); if (s.vocab) setVocab(s.vocab); if (s.localAsrUrl) setLocalAsrUrl(s.localAsrUrl); if (s.slackUrl) setSlackUrl(s.slackUrl); } }, []);
   const firstSetSaveRef = useRef(true);
   useEffect(() => {
     if (firstSetSaveRef.current) { firstSetSaveRef.current = false; return; }
-    saveSettings({ apiKey, model, proxyUrl, whisperSize, vad, vocab, localAsrUrl });
-  }, [apiKey, model, proxyUrl, whisperSize, vad, vocab, localAsrUrl]);
+    saveSettings({ apiKey, model, proxyUrl, whisperSize, vad, vocab, localAsrUrl, slackUrl });
+  }, [apiKey, model, proxyUrl, whisperSize, vad, vocab, localAsrUrl, slackUrl]);
 
   // ── マイタスクの復元と保存
   useEffect(() => { const t = loadTasks(); if (Array.isArray(t)) setTasks(t); }, []);
@@ -1312,7 +2127,7 @@ function MeetingAssistant() {
   useEffect(() => { setGSources(loadGSrc()); setMSources(loadMSrc(activeIdRef.current)); mLoadedRef.current = true; }, []);
   useEffect(() => { if (!loadOnboarded()) setShowGuide(true); }, []);
   const dismissGuide = () => { saveOnboarded(); setShowGuide(false); };
-  const openOnly = (w) => { setShowHistory(w === "history"); setShowTasks(w === "tasks"); setShowChat(w === "chat"); setShowSources(w === "sources"); setShowImport(w === "import"); setShowSettings(w === "settings"); };
+  const openOnly = (w) => { setShowHistory(w === "history"); setShowTasks(w === "tasks"); setShowChat(w === "chat"); setShowSources(w === "sources"); setShowImport(w === "import"); setShowSettings(w === "settings"); setShowSlack(w === "slack"); };
   const firstGSrcRef = useRef(true);
   useEffect(() => { if (firstGSrcRef.current) { firstGSrcRef.current = false; return; } saveGSrc(gSources); }, [gSources]);
   useEffect(() => { if (!mLoadedRef.current) return; saveMSrc(activeIdRef.current, mSources); }, [mSources]);
@@ -1671,6 +2486,7 @@ ${base}`;
         <button className="ma-rail-btn" onClick={() => openOnly("chat")} title="AIチャット"><span className="ic"><IC.chat /></span><label>チャット</label></button>
         <button className="ma-rail-btn" onClick={() => openOnly("sources")} title="ソース（参考資料）"><span className="ic"><IC.book /></span><label>ソース</label></button>
         <button className="ma-rail-btn" onClick={() => openOnly("import")} title="文字起こし取込"><span className="ic"><IC.import /></span><label>取込</label></button>
+        <button className="ma-rail-btn" onClick={() => openOnly("slack")} title="Slack 要約・タスク"><span className="ic"><IC.slack /></span><label>Slack</label></button>
         <div className="ma-rail-spacer" />
         <button className="ma-rail-btn" onClick={() => openOnly("settings")} title="設定"><span className="ic"><IC.settings /></span><label>設定</label></button>
       </nav>
@@ -1785,6 +2601,9 @@ ${base}`;
                 <label className="ma-set-label">ローカル音声認識サーバー（任意・上級者向け）</label>
                 <input className="ma-set-input" value={localAsrUrl} onChange={(e) => setLocalAsrUrl(e.target.value)} placeholder="例: http://localhost:8080/inference" />
                 <p className="ma-set-note" style={{ marginTop: 6 }}>自分のPCでWhisperサーバーを動かしている場合のみ入力。設定すると「会議音声」をこのサーバーで高精度に文字起こしします（音声は外部に出ません）。<strong>空欄ならブラウザ内認識</strong>のままで、接続できない時は自動でブラウザ内認識に戻ります。</p>
+                <label className="ma-set-label">Slack バックエンドURL（左レール「Slack」用）</label>
+                <input className="ma-set-input" value={slackUrl} onChange={(e) => setSlackUrl(e.target.value)} placeholder="空欄＝このページの配信元（推奨）／別なら http://localhost:8000" autoComplete="off" />
+                <p className="ma-set-note" style={{ marginTop: 6 }}>Slackの要約・タスク機能が使うバックエンドのURLです。<strong>付属サーバーがこのページを配信している場合は空欄のまま</strong>でOK。GitHub Pages等の静的配信から使う時だけ、ローカルサーバーのURL（例: http://localhost:8000）を入力します。</p>
                 <label className="ma-set-label">用語辞書（固有名詞・専門用語）</label>
                 <textarea className="ma-set-input" style={{ minHeight: 90, resize: "vertical", fontFamily: "monospace", fontSize: 12 }} value={vocab} onChange={(e) => setVocab(e.target.value)} placeholder={"1行に1語。正しい表記を登録（要約・議事録・翻訳で統一されます）\n例: SABOTTA\n例: 営業DX推進室\n誤変換を直す場合は「誤=正」:\n例: さぼった=SABOTTA"} />
                 <p className="ma-set-note" style={{ marginTop: 6 }}>登録した語はAIの要約・議事録・翻訳で表記が統一されます。「誤=正」の行は、文字起こしに対して自動で置換補正します。</p>
@@ -1875,7 +2694,7 @@ ${base}`;
 
                 {(() => { const od = tasks.filter((t) => !t.done && dueState(t).key === "overdue").length; const td = tasks.filter((t) => !t.done && dueState(t).key === "today").length; return (od || td) ? <div className="ma-reminder-line">{od > 0 && <span className="od">⚠ 期限切れ {od}件</span>}{td > 0 && <span className="td">今日が期限 {td}件</span>}</div> : null; })()}
 
-                {tasks.filter((t) => taskFilter === "all" || !t.done).length === 0 && (
+                {tasks.filter((t) => taskFilter === "all" || !t.done).length === 0 && slackTasks.filter((t) => taskFilter === "all" || !t.done).length === 0 && (
                   <p className="ma-empty" style={{ padding: "10px 2px" }}>タスクはまだありません。文字起こしの各発言の「＋✓」、要約タブのアクションアイテムの「＋」、または上の入力欄から追加できます。期限と優先度も設定できます。</p>
                 )}
 
@@ -1886,6 +2705,33 @@ ${base}`;
                     if (!items.length) return null;
                     return <div className="ma-task-group" key={g}><div className={`ma-task-grouphead ${g}`}>{lbl}（{items.length}）</div>{items.map(renderTask)}</div>;
                   });
+                })()}
+
+                {(() => {
+                  const sl = slackTasks.filter((t) => taskFilter === "all" || !t.done);
+                  if (!sl.length) return null;
+                  return (
+                    <div className="ma-task-group">
+                      <div className="ma-task-grouphead">Slack のタスク（{sl.length}）</div>
+                      {sl.map((t) => (
+                        <div className={`ma-task${t.done ? " done" : ""}`} key={"sl_" + t.id}>
+                          <input type="checkbox" checked={!!t.done} onChange={() => toggleSlackTask(t)} />
+                          <div className="ma-task-main">
+                            <div className="ma-task-text" style={{ cursor: "default" }}>{t.description}</div>
+                            <div className="ma-task-meta">
+                              {t.channel_name && <span>#{t.channel_name}</span>}
+                              {t.due && <span>📅 {t.due}</span>}
+                              {t.inbox ? <span>未確認</span> : null}
+                              <span>Slack</span>
+                            </div>
+                          </div>
+                          <span style={{ display: "flex", alignItems: "center" }}>
+                            <button className="ma-iconbtn" title="削除" onClick={() => delSlackTask(t)}>🗑</button>
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  );
                 })()}
 
                 {tasks.length > 0 && <p className="ma-set-note" style={{ marginTop: 14 }}>※ タスクはこのブラウザに保存され、会議をまたいで貯まります。確実なリマインドは「📅 カレンダー」で端末のカレンダーに登録するのがおすすめです（閉じていても通知されます）。</p>}
@@ -2109,12 +2955,16 @@ ${base}`;
           ※ 高精度な話者分離が必要な場合は、Whisper系の文字起こし＋専用ダイアライゼーション(AssemblyAI / Deepgram / pyannote 等)への置き換えが有効です（要APIキー・バックエンド）。
         </p>
       </div>
+
+      {showSlack && (
+        <SlackPanel base={slackUrl} onChangeBase={(v) => setSlackUrl(v)} onBack={() => setShowSlack(false)} />
+      )}
     </div>
   );
 }
 
 
-ReactDOM.createRoot(document.getElementById('root')).render(<MeetingAssistant />);
+ReactDOM.createRoot(document.getElementById("root")).render(<MeetingAssistant />);
 </script>
 </body>
 </html>
