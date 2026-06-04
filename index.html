@@ -901,7 +901,7 @@ function slMd(text) { return (text || "").replace(/\*\*(.+?)\*\*/g, "<strong>$1<
 function slConfirm(msg) { try { return (typeof window !== "undefined" && window.confirm) ? window.confirm(msg) : true; } catch (e) { return true; } }
 
 // ── Today ───────────────────────────────────────────────────────
-function SlackToday({ setPage, setChatHint }) {
+function SlackToday({ setPage, setChatHint, reloadKey }) {
   const [stats, setStats] = useState(null);
   const [summaries, setSummaries] = useState([]);
   const [inbox, setInbox] = useState([]);
@@ -914,7 +914,7 @@ function SlackToday({ setPage, setChatHint }) {
     ]);
     setStats(s); setSummaries(sum.filter((x) => x.priority === 1).slice(0, 3)); setInbox(tasks.slice(0, 5)); setLoading(false);
   }, []);
-  useEffect(() => { load().catch(() => setLoading(false)); const t = setInterval(() => load().catch(() => {}), 60000); return () => clearInterval(t); }, [load]);
+  useEffect(() => { load().catch(() => setLoading(false)); const t = setInterval(() => load().catch(() => {}), 60000); return () => clearInterval(t); }, [load, reloadKey]);
   if (loading) return <div className="empty"><div className="spinner" /></div>;
   if (!stats) return <div className="empty">統計を取得できませんでした。</div>;
   return (
@@ -979,7 +979,7 @@ function SlackToday({ setPage, setChatHint }) {
 }
 
 // ── 要約 ────────────────────────────────────────────────────────
-function SlackSummaries({ setChatHint, setPage }) {
+function SlackSummaries({ setChatHint, setPage, reloadKey }) {
   const [summaries, setSummaries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState({});
@@ -987,14 +987,14 @@ function SlackSummaries({ setChatHint, setPage }) {
     slApi("/api/summaries").then((d) => { setSummaries(d); const o = {}; d.forEach((s) => { if (s.priority === 1) o[s.id] = true; }); setOpen(o); }).catch(() => {}).finally(() => setLoading(false));
     const t = setInterval(() => slApi("/api/summaries").then(setSummaries).catch(() => {}), 30000);
     return () => clearInterval(t);
-  }, []);
+  }, [reloadKey]);
   const togglePriority = async (s) => {
     const newP = s.priority === 1 ? 0 : 1;
     await slApi(`/api/channels/${s.channel_id}/priority`, { method: "PATCH", body: JSON.stringify({ priority: newP }) });
     setSummaries((ss) => ss.map((x) => x.channel_id === s.channel_id ? { ...x, priority: newP } : x));
   };
   if (loading) return <div className="empty"><div className="spinner" /></div>;
-  if (!summaries.length) return <div className="empty"><span className="empty-icon">📋</span>要約がまだありません。<br />左の「⚡ 取得」ボタンを押してください。</div>;
+  if (!summaries.length) return <div className="empty"><span className="empty-icon">📋</span>要約がまだありません。<br />上部の「⚡ 取得」ボタンを押してください（チャンネル未登録の場合は「Slack設定」で追加）。</div>;
   const priority = summaries.filter((s) => s.priority === 1);
   const normal = summaries.filter((s) => s.priority !== 1);
   const renderSummary = (s) => (
@@ -1060,7 +1060,7 @@ function SlackReminderModal({ task, onClose, onSaved }) {
 }
 
 // ── タスク ──────────────────────────────────────────────────────
-function SlackTasks({ setChatHint, setPage }) {
+function SlackTasks({ setChatHint, setPage, reloadKey }) {
   const [tasks, setTasks] = useState([]); const [loading, setLoading] = useState(true);
   const [showDone, setShowDone] = useState(false); const [onlyMine, setOnlyMine] = useState(true);
   const [filter, setFilter] = useState(""); const [showAdd, setShowAdd] = useState(false);
@@ -1069,7 +1069,7 @@ function SlackTasks({ setChatHint, setPage }) {
   const toggleLocal = (id) => { setLocalTasks((prev) => { const next = prev.map((x) => x.id === id ? { ...x, done: !x.done } : x); saveTasks(next); return next; }); };
   const delLocal = (id) => { if (!slConfirm("この会議タスクを削除しますか？")) return; setLocalTasks((prev) => { const next = prev.filter((x) => x.id !== id); saveTasks(next); return next; }); };
   const load = useCallback(() => slApi("/api/tasks?include_done=true").then(setTasks).catch(() => {}).finally(() => setLoading(false)), []);
-  useEffect(() => { load(); const checkR = () => slApi("/api/tasks/reminders").then(setDueReminders).catch(() => {}); checkR(); const t = setInterval(checkR, 60000); return () => clearInterval(t); }, [load]);
+  useEffect(() => { load(); const checkR = () => slApi("/api/tasks/reminders").then(setDueReminders).catch(() => {}); checkR(); const t = setInterval(checkR, 60000); return () => clearInterval(t); }, [load, reloadKey]);
   const toggle = async (task) => { const d = !task.done; setTasks((ts) => ts.map((t) => t.id === task.id ? { ...t, done: d, inbox: 0 } : t)); await slApi(`/api/tasks/${task.id}`, { method: "PATCH", body: JSON.stringify({ done: d }) }); };
   const approve = async (task) => { setTasks((ts) => ts.map((t) => t.id === task.id ? { ...t, inbox: 0 } : t)); await slApi(`/api/tasks/${task.id}/approve`, { method: "POST" }); };
   const del = async (task) => { if (!slConfirm(`「${task.description}」を削除しますか？`)) return; setTasks((ts) => ts.filter((t) => t.id !== task.id)); await slApi(`/api/tasks/${task.id}`, { method: "DELETE" }); };
@@ -1402,6 +1402,8 @@ function SlackPanel({ base, onChangeBase, onBack }) {
   const [lastPoll, setLastPoll] = useState(null);
   const [urlDraft, setUrlDraft] = useState(base || "");
   const [skipped, setSkipped] = useState(false); // 未接続でもスキップして中を見る
+  const [dataVersion, setDataVersion] = useState(0); // 取得後にページを即時更新するためのキー
+  const [pollMsg, setPollMsg] = useState(""); // 取得結果・エラー表示
 
   const check = useCallback(async () => {
     setConn("checking");
@@ -1418,10 +1420,28 @@ function SlackPanel({ base, onChangeBase, onBack }) {
   const toggleAutoPoll = async () => { const next = !autoPoll; setAutoPoll(next); try { await slApi(next ? "/api/auto-poll/resume" : "/api/auto-poll/pause", { method: "POST" }); } catch (e) { setAutoPoll(!next); } };
   const modeLabel = { today: "本日分", range: "期間指定", incremental: "前回以降" };
   const pollNow = async () => {
-    setPolling(true);
+    setPolling(true); setPollMsg("");
     const pt = setInterval(() => slApi("/api/poll/status").then(setProgress).catch(() => {}), 800);
-    try { await slApi("/api/poll", { method: "POST", body: JSON.stringify({ mode: pollMode, date_from: dateFrom, date_to: dateTo, priority_only: priorityOnly }) }); setLastPoll(new Date().toISOString()); slApi("/api/stats").then(setStats).catch(() => {}); }
-    catch (e) {} finally { clearInterval(pt); setProgress(null); setPolling(false); }
+    try {
+      // 対象チャンネルの有無を事前チェック（未登録なら分かりやすく案内）
+      let chs = [];
+      try { chs = await slApi("/api/channels"); } catch (e) {}
+      const target = priorityOnly ? chs.filter((c) => c.priority === 1) : chs;
+      if (Array.isArray(chs) && target.length === 0) {
+        setPollMsg(priorityOnly ? "重要チャンネルがありません。「Slack設定」で⭐を付けるか、チェックを外してください。" : "対象チャンネルがありません。「Slack設定」でチャンネルを追加してください。");
+        return;
+      }
+      await slApi("/api/poll", { method: "POST", body: JSON.stringify({ mode: pollMode, date_from: dateFrom, date_to: dateTo, priority_only: priorityOnly }) });
+      setLastPoll(new Date().toISOString());
+      let st = null; try { st = await slApi("/api/poll/status"); } catch (e) {}
+      setDataVersion((v) => v + 1); // 表示中ページを即時リロード
+      slApi("/api/stats").then(setStats).catch(() => {});
+      if (st && st.last_error) setPollMsg("取得時にエラー: " + st.last_error);
+      else setPollMsg(`取得しました（${(st && st.total) || target.length}チャンネル）。新着がなければ要約は増えません。`);
+    } catch (e) {
+      let msg = e.message; try { msg = JSON.parse(e.message).detail || msg; } catch (_) {}
+      setPollMsg("取得に失敗しました: " + msg);
+    } finally { clearInterval(pt); setProgress(null); setPolling(false); }
   };
   const applyUrl = () => { const v = urlDraft.trim().replace(/\/+$/, ""); onChangeBase(v); };
 
@@ -1515,6 +1535,7 @@ function SlackPanel({ base, onChangeBase, onBack }) {
               </span>
             )}
             {lastPoll && !polling && <span className="sb-tb-label">最終: {slTimeAgo(lastPoll)}</span>}
+            {pollMsg && <span className="sb-tb-label" style={{ flexBasis: "100%", color: pollMsg.indexOf("失敗") >= 0 || pollMsg.indexOf("エラー") >= 0 ? "var(--s-red)" : "var(--s-teal)" }}>{pollMsg}</span>}
           </div>
           {conn !== "ok" && (
             <div className="sb-offbar">
@@ -1527,9 +1548,9 @@ function SlackPanel({ base, onChangeBase, onBack }) {
             </div>
           )}
           <div className="sb-page">
-            {page === "today" && <SlackToday setPage={setPage} setChatHint={setChatHint} />}
-            {page === "summaries" && <SlackSummaries setChatHint={setChatHint} setPage={setPage} />}
-            {page === "tasks" && <SlackTasks setChatHint={setChatHint} setPage={setPage} />}
+            {page === "today" && <SlackToday setPage={setPage} setChatHint={setChatHint} reloadKey={dataVersion} />}
+            {page === "summaries" && <SlackSummaries setChatHint={setChatHint} setPage={setPage} reloadKey={dataVersion} />}
+            {page === "tasks" && <SlackTasks setChatHint={setChatHint} setPage={setPage} reloadKey={dataVersion} />}
             {page === "chat" && <SlackChat contextHint={chatHint} clearHint={() => setChatHint("")} />}
             {page === "settings" && <SlackChannelSettings />}
           </div>
