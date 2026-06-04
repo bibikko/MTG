@@ -482,10 +482,10 @@ const STYLES = `
 @keyframes fade{ from{opacity:0;} to{opacity:1;} }
 .ma-drawer{ width:100%; height:100%; background:${C.paper}; display:flex; flex-direction:column; animation:fade .16s ease; }
 @keyframes slide{ from{transform:translateX(40px);opacity:.6;} to{transform:translateX(0);opacity:1;} }
-.ma-drawer-head{ display:flex; align-items:center; justify-content:space-between; padding:18px 20px; border-bottom:2px solid ${C.ink}; width:100%; max-width:920px; margin-inline:auto; }
+.ma-drawer-head{ display:flex; align-items:center; justify-content:space-between; padding:18px 20px; border-bottom:2px solid ${C.ink}; width:100%; max-width:1400px; margin-inline:auto; }
 .ma-drawer-head h2{ font-family:'Shippori Mincho',serif; font-size:20px; font-weight:800; letter-spacing:.06em; }
 .ma-x{ border:none; background:transparent; font-size:18px; cursor:pointer; color:${C.inkSoft}; padding:4px 8px; border-radius:3px; } .ma-x:hover{ background:rgba(0,0,0,.06); color:${C.ink}; }
-.ma-drawer-body{ flex:1; overflow-y:auto; overflow-x:hidden; padding:16px 20px 28px; width:100%; max-width:920px; margin-inline:auto; }
+.ma-drawer-body{ flex:1; overflow-y:auto; overflow-x:hidden; padding:16px 20px 28px; width:100%; max-width:1400px; margin-inline:auto; }
 .ma-drawer-body::-webkit-scrollbar{ width:7px; } .ma-drawer-body::-webkit-scrollbar-thumb{ background:${C.line}; border-radius:4px; }
 .ma-hist-sep{ font-size:11px; letter-spacing:.14em; color:${C.inkSoft}; text-transform:uppercase; margin:18px 0 10px; padding-bottom:5px; border-bottom:1px solid ${C.line}; }
 .ma-hist{ display:flex; gap:10px; align-items:flex-start; justify-content:space-between; padding:13px; border:1px solid ${C.line}; border-radius:4px; background:rgba(255,255,255,.55); margin-bottom:10px; transition:.15s; }
@@ -755,7 +755,7 @@ const STYLES = `
 @keyframes sbpulse{ 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
 
 /* チャット */
-.sb-slack .chat-wrap{ display:flex; flex-direction:column; height:min(60vh,560px); padding:0; overflow:hidden; }
+.sb-slack .chat-wrap{ display:flex; flex-direction:column; height:min(60vh,560px); padding:0; overflow:hidden; max-width:900px; margin:0 auto; }
 .sb-slack .chat-messages{ flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:14px; }
 .sb-slack .msg{ display:flex; gap:9px; align-items:flex-start; }
 .sb-slack .msg.user{ flex-direction:row-reverse; }
@@ -821,6 +821,10 @@ const STYLES = `
 .sb-me-inline{ font-size:11.5px; color:var(--s-subtle); }
 .sb-tb-sep{ width:1px; height:18px; background:var(--s-border); }
 .sb-tb-label{ font-size:11.5px; color:var(--s-muted); }
+.sb-conn{ display:inline-flex; align-items:center; gap:6px; font-size:11.5px; color:var(--s-muted); }
+.sb-conn i{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+.sb-conn i.ok{ background:var(--s-teal); }
+.sb-conn i.off{ background:var(--s-red); }
 .sb-chip{ border:1px solid var(--s-border); background:var(--s-surface); border-radius:8px; padding:5px 10px; font-size:12px; cursor:pointer; font-family:inherit; color:var(--s-text); }
 .sb-chip.on{ background:var(--s-teal-l); border-color:#bcd6cf; color:var(--s-teal); font-weight:600; }
 .sb-chip.off{ background:var(--s-red-l); border-color:#e3c2bc; color:var(--s-red); font-weight:600; }
@@ -1564,7 +1568,7 @@ function SlackPanel({ base, onChangeBase, onBack }) {
         <main className="sb-screen-main">
           <div className="sb-toolbar">
             {setup && setup.me && setup.me.name && <span className="sb-me-inline">👤 {setup.me.name}</span>}
-            <span className={`sb-chip ${conn === "ok" ? "on" : "off"}`}>{conn === "ok" ? "🟢 接続中" : "🔴 未接続"}</span>
+            <span className="sb-conn"><i className={conn === "ok" ? "ok" : "off"} />{conn === "ok" ? "接続中" : "未接続"}</span>
             <span className="sb-tb-sep" />
             <button className={`sb-chip ${autoPoll ? "on" : "off"}`} onClick={toggleAutoPoll} title="重要チャンネルを1時間ごとに自動取得">{autoPoll ? "🟢 自動取得 オン" : "🔴 自動取得 オフ"}</button>
             <span className="sb-tb-label">取得範囲</span>
@@ -2675,18 +2679,18 @@ ${base}`;
       )}
       <nav className="ma-rail">
         <div className="ma-logo" title="SABOTTA"><LogoMark s={42} gid="sbgRail" /></div>
-        <button className="ma-rail-btn" onClick={() => openOnly("history")} title="過去の会議">
+        <button className={"ma-rail-btn" + (showHistory ? " on" : "")} onClick={() => openOnly(showHistory ? "" : "history")} title="過去の会議">
           <span className="ic"><IC.history /></span><label>履歴</label>{meetings.filter((m) => !m.done).length > 0 && <i className="ma-rail-badge">{meetings.filter((m) => !m.done).length}</i>}
         </button>
-        <button className="ma-rail-btn" onClick={() => openOnly("tasks")} title="マイタスク">
+        <button className={"ma-rail-btn" + (showTasks ? " on" : "")} onClick={() => openOnly(showTasks ? "" : "tasks")} title="マイタスク">
           <span className="ic"><IC.tasks /></span><label>タスク</label>{tasks.filter((t) => !t.done).length > 0 && <i className="ma-rail-badge">{tasks.filter((t) => !t.done).length}</i>}
         </button>
-        <button className="ma-rail-btn" onClick={() => openOnly("chat")} title="AIチャット"><span className="ic"><IC.chat /></span><label>チャット</label></button>
-        <button className="ma-rail-btn" onClick={() => openOnly("sources")} title="ソース（参考資料）"><span className="ic"><IC.book /></span><label>ソース</label></button>
-        <button className="ma-rail-btn" onClick={() => openOnly("import")} title="文字起こし取込"><span className="ic"><IC.import /></span><label>取込</label></button>
-        <button className="ma-rail-btn" onClick={() => openOnly("slack")} title="Slack 要約・タスク"><span className="ic"><IC.slack /></span><label>Slack</label></button>
+        <button className={"ma-rail-btn" + (showChat ? " on" : "")} onClick={() => openOnly(showChat ? "" : "chat")} title="AIチャット"><span className="ic"><IC.chat /></span><label>チャット</label></button>
+        <button className={"ma-rail-btn" + (showSources ? " on" : "")} onClick={() => openOnly(showSources ? "" : "sources")} title="ソース（参考資料）"><span className="ic"><IC.book /></span><label>ソース</label></button>
+        <button className={"ma-rail-btn" + (showImport ? " on" : "")} onClick={() => openOnly(showImport ? "" : "import")} title="文字起こし取込"><span className="ic"><IC.import /></span><label>取込</label></button>
+        <button className={"ma-rail-btn" + (showSlack ? " on" : "")} onClick={() => openOnly(showSlack ? "" : "slack")} title="Slack 要約・タスク"><span className="ic"><IC.slack /></span><label>Slack</label></button>
         <div className="ma-rail-spacer" />
-        <button className="ma-rail-btn" onClick={() => openOnly("settings")} title="設定"><span className="ic"><IC.settings /></span><label>設定</label></button>
+        <button className={"ma-rail-btn" + (showSettings ? " on" : "")} onClick={() => openOnly(showSettings ? "" : "settings")} title="設定"><span className="ic"><IC.settings /></span><label>設定</label></button>
       </nav>
       <div className="ma-wrap">
         <header className="ma-top">
