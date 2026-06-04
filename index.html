@@ -1201,24 +1201,57 @@ function SlackChat({ contextHint, clearHint }) {
 // ── 設定（監視チャンネル）────────────────────────────────────────
 function SlackChannelSettings() {
   const [channels, setChannels] = useState([]); const [newId, setNewId] = useState(""); const [newName, setNewName] = useState(""); const [saving, setSaving] = useState(false);
+  // 一括追加（Slackから取得）
+  const [picker, setPicker] = useState(null); const [pickLoading, setPickLoading] = useState(false); const [pickError, setPickError] = useState("");
+  const [picked, setPicked] = useState({}); const [pickFilter, setPickFilter] = useState(""); const [bulkBusy, setBulkBusy] = useState(false);
+  // 一括追加（貼り付け）
+  const [pasteText, setPasteText] = useState(""); const [pasteMsg, setPasteMsg] = useState("");
   const load = () => slApi("/api/channels").then(setChannels).catch(() => {});
   useEffect(() => { load(); }, []);
   const add = async () => { if (!newId.trim() || !newName.trim()) return; setSaving(true); await slApi("/api/channels", { method: "POST", body: JSON.stringify({ id: newId.trim(), name: newName.trim() }) }); setNewId(""); setNewName(""); await load(); setSaving(false); };
   const remove = async (id) => { if (!slConfirm("このチャンネルを削除しますか？")) return; await slApi(`/api/channels/${id}`, { method: "DELETE" }); load(); };
   const togglePriority = async (ch) => { const newP = ch.priority === 1 ? 0 : 1; await slApi(`/api/channels/${ch.id}/priority`, { method: "PATCH", body: JSON.stringify({ priority: newP }) }); load(); };
   const priority = channels.filter((c) => c.priority === 1); const normal = channels.filter((c) => c.priority !== 1);
+
+  const fetchPicker = async () => {
+    setPickLoading(true); setPickError("");
+    try { const list = await slApi("/api/slack/channels"); setPicker(Array.isArray(list) ? list : []); }
+    catch (e) { let msg = e.message; try { msg = JSON.parse(e.message).detail || msg; } catch (_) {} setPickError(msg || "取得に失敗しました"); setPicker([]); }
+    finally { setPickLoading(false); }
+  };
+  const registered = new Set(channels.map((c) => c.id));
+  const pickList = (picker || []).filter((c) => !pickFilter || c.name.includes(pickFilter) || c.id.includes(pickFilter));
+  const pickedIds = Object.keys(picked).filter((k) => picked[k]);
+  const togglePick = (id) => setPicked((p) => ({ ...p, [id]: !p[id] }));
+  const pickAll = () => { const np = { ...picked }; pickList.forEach((c) => { if (!registered.has(c.id)) np[c.id] = true; }); setPicked(np); };
+  const pickNone = () => setPicked({});
+  const registerPicked = async () => {
+    const targets = (picker || []).filter((c) => picked[c.id] && !registered.has(c.id));
+    if (!targets.length) return;
+    setBulkBusy(true);
+    for (const c of targets) { try { await slApi("/api/channels", { method: "POST", body: JSON.stringify({ id: c.id, name: c.name }) }); } catch (e) {} }
+    setPicked({}); await load(); setBulkBusy(false);
+  };
+  const runPaste = async () => {
+    const rows = pasteText.split("\n").map((l) => l.trim()).filter(Boolean).map((line) => {
+      const parts = line.split(/[,\t]| {2,}|\s+/).map((s) => s.trim()).filter(Boolean);
+      const id = (parts[0] || "").replace(/^#/, ""); const name = parts.slice(1).join(" ") || id;
+      return { id, name };
+    }).filter((r) => r.id);
+    if (!rows.length) { setPasteMsg("登録できる行がありません。"); return; }
+    setBulkBusy(true); let ok = 0;
+    for (const r of rows) { try { await slApi("/api/channels", { method: "POST", body: JSON.stringify({ id: r.id, name: r.name }) }); ok++; } catch (e) {} }
+    setBulkBusy(false); setPasteText(""); setPasteMsg(`${ok} 件を登録しました。`); await load();
+  };
+
   return (
     <div>
       <h1 className="page-title">Slack 設定</h1>
+
       <div className="card">
         <div className="card-header"><div className="card-title">監視チャンネル</div></div>
         <p style={{ fontSize: 12, color: "var(--s-muted)", margin: "8px 0 14px", lineHeight: 1.8 }}>⭐ <strong>重要チャンネル</strong>は1時間ごとに自動分析されます。<br />通常チャンネルは「⚡ 取得」を押したときのみ分析されます。</p>
-        <div className="settings-form">
-          <input className="settings-input" placeholder="チャンネルID (C0XXXXXXX)" value={newId} onChange={(e) => setNewId(e.target.value)} />
-          <input className="settings-input" placeholder="チャンネル名" value={newName} onChange={(e) => setNewName(e.target.value)} />
-          <button className="btn btn-primary" onClick={add} disabled={saving || !newId || !newName}>追加</button>
-        </div>
-        {!channels.length ? <div className="empty" style={{ padding: "16px 0" }}>チャンネルが登録されていません</div> : <>
+        {!channels.length ? <div className="empty" style={{ padding: "16px 0" }}>チャンネルが登録されていません。下の「一括追加」が便利です。</div> : <>
           {priority.length > 0 && <><div className="section-head" style={{ color: "var(--s-amber)" }}>⭐ 重要チャンネル（自動分析）</div>
             {priority.map((ch) => (<div key={ch.id} className="ch-row"><div><div className="ch-name">#{ch.name}</div><div className="ch-id">{ch.id}</div></div><div className="ch-actions"><button className="btn btn-sm" style={{ background: "var(--s-amber-l)", color: "var(--s-amber)", borderColor: "#ddcba6" }} onClick={() => togglePriority(ch)}>⭐ 重要</button><button className="btn btn-danger btn-sm" onClick={() => remove(ch.id)}>削除</button></div></div>))}
           </>}
@@ -1227,9 +1260,93 @@ function SlackChannelSettings() {
           </>}
         </>}
       </div>
+
+      {/* 一括追加（Slackから取得） */}
       <div className="card" style={{ marginTop: 14 }}>
-        <div className="card-title" style={{ marginBottom: 10 }}>ヒント</div>
-        <p style={{ fontSize: 13, color: "var(--s-muted)", lineHeight: 1.9 }}>• チャンネルIDはSlackでチャンネルを右クリック →「チャンネルの詳細」→ 一番下に表示されます<br />• <code>python3 select_channels.py</code> を使うと一覧から選んで一括登録できます<br />• タスクの「要確認」は自動抽出時にAIが判断に悩んだものです。不要なら削除してください</p>
+        <div className="card-header"><div className="card-title">⚡ 一括追加（Slackから取得）</div></div>
+        <p style={{ fontSize: 12, color: "var(--s-muted)", margin: "8px 0 12px", lineHeight: 1.8 }}>あなたが<strong>参加しているチャンネル</strong>をSlackから取得し、チェックを入れてまとめて登録できます（最も簡単）。</p>
+        {!picker ? (
+          <button className="btn btn-primary" onClick={fetchPicker} disabled={pickLoading}>{pickLoading ? "取得中…" : "Slackのチャンネルを取得"}</button>
+        ) : (
+          <>
+            <div className="filter-bar" style={{ marginBottom: 10 }}>
+              <input className="filter-input" placeholder="チャンネル名・IDで絞り込み" value={pickFilter} onChange={(e) => setPickFilter(e.target.value)} />
+              <button className="filter-btn" onClick={pickAll}>表示中をすべて選択</button>
+              <button className="filter-btn" onClick={pickNone}>選択解除</button>
+              <button className="btn btn-ghost btn-sm" onClick={fetchPicker} disabled={pickLoading}>{pickLoading ? "更新中…" : "再取得"}</button>
+            </div>
+            {pickList.length === 0 ? <div className="empty" style={{ padding: "14px 0" }}>該当するチャンネルがありません。</div> : (
+              <div style={{ maxHeight: 320, overflowY: "auto", border: "1px solid var(--s-border)", borderRadius: 10 }}>
+                {pickList.map((c) => {
+                  const reg = registered.has(c.id);
+                  return (
+                    <label key={c.id} className="ch-row" style={{ cursor: reg ? "default" : "pointer", opacity: reg ? 0.55 : 1 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <input type="checkbox" disabled={reg} checked={reg || !!picked[c.id]} onChange={() => togglePick(c.id)} style={{ accentColor: "#c8482f" }} />
+                        <div>
+                          <div className="ch-name">{c.is_private ? "🔒 " : "#"}{c.name}{reg ? "（登録済み）" : ""}</div>
+                          <div className="ch-id">{c.id}{c.num_members != null ? ` ・ ${c.num_members}人` : ""}</div>
+                        </div>
+                      </div>
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+            <button className="btn btn-primary" style={{ marginTop: 12 }} onClick={registerPicked} disabled={bulkBusy || pickedIds.length === 0}>{bulkBusy ? "登録中…" : `選択した ${pickedIds.length} 件を登録`}</button>
+          </>
+        )}
+        {pickError && <div style={{ background: "var(--s-red-l)", color: "var(--s-red)", padding: "8px 12px", borderRadius: 8, fontSize: 12, marginTop: 12, lineHeight: 1.7 }}>⚠️ {pickError}<br />Slackトークンに <code>channels:read</code> / <code>groups:read</code> スコープが必要です。下の「貼り付けで一括追加」も使えます。</div>}
+      </div>
+
+      {/* 一括追加（貼り付け） */}
+      <div className="card" style={{ marginTop: 14 }}>
+        <div className="card-header"><div className="card-title">📋 一括追加（貼り付け）</div></div>
+        <p style={{ fontSize: 12, color: "var(--s-muted)", margin: "8px 0 10px", lineHeight: 1.8 }}>1行に1チャンネルを貼り付けます。形式は <code>チャンネルID,チャンネル名</code>（カンマ・タブ・スペース区切り可）。名前は省略可（その場合IDが名前になります）。</p>
+        <textarea className="settings-input" style={{ width: "100%", minHeight: 110, fontFamily: "ui-monospace, monospace", fontSize: 12.5, lineHeight: 1.7, resize: "vertical" }} value={pasteText} onChange={(e) => setPasteText(e.target.value)} placeholder={"例:\nC0123ABCD,営業\nC0456EFGH,開発-general\nC0789IJKL"} />
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 10 }}>
+          <button className="btn btn-primary" onClick={runPaste} disabled={bulkBusy || !pasteText.trim()}>{bulkBusy ? "登録中…" : "貼り付けた内容を登録"}</button>
+          {pasteMsg && <span style={{ fontSize: 12, color: "var(--s-teal)" }}>{pasteMsg}</span>}
+        </div>
+      </div>
+
+      {/* 単体追加 */}
+      <div className="card" style={{ marginTop: 14 }}>
+        <div className="card-header"><div className="card-title">＋ 1件ずつ追加</div></div>
+        <div className="settings-form" style={{ marginTop: 10 }}>
+          <input className="settings-input" placeholder="チャンネルID (C0XXXXXXX)" value={newId} onChange={(e) => setNewId(e.target.value)} />
+          <input className="settings-input" placeholder="チャンネル名" value={newName} onChange={(e) => setNewName(e.target.value)} />
+          <button className="btn btn-primary" onClick={add} disabled={saving || !newId || !newName}>追加</button>
+        </div>
+      </div>
+
+      {/* 詳しい手順 */}
+      <div className="card" style={{ marginTop: 14 }}>
+        <div className="card-title" style={{ marginBottom: 10 }}>📖 チャンネル追加のくわしい手順</div>
+        <div style={{ fontSize: 13, color: "var(--s-muted)", lineHeight: 1.95 }}>
+          <div className="section-head" style={{ marginTop: 0 }}>方法1：Slackから取得して一括登録（おすすめ）</div>
+          1. 上の「⚡ 一括追加」→「<strong>Slackのチャンネルを取得</strong>」を押す。<br />
+          2. 参加中のチャンネル一覧が出るので、登録したいものにチェック（「表示中をすべて選択」も可）。<br />
+          3. 「<strong>選択した N件を登録</strong>」を押す。登録済みはグレー表示で重複しません。<br />
+          ※ この機能には Slackトークンに <code>channels:read</code> / <code>groups:read</code> スコープが必要です。<strong>参加しているチャンネルのみ</strong>取得できます（未参加はSlackで参加してから）。
+
+          <div className="section-head">方法2：貼り付けで一括登録</div>
+          1. 「📋 一括追加（貼り付け）」の欄に、1行1チャンネルで貼り付け。<br />
+          2. 形式は <code>ID,名前</code>。名前は省略可（IDが名前になります）。カンマ／タブ／スペース区切りに対応。<br />
+          3. 「貼り付けた内容を登録」を押す。<br />
+          例：<br />
+          <code style={{ display: "block", whiteSpace: "pre", background: "var(--s-surface2)", padding: "8px 10px", borderRadius: 8, margin: "4px 0", fontSize: 12 }}>{"C0123ABCD,営業\nC0456EFGH,開発-general\nC0789IJKL"}</code>
+
+          <div className="section-head">チャンネルIDの調べ方</div>
+          Slackで対象チャンネルを開く → 上部のチャンネル名をクリック → 「<strong>概要</strong>」タブの一番下に「<strong>チャンネルID: C0XXXXXXX</strong>」が表示されるのでコピー。<br />
+          （メッセージのリンクをコピーしたとき末尾の <code>/archives/C0XXXXXXX/...</code> の <code>C0XXXXXXX</code> がIDです）
+
+          <div className="section-head">重要チャンネル（⭐）について</div>
+          ⭐ を付けたチャンネルは<strong>1時間ごとに自動で要約・タスク抽出</strong>されます。通常チャンネルは「⚡ 取得」を押したときだけ分析されるので、トークン節約になります。登録後に各行の「☆ 重要にする」で切り替えできます。
+
+          <div className="section-head">ターミナルから登録したい場合</div>
+          同梱の <code>python3 select_channels.py</code> でも、一覧から選んで一括登録できます（アプリ起動中に別ターミナルで実行）。
+        </div>
       </div>
     </div>
   );
