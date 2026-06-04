@@ -1063,7 +1063,9 @@ function SlackReminderModal({ task, onClose, onSaved }) {
 function SlackTasks({ setChatHint, setPage, reloadKey }) {
   const [tasks, setTasks] = useState([]); const [loading, setLoading] = useState(true);
   const [showDone, setShowDone] = useState(false); const [onlyMine, setOnlyMine] = useState(true);
-  const [filter, setFilter] = useState(""); const [showAdd, setShowAdd] = useState(false);
+  const [filter, setFilter] = useState("");
+  const [addDesc, setAddDesc] = useState(""); const [addAssignee, setAddAssignee] = useState(""); const [addDue, setAddDue] = useState(""); const [addDetail, setAddDetail] = useState(""); const [adding, setAdding] = useState(false);
+  const [editId, setEditId] = useState(null); const [eDesc, setEDesc] = useState(""); const [eAssignee, setEAssignee] = useState(""); const [eDue, setEDue] = useState(""); const [eDetail, setEDetail] = useState("");
   const [reminderTask, setReminderTask] = useState(null); const [dueReminders, setDueReminders] = useState([]);
   const [localTasks, setLocalTasks] = useState(() => { const t = loadTasks(); return Array.isArray(t) ? t : []; });
   const toggleLocal = (id) => { setLocalTasks((prev) => { const next = prev.map((x) => x.id === id ? { ...x, done: !x.done } : x); saveTasks(next); return next; }); };
@@ -1073,33 +1075,71 @@ function SlackTasks({ setChatHint, setPage, reloadKey }) {
   const toggle = async (task) => { const d = !task.done; setTasks((ts) => ts.map((t) => t.id === task.id ? { ...t, done: d, inbox: 0 } : t)); await slApi(`/api/tasks/${task.id}`, { method: "PATCH", body: JSON.stringify({ done: d }) }); };
   const approve = async (task) => { setTasks((ts) => ts.map((t) => t.id === task.id ? { ...t, inbox: 0 } : t)); await slApi(`/api/tasks/${task.id}/approve`, { method: "POST" }); };
   const del = async (task) => { if (!slConfirm(`「${task.description}」を削除しますか？`)) return; setTasks((ts) => ts.filter((t) => t.id !== task.id)); await slApi(`/api/tasks/${task.id}`, { method: "DELETE" }); };
+  const addTask = async () => {
+    if (!addDesc.trim() || adding) return; setAdding(true);
+    try { await slApi("/api/tasks", { method: "POST", body: JSON.stringify({ description: addDesc.trim(), assignee: addAssignee.trim(), due: addDue, detail: addDetail.trim() }) }); setAddDesc(""); setAddAssignee(""); setAddDue(""); setAddDetail(""); await load(); }
+    catch (e) {} finally { setAdding(false); }
+  };
+  const startEdit = (t) => { setEditId(t.id); setEDesc(t.description || ""); setEAssignee(t.assignee || ""); setEDue(t.due || ""); setEDetail(t.detail || ""); };
+  const cancelEdit = () => setEditId(null);
+  const saveEdit = async (t) => {
+    if (!eDesc.trim()) return;
+    setTasks((ts) => ts.map((x) => x.id === t.id ? { ...x, description: eDesc, assignee: eAssignee, due: eDue, detail: eDetail } : x));
+    setEditId(null);
+    try { await slApi(`/api/tasks/${t.id}`, { method: "PATCH", body: JSON.stringify({ description: eDesc, assignee: eAssignee, due: eDue, detail: eDetail }) }); } catch (e) {}
+  };
+  const onEnterNoIME = (e, fn) => { if (e.key === "Enter" && !e.isComposing && e.keyCode !== 229) { e.preventDefault(); fn(); } };
   const baseList = tasks.filter((t) => showDone || !t.done).filter((t) => !onlyMine || t.is_mine).filter((t) => !filter || t.description.includes(filter) || (t.assignee || "").includes(filter) || (t.channel_name || "").includes(filter));
   const inboxTasks = baseList.filter((t) => t.inbox && !t.done);
   const todoTasks = baseList.filter((t) => !t.inbox && !t.done);
   const doneTasks = showDone ? baseList.filter((t) => t.done) : [];
   const undone = tasks.filter((t) => !t.done && (!onlyMine || t.is_mine)).length;
   const localShown = localTasks.filter((t) => showDone || !t.done).filter((t) => !filter || (t.text || "").includes(filter) || (t.source || "").includes(filter));
-  const TaskRow = ({ t, showApprove }) => (
-    <div className="task-item">
-      <div className={`task-check ${t.done ? "done" : ""}`} onClick={() => toggle(t)} />
-      <div className="task-body">
-        <div className={`task-desc ${t.done ? "done" : ""}`}>{t.description}</div>
-        <div className="task-tags">
-          {t.assignee && <span className="tag tag-assignee">👤 {t.assignee}</span>}
-          {t.due && <span className="tag tag-due">📅 {t.due}</span>}
-          <span className="tag tag-channel">#{t.channel_name}</span>
-          {t.confidence === "low" && <span className="tag tag-low">⚠ 要確認</span>}
-          {t.source === "manual" && <span className="tag tag-manual">手動</span>}
-          {t.remind_at && <span className="tag tag-remind remind-pulse">🔔 {new Date(t.remind_at).toLocaleString("ja-JP", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })}</span>}
+  const TaskRow = ({ t, showApprove }) => {
+    if (editId === t.id) {
+      return (
+        <div className="task-item" style={{ alignItems: "stretch" }}>
+          <div className="task-body" style={{ width: "100%" }}>
+            <label className="ma-fld"><span>タスク</span>
+              <input className="ma-fld-in" value={eDesc} autoFocus onChange={(e) => setEDesc(e.target.value)} onKeyDown={(e) => { if (e.key === "Escape") cancelEdit(); else onEnterNoIME(e, () => saveEdit(t)); }} />
+            </label>
+            <label className="ma-fld" style={{ marginTop: 8 }}><span>詳細な説明（任意・一覧には表示されません）</span>
+              <textarea className="ma-fld-in" style={{ minHeight: 64, resize: "vertical", lineHeight: 1.6 }} value={eDetail} onChange={(e) => setEDetail(e.target.value)} placeholder="背景・手順・参考リンクなど" />
+            </label>
+            <div className="ma-fldrow" style={{ marginTop: 8 }}>
+              <label className="ma-fld"><span>担当者（任意）</span><input className="ma-fld-in" value={eAssignee} onChange={(e) => setEAssignee(e.target.value)} /></label>
+              <label className="ma-fld"><span>期限（任意）</span><input className="ma-fld-in" type="date" value={eDue} onChange={(e) => setEDue(e.target.value)} /></label>
+              <button className="ma-addbtn" onClick={() => saveEdit(t)}>保存</button>
+              <button className="ma-addbtn" style={{ background: "transparent", color: "var(--s-muted)", border: "1px solid var(--s-border)" }} onClick={cancelEdit}>取消</button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div className="task-item">
+        <div className={`task-check ${t.done ? "done" : ""}`} onClick={() => toggle(t)} />
+        <div className="task-body">
+          <div className={`task-desc ${t.done ? "done" : ""}`}>{t.description}</div>
+          <div className="task-tags">
+            {t.assignee && <span className="tag tag-assignee">👤 {t.assignee}</span>}
+            {t.due && <span className="tag tag-due">📅 {t.due}</span>}
+            <span className="tag tag-channel">#{t.channel_name}</span>
+            {t.confidence === "low" && <span className="tag tag-low">⚠ 要確認</span>}
+            {t.source === "manual" && <span className="tag tag-manual">手動</span>}
+            {t.detail && <span className="tag tag-manual" title={t.detail}>📝 詳細あり</span>}
+            {t.remind_at && <span className="tag tag-remind remind-pulse">🔔 {new Date(t.remind_at).toLocaleString("ja-JP", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })}</span>}
+          </div>
+        </div>
+        <div className="task-actions">
+          {showApprove && <button className="icon-btn approve" title="確認済みにする" onClick={() => approve(t)}>✓</button>}
+          <button className="icon-btn" title="編集" onClick={() => startEdit(t)}>✏️</button>
+          <button className="icon-btn" title="リマインダー" onClick={() => setReminderTask(t)}>🔔</button>
+          <button className="icon-btn danger" title="削除" onClick={() => del(t)}>🗑</button>
         </div>
       </div>
-      <div className="task-actions">
-        {showApprove && <button className="icon-btn approve" title="確認済みにする" onClick={() => approve(t)}>✓</button>}
-        <button className="icon-btn" title="リマインダー" onClick={() => setReminderTask(t)}>🔔</button>
-        <button className="icon-btn danger" title="削除" onClick={() => del(t)}>🗑</button>
-      </div>
-    </div>
-  );
+    );
+  };
   if (loading) return <div className="empty"><div className="spinner" /></div>;
   return (
     <div>
@@ -1107,7 +1147,19 @@ function SlackTasks({ setChatHint, setPage, reloadKey }) {
         <h1 className="page-title" style={{ marginBottom: 0 }}>タスク<span style={{ fontSize: 13, fontWeight: 400, color: "var(--s-muted)", marginLeft: 8 }}>未完了 {undone}件</span></h1>
         <div style={{ display: "flex", gap: 8 }}>
           <button className="btn btn-ghost btn-sm" onClick={() => { setChatHint("tasks:all"); setPage("chat"); }}>🤖 AIに整理してもらう</button>
-          <button className="btn btn-primary btn-sm" onClick={() => setShowAdd(true)}>＋ 追加</button>
+        </div>
+      </div>
+      <div style={{ marginBottom: 16 }}>
+        <label className="ma-fld"><span>新しいタスク</span>
+          <input className="ma-fld-in" value={addDesc} onChange={(e) => setAddDesc(e.target.value)} onKeyDown={(e) => onEnterNoIME(e, addTask)} placeholder="例: 〇〇さんに連絡する（変換確定のEnterでは作成されません）" />
+        </label>
+        <label className="ma-fld" style={{ marginTop: 8 }}><span>詳細な説明（任意・一覧には表示されません）</span>
+          <textarea className="ma-fld-in" style={{ minHeight: 64, resize: "vertical", lineHeight: 1.6 }} value={addDetail} onChange={(e) => setAddDetail(e.target.value)} placeholder="背景・手順・参考リンクなど。編集画面で確認できます。" />
+        </label>
+        <div className="ma-fldrow" style={{ marginTop: 8 }}>
+          <label className="ma-fld"><span>担当者（任意）</span><input className="ma-fld-in" value={addAssignee} onChange={(e) => setAddAssignee(e.target.value)} placeholder="自分" /></label>
+          <label className="ma-fld"><span>期限（任意）</span><input className="ma-fld-in" type="date" value={addDue} onChange={(e) => setAddDue(e.target.value)} /></label>
+          <button className="ma-addbtn" onClick={addTask} disabled={adding || !addDesc.trim()}>＋ 追加</button>
         </div>
       </div>
       {dueReminders.map((t) => (
@@ -1146,6 +1198,7 @@ function SlackTasks({ setChatHint, setPage, reloadKey }) {
                   {t.due && <span className="tag tag-due">📅 {String(t.due).replace("T", " ")}</span>}
                   {t.source && <span className="tag tag-channel">🗒 {t.source}</span>}
                   <span className="tag tag-manual">会議</span>
+                  {t.detail && <span className="tag tag-manual" title={t.detail}>📝 詳細あり</span>}
                 </div>
               </div>
               <div className="task-actions">
@@ -1156,7 +1209,6 @@ function SlackTasks({ setChatHint, setPage, reloadKey }) {
         </div>
       )}
       {inboxTasks.length === 0 && todoTasks.length === 0 && doneTasks.length === 0 && localShown.length === 0 && <div className="empty"><span className="empty-icon">✅</span>タスクはありません</div>}
-      {showAdd && <SlackAddTaskModal onClose={() => setShowAdd(false)} onAdded={load} />}
       {reminderTask && <SlackReminderModal task={reminderTask} onClose={() => setReminderTask(null)} onSaved={load} />}
     </div>
   );
@@ -1190,7 +1242,7 @@ function SlackChat({ contextHint, clearHint }) {
         </div>
         {messages.length <= 1 && <div className="quick-prompts">{quickPrompts.map((p, i) => <button key={i} className="quick-btn" onClick={() => send(p)}>{p}</button>)}</div>}
         <div className="chat-input-row">
-          <textarea className="chat-input" placeholder="質問・相談を入力…（Shift+Enter で改行、Enter で送信）" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }} rows={1} />
+          <textarea className="chat-input" placeholder="質問・相談を入力…（Shift+Enter で改行、Enter で送信）" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing && e.keyCode !== 229) { e.preventDefault(); send(); } }} rows={1} />
           <button className="send-btn" onClick={() => send()} disabled={loading || !input.trim()}>➤</button>
         </div>
       </div>
@@ -1634,11 +1686,13 @@ function MeetingAssistant() {
   const [newTask, setNewTask] = useState("");
   const [newTaskDue, setNewTaskDue] = useState("");
   const [newTaskPrio, setNewTaskPrio] = useState("none");
+  const [newTaskDetail, setNewTaskDetail] = useState("");
   const [taskFilter, setTaskFilter] = useState("open"); // open | all
   const [taskEditId, setTaskEditId] = useState(null);
   const [taskEditVal, setTaskEditVal] = useState("");
   const [taskEditDue, setTaskEditDue] = useState("");
   const [taskEditPrio, setTaskEditPrio] = useState("none");
+  const [taskEditDetail, setTaskEditDetail] = useState("");
   const [remindOn, setRemindOn] = useState(false);
   const [gSources, setGSources] = useState([]);         // 全体ソース
   const [mSources, setMSources] = useState([]);          // この会議のソース
@@ -2051,10 +2105,10 @@ function MeetingAssistant() {
   };
 
   // ── マイタスク
-  const addTask = (text, due, prio) => {
+  const addTask = (text, due, prio, detail) => {
     const t = (text || "").trim();
     if (!t) return;
-    setTasks((prev) => [{ id: makeId(), text: t, done: false, source: title || "無題の会議", createdAt: Date.now(), due: due || "", prio: prio || "none", notified: false }, ...prev]);
+    setTasks((prev) => [{ id: makeId(), text: t, done: false, source: title || "無題の会議", createdAt: Date.now(), due: due || "", prio: prio || "none", detail: detail || "", notified: false }, ...prev]);
     flash("マイタスクに追加しました。");
   };
   const toggleTask = (id) => setTasks((prev) => prev.map((x) => (x.id === id ? { ...x, done: !x.done } : x)));
@@ -2067,8 +2121,8 @@ function MeetingAssistant() {
   const toggleSlackTask = (t) => { SLACK_BASE = (slackUrl || "").trim().replace(/\/+$/, ""); const d = !t.done; setSlackTasks((ts) => ts.map((x) => (x.id === t.id ? { ...x, done: d, inbox: 0 } : x))); slApi(`/api/tasks/${t.id}`, { method: "PATCH", body: JSON.stringify({ done: d }) }).catch(() => {}); };
   const delSlackTask = (t) => { SLACK_BASE = (slackUrl || "").trim().replace(/\/+$/, ""); setSlackTasks((ts) => ts.filter((x) => x.id !== t.id)); slApi(`/api/tasks/${t.id}`, { method: "DELETE" }).catch(() => {}); };
   useEffect(() => { if (showTasks) refreshSlackTasks(); }, [showTasks, refreshSlackTasks]);
-  const startTaskEdit = (t) => { setTaskEditId(t.id); setTaskEditVal(t.text); setTaskEditDue(t.due || ""); setTaskEditPrio(t.prio || "none"); };
-  const saveTaskEdit = () => { setTasks((prev) => prev.map((x) => (x.id === taskEditId ? { ...x, text: taskEditVal, due: taskEditDue, prio: taskEditPrio } : x))); setTaskEditId(null); };
+  const startTaskEdit = (t) => { setTaskEditId(t.id); setTaskEditVal(t.text); setTaskEditDue(t.due || ""); setTaskEditPrio(t.prio || "none"); setTaskEditDetail(t.detail || ""); };
+  const saveTaskEdit = () => { setTasks((prev) => prev.map((x) => (x.id === taskEditId ? { ...x, text: taskEditVal, due: taskEditDue, prio: taskEditPrio, detail: taskEditDetail } : x))); setTaskEditId(null); };
 
   // 期限の状態を判定
   const dueState = (t) => {
@@ -2129,7 +2183,10 @@ function MeetingAssistant() {
           {taskEditId === t.id ? (
             <div className="ma-task-editbox">
               <label className="ma-fld"><span>タスク</span>
-                <input className="ma-fld-in" autoFocus value={taskEditVal} onChange={(e) => setTaskEditVal(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") saveTaskEdit(); }} />
+                <input className="ma-fld-in" autoFocus value={taskEditVal} onChange={(e) => setTaskEditVal(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.isComposing && e.keyCode !== 229) saveTaskEdit(); else if (e.key === "Escape") setTaskEditId(null); }} />
+              </label>
+              <label className="ma-fld" style={{ marginTop: 8 }}><span>詳細な説明（任意・一覧には表示されません）</span>
+                <textarea className="ma-fld-in" style={{ minHeight: 64, resize: "vertical", lineHeight: 1.6 }} value={taskEditDetail} onChange={(e) => setTaskEditDetail(e.target.value)} placeholder="背景・手順・参考リンクなど" />
               </label>
               <div className="ma-fldrow">
                 <label className="ma-fld"><span>期限（任意）</span>
@@ -2139,7 +2196,9 @@ function MeetingAssistant() {
                   <select className="ma-fld-in" value={taskEditPrio} onChange={(e) => setTaskEditPrio(e.target.value)}>{PRIO_OPTS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select>
                 </label>
                 <button className="ma-addbtn" onClick={saveTaskEdit}>保存</button>
+                <button className="ma-addbtn" style={{ background: "transparent", color: C.inkSoft, border: `1px solid ${C.line}` }} onClick={() => setTaskEditId(null)}>取消</button>
               </div>
+              <div style={{ fontSize: 11, color: C.inkSoft, marginTop: 6 }}>「保存」または「取消」で閉じます（Escでも閉じます）。</div>
             </div>
           ) : (
             <div className="ma-task-text" onClick={() => startTaskEdit(t)}>{t.text}</div>
@@ -2148,6 +2207,7 @@ function MeetingAssistant() {
             {ds.label && <span className={`ma-due ${ds.key}`}>{ds.txt ? ds.txt + " " : ""}{ds.label}</span>}
             {pr && <span className="ma-prio" style={{ color: pr.c }}>● {pr.t}</span>}
             <span>{t.source}</span>
+            {t.detail && <span title={t.detail} style={{ cursor: "help" }}>📝 詳細あり</span>}
           </div>
         </div>
         <div className="ma-task-rowbtns">
@@ -2806,7 +2866,10 @@ ${base}`;
               <div className="ma-drawer-body">
                 <div className="ma-addbox">
                   <label className="ma-fld"><span>タスク</span>
-                    <input className="ma-fld-in" value={newTask} placeholder="例: 見積書を送る" onChange={(e) => setNewTask(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { addTask(newTask, newTaskDue, newTaskPrio); setNewTask(""); setNewTaskDue(""); setNewTaskPrio("none"); } }} />
+                    <input className="ma-fld-in" value={newTask} placeholder="例: 見積書を送る（変換確定のEnterでは作成されません）" onChange={(e) => setNewTask(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.isComposing && e.keyCode !== 229) { addTask(newTask, newTaskDue, newTaskPrio, newTaskDetail); setNewTask(""); setNewTaskDue(""); setNewTaskPrio("none"); setNewTaskDetail(""); } }} />
+                  </label>
+                  <label className="ma-fld" style={{ marginTop: 8 }}><span>詳細な説明（任意・一覧には表示されません）</span>
+                    <textarea className="ma-fld-in" style={{ minHeight: 64, resize: "vertical", lineHeight: 1.6 }} value={newTaskDetail} onChange={(e) => setNewTaskDetail(e.target.value)} placeholder="背景・手順・参考リンクなど。編集画面で確認できます。" />
                   </label>
                   <div className="ma-fldrow">
                     <label className="ma-fld"><span>期限（任意）</span>
@@ -2815,7 +2878,7 @@ ${base}`;
                     <label className="ma-fld"><span>優先度</span>
                       <select className="ma-fld-in" value={newTaskPrio} onChange={(e) => setNewTaskPrio(e.target.value)}>{PRIO_OPTS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select>
                     </label>
-                    <button className="ma-addbtn" onClick={() => { addTask(newTask, newTaskDue, newTaskPrio); setNewTask(""); setNewTaskDue(""); setNewTaskPrio("none"); }}>追加</button>
+                    <button className="ma-addbtn" onClick={() => { addTask(newTask, newTaskDue, newTaskPrio, newTaskDetail); setNewTask(""); setNewTaskDue(""); setNewTaskPrio("none"); setNewTaskDetail(""); }}>追加</button>
                   </div>
                 </div>
 
@@ -2861,6 +2924,7 @@ ${base}`;
                               {t.due && <span>📅 {t.due}</span>}
                               {t.inbox ? <span>未確認</span> : null}
                               <span>Slack</span>
+                              {t.detail && <span title={t.detail} style={{ cursor: "help" }}>📝 詳細あり</span>}
                             </div>
                           </div>
                           <span style={{ display: "flex", alignItems: "center" }}>
@@ -2896,7 +2960,7 @@ ${base}`;
                 </div>
               </div>
               <div className="ma-chat-input">
-                <input value={chatInput} placeholder="会議について質問…" onChange={(e) => setChatInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") askChat(); }} />
+                <input value={chatInput} placeholder="会議について質問…" onChange={(e) => setChatInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.isComposing && e.keyCode !== 229) askChat(); }} />
                 <button onClick={askChat} disabled={chatBusy}>送信</button>
               </div>
             </div>
