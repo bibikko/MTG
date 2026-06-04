@@ -835,6 +835,9 @@ const STYLES = `
 .sb-pollbtn-sm:disabled{ opacity:.6; cursor:default; }
 .sb-tb-progress{ display:inline-flex; align-items:center; gap:6px; }
 .sb-page{ max-width:1400px; margin:0 auto; }
+.sb-sum-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; align-items:start; margin-bottom:6px; }
+.sb-sum-grid > .card{ margin-bottom:0 !important; }
+@media (max-width: 860px){ .sb-sum-grid{ grid-template-columns:1fr; } }
 
 /* 全画面 Slack モード（専用レール＋戻る） */
 .sb-screen{ position:fixed; inset:0; z-index:60; background:#f4f1ea; display:flex; flex-direction:column; font-family:'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, sans-serif; color:#1f1b16; }
@@ -987,6 +990,12 @@ function SlackSummaries({ setChatHint, setPage, reloadKey }) {
   const [summaries, setSummaries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState({});
+  const [alerts, setAlerts] = useState([]);
+  const [openCtx, setOpenCtx] = useState({});
+  const loadAlerts = () => slApi("/api/alerts").then((d) => setAlerts(Array.isArray(d) ? d : [])).catch(() => {});
+  useEffect(() => { loadAlerts(); const t = setInterval(loadAlerts, 30000); return () => clearInterval(t); }, [reloadKey]);
+  const alertDone = async (a) => { setAlerts((xs) => xs.filter((x) => x.id !== a.id)); try { await slApi(`/api/alerts/${a.id}/done`, { method: "POST" }); } catch (e) {} };
+  const alertDel = async (a) => { setAlerts((xs) => xs.filter((x) => x.id !== a.id)); try { await slApi(`/api/alerts/${a.id}`, { method: "DELETE" }); } catch (e) {} };
   useEffect(() => {
     slApi("/api/summaries").then((d) => { setSummaries(d); const o = {}; d.forEach((s) => { if (s.priority === 1) o[s.id] = true; }); setOpen(o); }).catch(() => {}).finally(() => setLoading(false));
     const t = setInterval(() => slApi("/api/summaries").then(setSummaries).catch(() => {}), 30000);
@@ -997,8 +1006,40 @@ function SlackSummaries({ setChatHint, setPage, reloadKey }) {
     await slApi(`/api/channels/${s.channel_id}/priority`, { method: "PATCH", body: JSON.stringify({ priority: newP }) });
     setSummaries((ss) => ss.map((x) => x.channel_id === s.channel_id ? { ...x, priority: newP } : x));
   };
+  const kindLabel = (k) => (k === "self" ? "自分宛て" : "@sapport");
+  const alertsSection = alerts.length > 0 ? (
+    <div style={{ marginBottom: 18 }}>
+      <div className="section-head" style={{ marginTop: 0, color: "var(--s-accent-d)" }}>🚨 自分宛て・要対応（{alerts.length}）</div>
+      {alerts.map((a) => (
+        <div key={a.id} className="card card-sm" style={{ marginBottom: 10, borderColor: "var(--s-accent)", borderLeft: "4px solid var(--s-accent)" }}>
+          <div className="card-header" style={{ marginBottom: 6, gap: 8 }}>
+            <span className="channel-badge">
+              <span className="tag" style={{ background: a.kind === "self" ? "var(--s-accent-l)" : "var(--s-amber-l)", color: a.kind === "self" ? "var(--s-accent-d)" : "var(--s-amber)", borderColor: "transparent" }}>{kindLabel(a.kind)}</span> #{a.channel_name}
+            </span>
+            <span className="meta-row" style={{ marginLeft: "auto" }}>{a.author}・{a.ts_disp || ""}</span>
+          </div>
+          {(a.summary || a.action) ? (
+            <div style={{ fontSize: 13.5, lineHeight: 1.75 }}>
+              {a.summary && <div><strong>要点：</strong>{a.summary}</div>}
+              {a.action && <div style={{ color: "var(--s-accent-d)" }}><strong>次の一手：</strong>{a.action}</div>}
+            </div>
+          ) : (
+            <div style={{ fontSize: 13.5 }}>{a.text}</div>
+          )}
+          <div style={{ display: "flex", gap: 8, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <button className="btn btn-ghost btn-sm" onClick={() => setOpenCtx((o) => ({ ...o, [a.id]: !o[a.id] }))}>{openCtx[a.id] ? "前後の文脈を隠す" : "前後の文脈を見る"}</button>
+            <button className="btn btn-ghost btn-sm" onClick={() => { setChatHint(`alert:#${a.channel_name} ${a.text}`); setPage("chat"); }}>🤖 AIに相談</button>
+            <span style={{ flex: 1 }} />
+            <button className="btn btn-sm" onClick={() => alertDone(a)}>✓ 対応済み</button>
+            <button className="btn btn-danger btn-sm" onClick={() => alertDel(a)}>🗑</button>
+          </div>
+          {openCtx[a.id] && <pre style={{ whiteSpace: "pre-wrap", fontSize: 12, lineHeight: 1.7, background: "var(--s-surface2)", border: "1px solid var(--s-border)", borderRadius: 8, padding: "8px 10px", marginTop: 8, fontFamily: "inherit" }}>{a.context || a.text}</pre>}
+        </div>
+      ))}
+    </div>
+  ) : null;
   if (loading) return <div className="empty"><div className="spinner" /></div>;
-  if (!summaries.length) return <div className="empty"><span className="empty-icon">📋</span>要約がまだありません。<br />上部の「⚡ 取得」ボタンを押してください（チャンネル未登録の場合は「Slack設定」で追加）。</div>;
+  if (!summaries.length) return <div>{alertsSection}<div className="empty"><span className="empty-icon">📋</span>要約がまだありません。<br />上部の「⚡ 取得」ボタンを押してください（チャンネル未登録の場合は「Slack設定」で追加）。</div></div>;
   const priority = summaries.filter((s) => s.priority === 1);
   const normal = summaries.filter((s) => s.priority !== 1);
   const renderSummary = (s) => (
@@ -1021,8 +1062,9 @@ function SlackSummaries({ setChatHint, setPage, reloadKey }) {
     <div>
       <h1 className="page-title">チャンネル要約</h1>
       <p className="page-subtitle">チャンネル名の横の ☆ で重要チャンネルに設定できます</p>
-      {priority.length > 0 && <><div className="section-head">⭐ 重要チャンネル</div>{priority.map(renderSummary)}</>}
-      {normal.length > 0 && <><div className="section-head">通常チャンネル</div>{normal.map(renderSummary)}</>}
+      {alertsSection}
+      {priority.length > 0 && <><div className="section-head">⭐ 重要チャンネル</div><div className="sb-sum-grid">{priority.map(renderSummary)}</div></>}
+      {normal.length > 0 && <><div className="section-head">通常チャンネル</div><div className="sb-sum-grid">{normal.map(renderSummary)}</div></>}
     </div>
   );
 }
@@ -1074,6 +1116,9 @@ function SlackTasks({ setChatHint, setPage, reloadKey }) {
   const [localTasks, setLocalTasks] = useState(() => { const t = loadTasks(); return Array.isArray(t) ? t : []; });
   const toggleLocal = (id) => { setLocalTasks((prev) => { const next = prev.map((x) => x.id === id ? { ...x, done: !x.done } : x); saveTasks(next); return next; }); };
   const delLocal = (id) => { if (!slConfirm("この会議タスクを削除しますか？")) return; setLocalTasks((prev) => { const next = prev.filter((x) => x.id !== id); saveTasks(next); return next; }); };
+  const [editLocalId, setEditLocalId] = useState(null); const [leDesc, setLeDesc] = useState(""); const [leDue, setLeDue] = useState(""); const [leDetail, setLeDetail] = useState("");
+  const startEditLocal = (t) => { setEditLocalId(t.id); setLeDesc(t.text || ""); setLeDue(t.due || ""); setLeDetail(t.detail || ""); };
+  const saveEditLocal = (id) => { if (!leDesc.trim()) return; setLocalTasks((prev) => { const next = prev.map((x) => x.id === id ? { ...x, text: leDesc, due: leDue, detail: leDetail } : x); saveTasks(next); return next; }); setEditLocalId(null); };
   const load = useCallback(() => slApi("/api/tasks?include_done=true").then(setTasks).catch(() => {}).finally(() => setLoading(false)), []);
   useEffect(() => { load(); const checkR = () => slApi("/api/tasks/reminders").then(setDueReminders).catch(() => {}); checkR(); const t = setInterval(checkR, 60000); return () => clearInterval(t); }, [load, reloadKey]);
   const toggle = async (task) => { const d = !task.done; setTasks((ts) => ts.map((t) => t.id === task.id ? { ...t, done: d, inbox: 0 } : t)); await slApi(`/api/tasks/${task.id}`, { method: "PATCH", body: JSON.stringify({ done: d }) }); };
@@ -1099,10 +1144,10 @@ function SlackTasks({ setChatHint, setPage, reloadKey }) {
   const doneTasks = showDone ? baseList.filter((t) => t.done) : [];
   const undone = tasks.filter((t) => !t.done && (!onlyMine || t.is_mine)).length;
   const localShown = localTasks.filter((t) => showDone || !t.done).filter((t) => !filter || (t.text || "").includes(filter) || (t.source || "").includes(filter));
-  const TaskRow = ({ t, showApprove }) => {
+  const taskRowEl = (t, showApprove) => {
     if (editId === t.id) {
       return (
-        <div className="task-item" style={{ alignItems: "stretch" }}>
+        <div className="task-item" key={t.id} style={{ alignItems: "stretch" }}>
           <div className="task-body" style={{ width: "100%" }}>
             <label className="ma-fld"><span>タスク</span>
               <input className="ma-fld-in" value={eDesc} autoFocus onChange={(e) => setEDesc(e.target.value)} onKeyDown={(e) => { if (e.key === "Escape") cancelEdit(); else onEnterNoIME(e, () => saveEdit(t)); }} />
@@ -1121,7 +1166,7 @@ function SlackTasks({ setChatHint, setPage, reloadKey }) {
       );
     }
     return (
-      <div className="task-item">
+      <div className="task-item" key={t.id}>
         <div className={`task-check ${t.done ? "done" : ""}`} onClick={() => toggle(t)} />
         <div className="task-body">
           <div className={`task-desc ${t.done ? "done" : ""}`}>{t.description}</div>
@@ -1144,6 +1189,12 @@ function SlackTasks({ setChatHint, setPage, reloadKey }) {
       </div>
     );
   };
+  const inboxSection = inboxTasks.length > 0 && (
+    <div className="card" style={{ marginBottom: 12, borderColor: "var(--s-accent)" }}>
+      <div className="inbox-header"><span className="inbox-title">📥 未確認の新着タスク</span><span className="inbox-count">{inboxTasks.length}</span><span style={{ fontSize: 11, color: "var(--s-muted)", marginLeft: 4 }}>✓ で確認済みに、🗑 で削除</span></div>
+      {inboxTasks.map((t) => taskRowEl(t, true))}
+    </div>
+  );
   if (loading) return <div className="empty"><div className="spinner" /></div>;
   return (
     <div>
@@ -1178,40 +1229,54 @@ function SlackTasks({ setChatHint, setPage, reloadKey }) {
         <button className={`filter-btn ${!showDone ? "active" : ""}`} onClick={() => setShowDone(false)}>未完了</button>
         <button className={`filter-btn ${showDone ? "active" : ""}`} onClick={() => setShowDone(true)}>完了含む</button>
       </div>
-      {inboxTasks.length > 0 && (
-        <div className="card" style={{ marginBottom: 12 }}>
-          <div className="inbox-header"><span className="inbox-title">📥 未確認の新着タスク</span><span className="inbox-count">{inboxTasks.length}</span><span style={{ fontSize: 11, color: "var(--s-muted)", marginLeft: 4 }}>✓ で確認済みに、🗑 で削除</span></div>
-          {inboxTasks.map((t) => <TaskRow key={t.id} t={t} showApprove={true} />)}
-        </div>
-      )}
       {todoTasks.length > 0 && (
-        <div className="card" style={{ marginBottom: 12 }}><div className="section-head" style={{ marginTop: 0 }}>対応中 ({todoTasks.length}件)</div>{todoTasks.map((t) => <TaskRow key={t.id} t={t} showApprove={false} />)}</div>
+        <div className="card" style={{ marginBottom: 12 }}><div className="section-head" style={{ marginTop: 0 }}>対応中 ({todoTasks.length}件)</div>{todoTasks.map((t) => taskRowEl(t, false))}</div>
       )}
       {showDone && doneTasks.length > 0 && (
-        <div className="card"><div className="section-head" style={{ marginTop: 0 }}>完了済み ({doneTasks.length}件)</div>{doneTasks.map((t) => <TaskRow key={t.id} t={t} showApprove={false} />)}</div>
+        <div className="card" style={{ marginBottom: 12 }}><div className="section-head" style={{ marginTop: 0 }}>完了済み ({doneTasks.length}件)</div>{doneTasks.map((t) => taskRowEl(t, false))}</div>
       )}
       {localShown.length > 0 && (
         <div className="card" style={{ marginBottom: 12 }}>
           <div className="section-head" style={{ marginTop: 0 }}>🗒 会議のタスク（SABOTTA）（{localShown.length}件）</div>
           {localShown.map((t) => (
-            <div key={t.id} className="task-item">
-              <div className={`task-check ${t.done ? "done" : ""}`} onClick={() => toggleLocal(t.id)} />
-              <div className="task-body">
-                <div className={`task-desc ${t.done ? "done" : ""}`}>{t.text}</div>
-                <div className="task-tags">
-                  {t.due && <span className="tag tag-due">📅 {String(t.due).replace("T", " ")}</span>}
-                  {t.source && <span className="tag tag-channel">🗒 {t.source}</span>}
-                  <span className="tag tag-manual">会議</span>
-                  {t.detail && <span className="tag tag-manual" title={t.detail}>📝 詳細あり</span>}
+            editLocalId === t.id ? (
+              <div className="task-item" key={t.id} style={{ alignItems: "stretch" }}>
+                <div className="task-body" style={{ width: "100%" }}>
+                  <label className="ma-fld"><span>タスク</span>
+                    <input className="ma-fld-in" value={leDesc} autoFocus onChange={(e) => setLeDesc(e.target.value)} onKeyDown={(e) => { if (e.key === "Escape") setEditLocalId(null); else onEnterNoIME(e, () => saveEditLocal(t.id)); }} />
+                  </label>
+                  <label className="ma-fld" style={{ marginTop: 8 }}><span>詳細な説明（任意・一覧には表示されません）</span>
+                    <textarea className="ma-fld-in" style={{ minHeight: 64, resize: "vertical", lineHeight: 1.6 }} value={leDetail} onChange={(e) => setLeDetail(e.target.value)} placeholder="背景・手順・参考リンクなど" />
+                  </label>
+                  <div className="ma-fldrow" style={{ marginTop: 8 }}>
+                    <label className="ma-fld"><span>期限（任意）</span><input className="ma-fld-in" type="datetime-local" value={leDue} onChange={(e) => setLeDue(e.target.value)} /></label>
+                    <button className="ma-addbtn" onClick={() => saveEditLocal(t.id)}>保存</button>
+                    <button className="ma-addbtn" style={{ background: "transparent", color: "var(--s-muted)", border: "1px solid var(--s-border)" }} onClick={() => setEditLocalId(null)}>取消</button>
+                  </div>
                 </div>
               </div>
-              <div className="task-actions">
-                <button className="icon-btn danger" title="削除" onClick={() => delLocal(t.id)}>🗑</button>
+            ) : (
+              <div key={t.id} className="task-item">
+                <div className={`task-check ${t.done ? "done" : ""}`} onClick={() => toggleLocal(t.id)} />
+                <div className="task-body">
+                  <div className={`task-desc ${t.done ? "done" : ""}`}>{t.text}</div>
+                  <div className="task-tags">
+                    {t.due && <span className="tag tag-due">📅 {String(t.due).replace("T", " ")}</span>}
+                    {t.source && <span className="tag tag-channel">🗒 {t.source}</span>}
+                    <span className="tag tag-manual">会議</span>
+                    {t.detail && <span className="tag tag-manual" title={t.detail}>📝 詳細あり</span>}
+                  </div>
+                </div>
+                <div className="task-actions">
+                  <button className="icon-btn" title="編集" onClick={() => startEditLocal(t)}>✏️</button>
+                  <button className="icon-btn danger" title="削除" onClick={() => delLocal(t.id)}>🗑</button>
+                </div>
               </div>
-            </div>
+            )
           ))}
         </div>
       )}
+      {inboxSection}
       {inboxTasks.length === 0 && todoTasks.length === 0 && doneTasks.length === 0 && localShown.length === 0 && <div className="empty"><span className="empty-icon">✅</span>タスクはありません</div>}
       {reminderTask && <SlackReminderModal task={reminderTask} onClose={() => setReminderTask(null)} onSaved={load} />}
     </div>
@@ -2215,6 +2280,7 @@ function MeetingAssistant() {
           </div>
         </div>
         <div className="ma-task-rowbtns">
+          {taskEditId !== t.id && <button className="ma-iconbtn" title="編集" onClick={() => startTaskEdit(t)}>✏️</button>}
           {t.due && <button className="ma-iconbtn" title="カレンダーに追加" onClick={() => exportTaskIcs(t)}><IC.calendar s={15} /></button>}
           <button className="ma-del" onClick={() => delTask(t.id)}>削除</button>
         </div>
