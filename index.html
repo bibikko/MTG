@@ -164,6 +164,7 @@ const IC = {
   sparkle: (p) => <Sv {...p}><path d="M12 3.8l1.6 4.8 4.8 1.6-4.8 1.6L12 16.6l-1.6-4.8L5.6 10.2 10.4 8.6Z" fill="currentColor" stroke="none" /><path d="M18.4 4l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7Z" fill="currentColor" stroke="none" opacity=".65" /></Sv>,
   slack: (p) => <Sv {...p}><path d="M9.2 4 7.6 20M16.4 4 14.8 20M4.6 9h15M3.6 15h15" /></Sv>,
   back: (p) => <Sv {...p}><path d="M14.5 5.5 8 12l6.5 6.5" /></Sv>,
+  bell: (p) => <Sv {...p}><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6" /><path d="M10 20a2 2 0 0 0 4 0" /></Sv>,
 };
 // ===== SABOTTA ロゴ（音声波形のマーク + ワードマーク）=====
 const LogoMark = ({ s = 40, gid = "sbg" }) => (
@@ -345,6 +346,9 @@ const STYLES = `
 .ma-rail-btn.primary{ color:${C.accent}; }
 .ma-rail-btn.primary:hover{ background:rgba(200,72,47,.1); }
 .ma-rail-btn.on{ background:rgba(200,72,47,.12); color:${C.accent}; }
+.sb-backbtn{ background:${C.paper2}; border:1px dashed ${C.line} !important; }
+.sb-backbtn:hover{ background:rgba(200,72,47,.1); color:${C.accent}; }
+.sb-backbtn label{ font-size:9.5px; white-space:nowrap; }
 .ma-rail-badge{ position:absolute; top:4px; right:10px; min-width:16px; height:16px; padding:0 4px; border-radius:8px; background:${C.accent}; color:#fff; font-size:10px; font-weight:700; font-style:normal; display:flex; align-items:center; justify-content:center; }
 .ma-rail-spacer{ flex:1; }
 .ma-wrap{ position:relative; z-index:1; flex:0 1 1640px; min-width:0; max-width:1640px; margin-inline:auto; padding:22px 30px 60px; }
@@ -465,7 +469,7 @@ const STYLES = `
 .ma-toast.err{ background:#fbeee9; border:1px solid ${C.accentSoft}; color:${C.accent}; cursor:pointer; }
 .ma-toast.ok{ background:#eef4f2; border:1px solid #cfe0da; color:#2f6b63; }
 .ma-toast-x{ margin-left:auto; font-weight:700; opacity:.55; }
-.ma-overlay{ position:fixed; top:0; left:76px; right:0; bottom:0; z-index:40; background:${C.paper}; display:flex; animation:fade .16s ease; }
+.ma-overlay{ position:fixed; top:0; left:76px; right:0; bottom:0; z-index:40; background:${C.paper}; display:flex; }
 .ma-modal-overlay{ position:fixed; inset:0; z-index:60; background:rgba(31,27,22,.5); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; padding:18px; animation:fade .18s ease; }
 .ma-modal{ width:min(440px,96vw); max-height:90vh; overflow-y:auto; background:${C.paper}; border-radius:18px; padding:22px; box-shadow:0 20px 60px rgba(0,0,0,.3); animation:fade .2s ease; }
 .ma-modal-head{ display:flex; align-items:center; gap:13px; margin-bottom:16px; }
@@ -556,6 +560,9 @@ const STYLES = `
 .ma-edit{ width:100%; font-family:inherit; font-size:14.5px; line-height:1.6; border:1px solid ${C.accent}; border-radius:3px; padding:6px 8px; resize:vertical; outline:none; }
 .ma-act{ display:flex; gap:4px; opacity:.32; transition:.15s; }
 .ma-recpill{ font-size:11px; font-weight:800; color:#fff; background:${C.accent}; padding:3px 9px; border-radius:20px; letter-spacing:.04em; animation:recpulse 1.4s ease-in-out infinite; }
+.ma-rail-livedot{ position:absolute; top:-2px; right:-3px; width:8px; height:8px; border-radius:50%; background:${C.accent}; box-shadow:0 0 0 2px #fff; animation:pulse 1.1s infinite; }
+.ma-recfloat{ position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:70; display:flex; align-items:center; gap:8px; background:${C.accent}; color:#fff; font-size:12.5px; font-weight:800; padding:7px 14px; border-radius:999px; box-shadow:0 8px 24px rgba(200,72,47,.35); cursor:pointer; border:none; }
+.ma-recfloat .d{ width:9px; height:9px; border-radius:50%; background:#fff; animation:pulse 1.1s infinite; }
 @keyframes recpulse{ 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
 .ma-grounding{ display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700; color:#2f6b63; background:#eef4f2; border:1px solid #d7e6e1; padding:5px 10px; border-radius:9px; margin-bottom:12px; cursor:pointer; }
 .ma-ibtn{ border:none; background:transparent; cursor:pointer; font-size:13px; padding:2px 5px; border-radius:3px; color:${C.inkSoft}; line-height:1; }
@@ -602,9 +609,10 @@ const STYLES = `
 .ma-foot{ margin-top:28px; font-size:12px; color:${C.inkSoft}; line-height:1.8; border-top:1px solid ${C.line}; padding-top:14px; }
 @media (max-width:760px){
   .ma{ display:block; }
-  .ma-rail{ position:fixed; top:auto; bottom:0; left:0; right:0; height:auto; width:auto; flex:none; flex-direction:row; justify-content:space-around; align-items:center; gap:2px; padding:5px 4px calc(6px + env(safe-area-inset-bottom)); border-right:none; border-top:1px solid ${C.line}; box-shadow:0 -4px 18px rgba(0,0,0,.07); z-index:50; }
+  .ma-rail{ position:fixed; top:auto; bottom:0; left:0; right:0; height:auto; width:auto; flex:none; flex-direction:row; justify-content:flex-start; align-items:center; gap:2px; padding:5px 4px calc(6px + env(safe-area-inset-bottom)); border-right:none; border-top:1px solid ${C.line}; box-shadow:0 -4px 18px rgba(0,0,0,.07); z-index:50; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  .ma-rail::-webkit-scrollbar{ display:none; }
   .ma-logo{ display:none; }
-  .ma-rail-btn{ width:auto; flex:1; padding:5px 0 3px; border-radius:10px; }
+  .ma-rail-btn{ width:auto; flex:1 0 auto; min-width:54px; padding:5px 4px 3px; border-radius:10px; }
   .ma-rail-btn .ic{ font-size:18px; }
   .ma-rail-btn label{ font-size:9px; }
   .ma-rail-badge{ top:0; right:50%; transform:translateX(16px); }
@@ -835,6 +843,10 @@ const STYLES = `
 .sb-pollbtn-sm:disabled{ opacity:.6; cursor:default; }
 .sb-tb-progress{ display:inline-flex; align-items:center; gap:6px; }
 .sb-page{ max-width:1400px; margin:0 auto; }
+.sb-notif-overlay{ position:absolute; inset:0; background:rgba(31,27,22,.28); display:flex; justify-content:center; align-items:flex-start; padding:24px 16px; z-index:20; overflow:auto; }
+.sb-notif-panel{ background:#f4f1ea; border:1px solid var(--s-border); border-radius:16px; width:min(760px,100%); box-shadow:0 18px 48px rgba(31,27,22,.25); display:flex; flex-direction:column; max-height:calc(100% - 16px); }
+.sb-notif-head{ display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid var(--s-border); font-family:'Shippori Mincho', serif; font-weight:700; font-size:16px; }
+.sb-notif-body{ padding:16px 18px 22px; overflow-y:auto; }
 .sb-sum-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; align-items:start; margin-bottom:6px; }
 .sb-sum-grid > .card{ margin-bottom:0 !important; }
 @media (max-width: 860px){ .sb-sum-grid{ grid-template-columns:1fr; } }
@@ -996,6 +1008,12 @@ function SlackSummaries({ setChatHint, setPage, reloadKey }) {
   useEffect(() => { loadAlerts(); const t = setInterval(loadAlerts, 30000); return () => clearInterval(t); }, [reloadKey]);
   const alertDone = async (a) => { setAlerts((xs) => xs.filter((x) => x.id !== a.id)); try { await slApi(`/api/alerts/${a.id}/done`, { method: "POST" }); } catch (e) {} };
   const alertDel = async (a) => { setAlerts((xs) => xs.filter((x) => x.id !== a.id)); try { await slApi(`/api/alerts/${a.id}`, { method: "DELETE" }); } catch (e) {} };
+  const alertToTask = async (a) => {
+    const desc = (a.summary && a.summary.trim()) || a.text || "(無題)";
+    const detail = (a.action ? "次の一手: " + a.action + "\n\n" : "") + "【元コメント】\n" + (a.text || "") + "\n\n【前後の文脈】\n" + (a.context || "");
+    try { await slApi("/api/tasks", { method: "POST", body: JSON.stringify({ description: desc, channel_id: a.channel_id || "", detail }) }); } catch (e) {}
+    alertDone(a);
+  };
   useEffect(() => {
     slApi("/api/summaries").then((d) => { setSummaries(d); const o = {}; d.forEach((s) => { if (s.priority === 1) o[s.id] = true; }); setOpen(o); }).catch(() => {}).finally(() => setLoading(false));
     const t = setInterval(() => slApi("/api/summaries").then(setSummaries).catch(() => {}), 30000);
@@ -1028,6 +1046,7 @@ function SlackSummaries({ setChatHint, setPage, reloadKey }) {
           )}
           <div style={{ display: "flex", gap: 8, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
             <button className="btn btn-ghost btn-sm" onClick={() => setOpenCtx((o) => ({ ...o, [a.id]: !o[a.id] }))}>{openCtx[a.id] ? "前後の文脈を隠す" : "前後の文脈を見る"}</button>
+            <button className="btn btn-primary btn-sm" onClick={() => alertToTask(a)}>＋ タスク化</button>
             <button className="btn btn-ghost btn-sm" onClick={() => { setChatHint(`alert:#${a.channel_name} ${a.text}`); setPage("chat"); }}>🤖 AIに相談</button>
             <span style={{ flex: 1 }} />
             <button className="btn btn-sm" onClick={() => alertDone(a)}>✓ 対応済み</button>
@@ -1168,7 +1187,7 @@ function SlackTasks({ setChatHint, setPage, reloadKey }) {
     return (
       <div className="task-item" key={t.id}>
         <div className={`task-check ${t.done ? "done" : ""}`} onClick={() => toggle(t)} />
-        <div className="task-body">
+        <div className="task-body" style={{ cursor: "pointer" }} onClick={() => startEdit(t)} title="クリックで詳細を開く">
           <div className={`task-desc ${t.done ? "done" : ""}`}>{t.description}</div>
           <div className="task-tags">
             {t.assignee && <span className="tag tag-assignee">👤 {t.assignee}</span>}
@@ -1258,7 +1277,7 @@ function SlackTasks({ setChatHint, setPage, reloadKey }) {
             ) : (
               <div key={t.id} className="task-item">
                 <div className={`task-check ${t.done ? "done" : ""}`} onClick={() => toggleLocal(t.id)} />
-                <div className="task-body">
+                <div className="task-body" style={{ cursor: "pointer" }} onClick={() => startEditLocal(t)} title="クリックで詳細を開く">
                   <div className={`task-desc ${t.done ? "done" : ""}`}>{t.text}</div>
                   <div className="task-tags">
                     {t.due && <span className="tag tag-due">📅 {String(t.due).replace("T", " ")}</span>}
@@ -1505,6 +1524,103 @@ function SlackSetupWizard({ setup, onSaved }) {
   );
 }
 
+// ── 通知（自分宛て要対応＋期限切れタスク）を統合 ───────────────────────────
+async function fetchNotifCount(base) {
+  SLACK_BASE = (base || "").trim().replace(/\/+$/, "");
+  let alerts = [], stasks = [];
+  try { alerts = await slApi("/api/alerts"); } catch (e) {}
+  try { stasks = await slApi("/api/tasks?include_done=false"); } catch (e) {}
+  const today = slToday(); const now = Date.now();
+  const odSlack = (Array.isArray(stasks) ? stasks : []).filter((t) => t.due && !t.done && String(t.due) < today).length;
+  let local = []; try { local = loadTasks() || []; } catch (e) {}
+  const odLocal = (Array.isArray(local) ? local : []).filter((t) => !t.done && t.due && !isNaN(new Date(t.due)) && new Date(t.due).getTime() < now).length;
+  return (Array.isArray(alerts) ? alerts.length : 0) + odSlack + odLocal;
+}
+
+function NotificationsView({ base, onChange }) {
+  SLACK_BASE = (base || "").trim().replace(/\/+$/, "");
+  const [alerts, setAlerts] = useState([]);
+  const [stasks, setStasks] = useState([]);
+  const [locals, setLocals] = useState(() => { try { return loadTasks() || []; } catch (e) { return []; } });
+  const [loading, setLoading] = useState(true);
+  const [openCtx, setOpenCtx] = useState({});
+  const load = useCallback(() => {
+    try { setLocals(loadTasks() || []); } catch (e) {}
+    Promise.allSettled([slApi("/api/alerts"), slApi("/api/tasks?include_done=false")]).then(([a, t]) => {
+      setAlerts(a.status === "fulfilled" && Array.isArray(a.value) ? a.value : []);
+      setStasks(t.status === "fulfilled" && Array.isArray(t.value) ? t.value : []);
+    }).finally(() => setLoading(false));
+  }, []);
+  useEffect(() => { load(); const t = setInterval(load, 30000); return () => clearInterval(t); }, [load]);
+  const after = () => { if (onChange) onChange(); };
+  const now = Date.now(); const today = slToday();
+  const odLocal = locals.filter((t) => !t.done && t.due && !isNaN(new Date(t.due)) && new Date(t.due).getTime() < now).sort((a, b) => new Date(a.due) - new Date(b.due));
+  const odSlack = stasks.filter((t) => t.due && !t.done && String(t.due) < today).sort((a, b) => String(a.due).localeCompare(String(b.due)));
+  const sortedAlerts = [...alerts].sort((a, b) => String(b.ts_raw || "").localeCompare(String(a.ts_raw || "")));
+  const completeLocal = (id) => { let next = []; try { next = (loadTasks() || []).map((x) => x.id === id ? { ...x, done: true } : x); saveTasks(next); } catch (e) {} setLocals(next); after(); };
+  const completeSlack = async (t) => { setStasks((xs) => xs.map((x) => x.id === t.id ? { ...x, done: true } : x)); try { await slApi(`/api/tasks/${t.id}`, { method: "PATCH", body: JSON.stringify({ done: true }) }); } catch (e) {} after(); };
+  const alertDone = async (a) => { setAlerts((xs) => xs.filter((x) => x.id !== a.id)); try { await slApi(`/api/alerts/${a.id}/done`, { method: "POST" }); } catch (e) {} after(); };
+  const alertToTask = async (a) => {
+    const desc = (a.summary && a.summary.trim()) || a.text || "(無題)";
+    const detail = (a.action ? "次の一手: " + a.action + "\n\n" : "") + "【元コメント】\n" + (a.text || "") + "\n\n【前後の文脈】\n" + (a.context || "");
+    try { await slApi("/api/tasks", { method: "POST", body: JSON.stringify({ description: desc, channel_id: a.channel_id || "", detail }) }); } catch (e) {}
+    alertDone(a);
+  };
+  const total = odLocal.length + odSlack.length + alerts.length;
+  if (loading) return <div className="sb-slack"><div className="empty"><div className="spinner" /></div></div>;
+  return (
+    <div className="sb-slack" style={{ maxWidth: 760, margin: "0 auto" }}>
+      {total === 0 && <div className="empty"><span className="empty-icon">🔔</span>新しい通知はありません。<br />自分宛てメンションや期限切れのタスクが出るとここに表示されます。</div>}
+      {(odLocal.length + odSlack.length) > 0 && (
+        <div style={{ marginBottom: 18 }}>
+          <div className="section-head" style={{ marginTop: 0, color: "var(--s-red)" }}>⏰ 期限切れのタスク（{odLocal.length + odSlack.length}）</div>
+          {odSlack.map((t) => (
+            <div key={"s" + t.id} className="card card-sm" style={{ marginBottom: 8, borderLeft: "4px solid var(--s-red)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontSize: 13.5, fontWeight: 600 }}>{t.description}</div>
+                  <div className="task-tags"><span className="tag" style={{ background: "var(--s-red-l)", color: "var(--s-red)", borderColor: "transparent" }}>📅 {t.due}（期限切れ）</span><span className="tag tag-channel">#{t.channel_name}</span><span className="tag tag-manual">Slack</span></div>
+                </div>
+                <button className="btn btn-sm" onClick={() => completeSlack(t)}>完了</button>
+              </div>
+            </div>
+          ))}
+          {odLocal.map((t) => (
+            <div key={"l" + t.id} className="card card-sm" style={{ marginBottom: 8, borderLeft: "4px solid var(--s-red)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontSize: 13.5, fontWeight: 600 }}>{t.text}</div>
+                  <div className="task-tags"><span className="tag" style={{ background: "var(--s-red-l)", color: "var(--s-red)", borderColor: "transparent" }}>📅 {String(t.due).replace("T", " ")}（期限切れ）</span>{t.source && <span className="tag tag-channel">🗒 {t.source}</span>}<span className="tag tag-manual">会議</span></div>
+                </div>
+                <button className="btn btn-sm" onClick={() => completeLocal(t.id)}>完了</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {alerts.length > 0 && (
+        <div>
+          <div className="section-head" style={{ marginTop: 0, color: "var(--s-accent-d)" }}>🚨 自分宛て・要対応（{alerts.length}）</div>
+          {sortedAlerts.map((a) => (
+            <div key={a.id} className="card card-sm" style={{ marginBottom: 10, borderLeft: "4px solid var(--s-accent)" }}>
+              <div className="card-header" style={{ marginBottom: 6, gap: 8 }}>
+                <span className="channel-badge"><span className="tag" style={{ background: a.kind === "self" ? "var(--s-accent-l)" : "var(--s-amber-l)", color: a.kind === "self" ? "var(--s-accent-d)" : "var(--s-amber)", borderColor: "transparent" }}>{a.kind === "self" ? "自分宛て" : "@sapport"}</span> #{a.channel_name}</span>
+                <span className="meta-row" style={{ marginLeft: "auto" }}>{a.author}・{a.ts_disp || ""}</span>
+              </div>
+              {(a.summary || a.action) ? (<div style={{ fontSize: 13.5, lineHeight: 1.75 }}>{a.summary && <div><strong>要点：</strong>{a.summary}</div>}{a.action && <div style={{ color: "var(--s-accent-d)" }}><strong>次の一手：</strong>{a.action}</div>}</div>) : (<div style={{ fontSize: 13.5 }}>{a.text}</div>)}
+              <div style={{ display: "flex", gap: 8, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
+                <button className="btn btn-ghost btn-sm" onClick={() => setOpenCtx((o) => ({ ...o, [a.id]: !o[a.id] }))}>{openCtx[a.id] ? "文脈を隠す" : "前後の文脈"}</button>
+                <button className="btn btn-primary btn-sm" onClick={() => alertToTask(a)}>＋ タスク化</button>
+                <span style={{ flex: 1 }} />
+                <button className="btn btn-sm" onClick={() => alertDone(a)}>✓ 対応済み</button>
+              </div>
+              {openCtx[a.id] && <pre style={{ whiteSpace: "pre-wrap", fontSize: 12, lineHeight: 1.7, background: "var(--s-surface2)", border: "1px solid var(--s-border)", borderRadius: 8, padding: "8px 10px", marginTop: 8, fontFamily: "inherit" }}>{a.context || a.text}</pre>}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Slack パネル本体（接続管理＋ナビ＋取得コントロール）──────────
 function SlackPanel({ base, onChangeBase, onBack }) {
   SLACK_BASE = (base || "").trim().replace(/\/+$/, "");
@@ -1525,6 +1641,13 @@ function SlackPanel({ base, onChangeBase, onBack }) {
   const [skipped, setSkipped] = useState(false); // 未接続でもスキップして中を見る
   const [dataVersion, setDataVersion] = useState(0); // 取得後にページを即時更新するためのキー
   const [pollMsg, setPollMsg] = useState(""); // 取得結果・エラー表示
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [notifCount, setNotifCount] = useState(0);
+  useEffect(() => {
+    let stop = false;
+    const f = () => fetchNotifCount(base).then((n) => { if (!stop) setNotifCount(n); }).catch(() => {});
+    f(); const t = setInterval(f, 60000); return () => { stop = true; clearInterval(t); };
+  }, [base, dataVersion, notifOpen]);
 
   const check = useCallback(async () => {
     setConn("checking");
@@ -1614,7 +1737,6 @@ function SlackPanel({ base, onChangeBase, onBack }) {
     { id: "summaries", icon: IC.book, label: "要約" },
     { id: "tasks", icon: IC.tasks, label: "タスク", badge: stats && stats.inbox > 0 ? stats.inbox : null },
     { id: "chat", icon: IC.sparkle, label: "アドバイス" },
-    { id: "settings", icon: IC.settings, label: "設定" },
   ];
 
   return (
@@ -1622,13 +1744,15 @@ function SlackPanel({ base, onChangeBase, onBack }) {
       <div className="sb-slack sb-shell">
         <nav className="ma-rail">
           <div className="ma-logo" title="SABOTTA"><LogoMark s={42} gid="sbgSlack" /></div>
-          <button className="ma-rail-btn" onClick={onBack} title="SABOTTA に戻る"><span className="ic"><IC.back /></span><label>戻る</label></button>
+          <button className="ma-rail-btn" onClick={() => setNotifOpen(true)} title="通知（自分宛て・期限切れ）"><span className="ic"><IC.bell /></span><label>通知</label>{notifCount > 0 && <i className="ma-rail-badge" style={{ background: C.accent }}>{notifCount > 99 ? "99+" : notifCount}</i>}</button>
           {navItems.map((n) => (
             <button key={n.id} className={`ma-rail-btn ${page === n.id ? "on" : ""}`} onClick={() => setPage(n.id)} title={n.label}>
               <span className="ic">{n.icon({})}</span><label>{n.label}</label>{n.badge ? <i className="ma-rail-badge">{n.badge}</i> : null}
             </button>
           ))}
           <div className="ma-rail-spacer" />
+          <button className={"ma-rail-btn" + (page === "settings" ? " on" : "")} onClick={() => setPage("settings")} title="Slack設定"><span className="ic"><IC.settings /></span><label>設定</label></button>
+          <button className="ma-rail-btn sb-backbtn" onClick={onBack} title="SABOTTA（会議アシスタント）に戻る"><span className="ic"><IC.back /></span><label>SABOTTA</label></button>
         </nav>
         <main className="sb-screen-main">
           <div className="sb-toolbar">
@@ -1676,6 +1800,14 @@ function SlackPanel({ base, onChangeBase, onBack }) {
             {page === "settings" && <SlackChannelSettings />}
           </div>
         </main>
+        {notifOpen && (
+          <div className="sb-notif-overlay" onClick={() => setNotifOpen(false)}>
+            <div className="sb-notif-panel" onClick={(e) => e.stopPropagation()}>
+              <div className="sb-notif-head"><span>🔔 通知</span><button className="ma-x" onClick={() => setNotifOpen(false)}>✕</button></div>
+              <div className="sb-notif-body"><NotificationsView base={base} onChange={() => setDataVersion((v) => v + 1)} /></div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -1751,6 +1883,9 @@ function MeetingAssistant() {
   const [importMode, setImportMode] = useState("replace");
   const [tasks, setTasks] = useState([]);               // マイタスク（全会議横断）
   const [slackTasks, setSlackTasks] = useState([]);     // Slack（バックエンド）タスクの共有表示
+  const [slackAlertCount, setSlackAlertCount] = useState(0); // 合算通知件数（自分宛て＋期限切れ）
+  const [slDetailOpen, setSlDetailOpen] = useState({}); // ドロワー内Slackタスクの詳細開閉
+  const [showNotif, setShowNotif] = useState(false);
   const [showTasks, setShowTasks] = useState(false);
   const [newTask, setNewTask] = useState("");
   const [newTaskDue, setNewTaskDue] = useState("");
@@ -2190,6 +2325,18 @@ function MeetingAssistant() {
   const toggleSlackTask = (t) => { SLACK_BASE = (slackUrl || "").trim().replace(/\/+$/, ""); const d = !t.done; setSlackTasks((ts) => ts.map((x) => (x.id === t.id ? { ...x, done: d, inbox: 0 } : x))); slApi(`/api/tasks/${t.id}`, { method: "PATCH", body: JSON.stringify({ done: d }) }).catch(() => {}); };
   const delSlackTask = (t) => { SLACK_BASE = (slackUrl || "").trim().replace(/\/+$/, ""); setSlackTasks((ts) => ts.filter((x) => x.id !== t.id)); slApi(`/api/tasks/${t.id}`, { method: "DELETE" }).catch(() => {}); };
   useEffect(() => { if (showTasks) refreshSlackTasks(); }, [showTasks, refreshSlackTasks]);
+  // 通知（自分宛て・要対応＋期限切れタスク）の合算件数を定期取得
+  useEffect(() => {
+    let stop = false;
+    const fetchCount = () => { fetchNotifCount(slackUrl).then((n) => { if (!stop) setSlackAlertCount(n); }).catch(() => {}); };
+    fetchCount();
+    const t = setInterval(fetchCount, 60000);
+    return () => { stop = true; clearInterval(t); };
+  }, [slackUrl, showSlack, showNotif, showTasks, tasks]);
+  // ブラウザのタブで新着が分かるよう、タイトルに件数を出す
+  useEffect(() => {
+    document.title = (slackAlertCount > 0 ? `🔴(${slackAlertCount}) ` : "") + "SABOTTA — Meeting Assistant + Slack";
+  }, [slackAlertCount]);
   const startTaskEdit = (t) => { setTaskEditId(t.id); setTaskEditVal(t.text); setTaskEditDue(t.due || ""); setTaskEditPrio(t.prio || "none"); setTaskEditDetail(t.detail || ""); };
   const saveTaskEdit = () => { setTasks((prev) => prev.map((x) => (x.id === taskEditId ? { ...x, text: taskEditVal, due: taskEditDue, prio: taskEditPrio, detail: taskEditDetail } : x))); setTaskEditId(null); };
 
@@ -2395,7 +2542,8 @@ function MeetingAssistant() {
   useEffect(() => { setGSources(loadGSrc()); setMSources(loadMSrc(activeIdRef.current)); mLoadedRef.current = true; }, []);
   useEffect(() => { if (!loadOnboarded()) setShowGuide(true); }, []);
   const dismissGuide = () => { saveOnboarded(); setShowGuide(false); };
-  const openOnly = (w) => { setShowHistory(w === "history"); setShowTasks(w === "tasks"); setShowChat(w === "chat"); setShowSources(w === "sources"); setShowImport(w === "import"); setShowSettings(w === "settings"); setShowSlack(w === "slack"); };
+  const openOnly = (w) => { setShowHistory(w === "history"); setShowTasks(w === "tasks"); setShowChat(w === "chat"); setShowSources(w === "sources"); setShowImport(w === "import"); setShowSettings(w === "settings"); setShowSlack(w === "slack"); setShowNotif(w === "notif"); };
+  const anyDrawerOpen = showHistory || showTasks || showChat || showSources || showImport || showSettings || showSlack || showNotif;
   const firstGSrcRef = useRef(true);
   useEffect(() => { if (firstGSrcRef.current) { firstGSrcRef.current = false; return; } saveGSrc(gSources); }, [gSources]);
   useEffect(() => { if (!mLoadedRef.current) return; saveMSrc(activeIdRef.current, mSources); }, [mSources]);
@@ -2745,6 +2893,8 @@ ${base}`;
       )}
       <nav className="ma-rail">
         <div className="ma-logo" title="SABOTTA"><LogoMark s={42} gid="sbgRail" /></div>
+        <button className={"ma-rail-btn" + (!anyDrawerOpen ? " on" : "")} onClick={() => openOnly("")} title="会議（録音・文字起こし）画面へ"><span className="ic" style={{ position: "relative" }}><IC.mic />{(recording || capturing || ocrOn) && <i className="ma-rail-livedot" />}</span><label>会議</label></button>
+        <button className={"ma-rail-btn" + (showNotif ? " on" : "")} onClick={() => openOnly(showNotif ? "" : "notif")} title="通知（自分宛て・期限切れ）"><span className="ic"><IC.bell /></span><label>通知</label>{slackAlertCount > 0 && <i className="ma-rail-badge" style={{ background: C.accent }}>{slackAlertCount > 99 ? "99+" : slackAlertCount}</i>}</button>
         <button className={"ma-rail-btn" + (showHistory ? " on" : "")} onClick={() => openOnly(showHistory ? "" : "history")} title="過去の会議">
           <span className="ic"><IC.history /></span><label>履歴</label>{meetings.filter((m) => !m.done).length > 0 && <i className="ma-rail-badge">{meetings.filter((m) => !m.done).length}</i>}
         </button>
@@ -2754,9 +2904,9 @@ ${base}`;
         <button className={"ma-rail-btn" + (showChat ? " on" : "")} onClick={() => openOnly(showChat ? "" : "chat")} title="AIチャット"><span className="ic"><IC.chat /></span><label>チャット</label></button>
         <button className={"ma-rail-btn" + (showSources ? " on" : "")} onClick={() => openOnly(showSources ? "" : "sources")} title="ソース（参考資料）"><span className="ic"><IC.book /></span><label>ソース</label></button>
         <button className={"ma-rail-btn" + (showImport ? " on" : "")} onClick={() => openOnly(showImport ? "" : "import")} title="文字起こし取込"><span className="ic"><IC.import /></span><label>取込</label></button>
-        <button className={"ma-rail-btn" + (showSlack ? " on" : "")} onClick={() => openOnly(showSlack ? "" : "slack")} title="Slack 要約・タスク"><span className="ic"><IC.slack /></span><label>Slack</label></button>
         <div className="ma-rail-spacer" />
         <button className={"ma-rail-btn" + (showSettings ? " on" : "")} onClick={() => openOnly(showSettings ? "" : "settings")} title="設定"><span className="ic"><IC.settings /></span><label>設定</label></button>
+        <button className={"ma-rail-btn sb-backbtn" + (showSlack ? " on" : "")} onClick={() => openOnly(showSlack ? "" : "slack")} title="Slack 要約・タスク"><span className="ic"><IC.slack /></span><label>Slack</label></button>
       </nav>
       <div className="ma-wrap">
         <header className="ma-top">
@@ -2988,7 +3138,7 @@ ${base}`;
                         <div className={`ma-task${t.done ? " done" : ""}`} key={"sl_" + t.id}>
                           <input type="checkbox" checked={!!t.done} onChange={() => toggleSlackTask(t)} />
                           <div className="ma-task-main">
-                            <div className="ma-task-text" style={{ cursor: "default" }}>{t.description}</div>
+                            <div className="ma-task-text" style={{ cursor: "pointer" }} title="クリックで詳細を表示" onClick={() => setSlDetailOpen((o) => ({ ...o, [t.id]: !o[t.id] }))}>{t.description}</div>
                             <div className="ma-task-meta">
                               {t.channel_name && <span>#{t.channel_name}</span>}
                               {t.due && <span>📅 {t.due}</span>}
@@ -2996,6 +3146,11 @@ ${base}`;
                               <span>Slack</span>
                               {t.detail && <span title={t.detail} style={{ cursor: "help" }}>📝 詳細あり</span>}
                             </div>
+                            {slDetailOpen[t.id] && (
+                              <div style={{ marginTop: 6, fontSize: 12.5, lineHeight: 1.7, color: C.inkSoft, background: C.paper2, border: `1px solid ${C.line}`, borderRadius: 8, padding: "8px 10px", whiteSpace: "pre-wrap" }}>
+                                {t.assignee ? `担当: ${t.assignee}\n` : ""}{t.detail ? t.detail : "（詳細な説明はありません。編集はSlack画面のタスクから行えます）"}
+                              </div>
+                            )}
                           </div>
                           <span style={{ display: "flex", alignItems: "center" }}>
                             <button className="ma-iconbtn" title="削除" onClick={() => delSlackTask(t)}>🗑</button>
@@ -3230,6 +3385,21 @@ ${base}`;
 
       {showSlack && (
         <SlackPanel base={slackUrl} onChangeBase={(v) => setSlackUrl(v)} onBack={() => setShowSlack(false)} />
+      )}
+
+      {showNotif && (
+        <div className="ma-overlay" onClick={() => setShowNotif(false)}>
+          <div className="ma-drawer" onClick={(e) => e.stopPropagation()}>
+            <div className="ma-drawer-head"><h2>🔔 通知</h2><button className="ma-x" onClick={() => setShowNotif(false)}>✕</button></div>
+            <div className="ma-drawer-body"><NotificationsView base={slackUrl} onChange={() => setTasks(loadTasks())} /></div>
+          </div>
+        </div>
+      )}
+
+      {anyDrawerOpen && (recording || capturing || ocrOn) && (
+        <button className="ma-recfloat" onClick={() => openOnly("")} title="会議画面に戻る">
+          <span className="d" />{recording ? "録音中" : capturing ? "会議音声 取込中" : "画面文字 取込中"}・会議に戻る
+        </button>
       )}
     </div>
   );
