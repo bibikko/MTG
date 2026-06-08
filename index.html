@@ -165,6 +165,7 @@ const IC = {
   slack: (p) => <Sv {...p}><path d="M9.2 4 7.6 20M16.4 4 14.8 20M4.6 9h15M3.6 15h15" /></Sv>,
   back: (p) => <Sv {...p}><path d="M14.5 5.5 8 12l6.5 6.5" /></Sv>,
   bell: (p) => <Sv {...p}><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6" /><path d="M10 20a2 2 0 0 0 4 0" /></Sv>,
+  ticket: (p) => <Sv {...p}><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H5a2 2 0 0 1-2-2 2 2 0 0 0 0-4Z" /><path d="M13 6v12" /></Sv>,
 };
 // ===== SABOTTA ロゴ（音声波形のマーク + ワードマーク）=====
 const LogoMark = ({ s = 40, gid = "sbg" }) => (
@@ -1025,10 +1026,11 @@ function SlackSummaries({ setChatHint, setPage, reloadKey }) {
     setSummaries((ss) => ss.map((x) => x.channel_id === s.channel_id ? { ...x, priority: newP } : x));
   };
   const kindLabel = (k) => (k === "self" ? "自分宛て" : "@sapport");
-  const alertsSection = alerts.length > 0 ? (
+  const mentionAlerts = alerts.filter((a) => a.kind !== "dm");
+  const alertsSection = mentionAlerts.length > 0 ? (
     <div style={{ marginBottom: 18 }}>
-      <div className="section-head" style={{ marginTop: 0, color: "var(--s-accent-d)" }}>🚨 自分宛て・要対応（{alerts.length}）</div>
-      {alerts.map((a) => (
+      <div className="section-head" style={{ marginTop: 0, color: "var(--s-accent-d)" }}>🚨 自分宛て・要対応（{mentionAlerts.length}）</div>
+      {mentionAlerts.map((a) => (
         <div key={a.id} className="card card-sm" style={{ marginBottom: 10, borderColor: "var(--s-accent)", borderLeft: "4px solid var(--s-accent)" }}>
           <div className="card-header" style={{ marginBottom: 6, gap: 8 }}>
             <span className="channel-badge">
@@ -1359,6 +1361,18 @@ function SlackChannelSettings() {
     catch (e) { let msg = e.message; try { msg = JSON.parse(e.message).detail || msg; } catch (_) {} setPickError(msg || "取得に失敗しました"); setPicker([]); }
     finally { setPickLoading(false); }
   };
+  const fetchDms = async () => {
+    setPickLoading(true); setPickError("");
+    try {
+      const list = await slApi("/api/slack/dms");
+      setPicker((prev) => {
+        const base = Array.isArray(prev) ? prev : [];
+        const ids = new Set(base.map((c) => c.id));
+        return base.concat((Array.isArray(list) ? list : []).filter((c) => !ids.has(c.id)));
+      });
+    } catch (e) { let msg = e.message; try { msg = JSON.parse(e.message).detail || msg; } catch (_) {} setPickError(msg || "DMの取得に失敗しました"); }
+    finally { setPickLoading(false); }
+  };
   const registered = new Set(channels.map((c) => c.id));
   const pickList = (picker || []).filter((c) => !pickFilter || c.name.includes(pickFilter) || c.id.includes(pickFilter));
   const pickedIds = Object.keys(picked).filter((k) => picked[k]);
@@ -1369,7 +1383,7 @@ function SlackChannelSettings() {
     const targets = (picker || []).filter((c) => picked[c.id] && !registered.has(c.id));
     if (!targets.length) return;
     setBulkBusy(true);
-    for (const c of targets) { try { await slApi("/api/channels", { method: "POST", body: JSON.stringify({ id: c.id, name: c.name }) }); } catch (e) {} }
+    for (const c of targets) { try { await slApi("/api/channels", { method: "POST", body: JSON.stringify({ id: c.id, name: c.name, is_dm: !!c.is_dm }) }); } catch (e) {} }
     setPicked({}); await load(); setBulkBusy(false);
   };
   const runPaste = async () => {
@@ -1404,16 +1418,20 @@ function SlackChannelSettings() {
       {/* 一括追加（Slackから取得） */}
       <div className="card" style={{ marginTop: 14 }}>
         <div className="card-header"><div className="card-title">⚡ 一括追加（Slackから取得）</div></div>
-        <p style={{ fontSize: 12, color: "var(--s-muted)", margin: "8px 0 12px", lineHeight: 1.8 }}>あなたが<strong>参加しているチャンネル</strong>をSlackから取得し、チェックを入れてまとめて登録できます（最も簡単）。</p>
+        <p style={{ fontSize: 12, color: "var(--s-muted)", margin: "8px 0 12px", lineHeight: 1.8 }}>あなたが<strong>参加しているチャンネル</strong>や<strong>DM</strong>をSlackから取得し、チェックを入れてまとめて登録できます（最も簡単）。</p>
         {!picker ? (
-          <button className="btn btn-primary" onClick={fetchPicker} disabled={pickLoading}>{pickLoading ? "取得中…" : "Slackのチャンネルを取得"}</button>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <button className="btn btn-primary" onClick={fetchPicker} disabled={pickLoading}>{pickLoading ? "取得中…" : "チャンネルを取得"}</button>
+            <button className="btn btn-ghost" onClick={() => { setPicker([]); fetchDms(); }} disabled={pickLoading}>{pickLoading ? "取得中…" : "✉️ DMを取得"}</button>
+          </div>
         ) : (
           <>
             <div className="filter-bar" style={{ marginBottom: 10 }}>
-              <input className="filter-input" placeholder="チャンネル名・IDで絞り込み" value={pickFilter} onChange={(e) => setPickFilter(e.target.value)} />
+              <input className="filter-input" placeholder="名前・IDで絞り込み" value={pickFilter} onChange={(e) => setPickFilter(e.target.value)} />
               <button className="filter-btn" onClick={pickAll}>表示中をすべて選択</button>
               <button className="filter-btn" onClick={pickNone}>選択解除</button>
-              <button className="btn btn-ghost btn-sm" onClick={fetchPicker} disabled={pickLoading}>{pickLoading ? "更新中…" : "再取得"}</button>
+              <button className="btn btn-ghost btn-sm" onClick={fetchPicker} disabled={pickLoading}>{pickLoading ? "更新中…" : "チャンネル再取得"}</button>
+              <button className="btn btn-ghost btn-sm" onClick={fetchDms} disabled={pickLoading}>{pickLoading ? "取得中…" : "✉️ DMを追加取得"}</button>
             </div>
             {pickList.length === 0 ? <div className="empty" style={{ padding: "14px 0" }}>該当するチャンネルがありません。</div> : (
               <div style={{ maxHeight: 320, overflowY: "auto", border: "1px solid var(--s-border)", borderRadius: 10 }}>
@@ -1424,7 +1442,7 @@ function SlackChannelSettings() {
                       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                         <input type="checkbox" disabled={reg} checked={reg || !!picked[c.id]} onChange={() => togglePick(c.id)} style={{ accentColor: "#c8482f" }} />
                         <div>
-                          <div className="ch-name">{c.is_private ? "🔒 " : "#"}{c.name}{reg ? "（登録済み）" : ""}</div>
+                          <div className="ch-name">{c.is_dm ? "✉️ " : c.is_private ? "🔒 " : "#"}{c.name}{reg ? "（登録済み）" : ""}</div>
                           <div className="ch-id">{c.id}{c.num_members != null ? ` ・ ${c.num_members}人` : ""}</div>
                         </div>
                       </div>
@@ -1469,6 +1487,10 @@ function SlackChannelSettings() {
           2. 参加中のチャンネル一覧が出るので、登録したいものにチェック（「表示中をすべて選択」も可）。<br />
           3. 「<strong>選択した N件を登録</strong>」を押す。登録済みはグレー表示で重複しません。<br />
           ※ この機能には Slackトークンに <code>channels:read</code> / <code>groups:read</code> スコープが必要です。<strong>参加しているチャンネルのみ</strong>取得できます（未参加はSlackで参加してから）。
+
+          <div className="section-head">DM（ダイレクトメッセージ）を登録したい場合</div>
+          「⚡ 一括追加」の「<strong>✉️ DMを取得</strong>」を押すと、DM・グループDMの一覧が出ます。チェックして登録すれば、チャンネルと同じように要約・タスク抽出・自分宛て通知の対象になります。<br />
+          ※ DMの取得・分析には Slackトークンに <code>im:read</code> / <code>im:history</code>（グループDMは <code>mpim:read</code> / <code>mpim:history</code>）と <code>users:read</code> が必要です。
 
           <div className="section-head">方法2：貼り付けで一括登録</div>
           1. 「📋 一括追加（貼り付け）」の欄に、1行1チャンネルで貼り付け。<br />
@@ -1534,7 +1556,8 @@ async function fetchNotifCount(base) {
   const odSlack = (Array.isArray(stasks) ? stasks : []).filter((t) => t.due && !t.done && String(t.due) < today).length;
   let local = []; try { local = loadTasks() || []; } catch (e) {}
   const odLocal = (Array.isArray(local) ? local : []).filter((t) => !t.done && t.due && !isNaN(new Date(t.due)) && new Date(t.due).getTime() < now).length;
-  return (Array.isArray(alerts) ? alerts.length : 0) + odSlack + odLocal;
+  let zd = 0; try { const z = await slApi("/api/zendesk/unassigned_count"); zd = (z && z.count) || 0; } catch (e) {}
+  return (Array.isArray(alerts) ? alerts.length : 0) + odSlack + odLocal + zd;
 }
 
 function NotificationsView({ base, onChange }) {
@@ -1542,13 +1565,15 @@ function NotificationsView({ base, onChange }) {
   const [alerts, setAlerts] = useState([]);
   const [stasks, setStasks] = useState([]);
   const [locals, setLocals] = useState(() => { try { return loadTasks() || []; } catch (e) { return []; } });
+  const [zdTickets, setZdTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openCtx, setOpenCtx] = useState({});
   const load = useCallback(() => {
     try { setLocals(loadTasks() || []); } catch (e) {}
-    Promise.allSettled([slApi("/api/alerts"), slApi("/api/tasks?include_done=false")]).then(([a, t]) => {
+    Promise.allSettled([slApi("/api/alerts"), slApi("/api/tasks?include_done=false"), slApi("/api/zendesk/tickets?status=unassigned")]).then(([a, t, z]) => {
       setAlerts(a.status === "fulfilled" && Array.isArray(a.value) ? a.value : []);
       setStasks(t.status === "fulfilled" && Array.isArray(t.value) ? t.value : []);
+      setZdTickets(z.status === "fulfilled" && Array.isArray(z.value) ? z.value : []);
     }).finally(() => setLoading(false));
   }, []);
   useEffect(() => { load(); const t = setInterval(load, 30000); return () => clearInterval(t); }, [load]);
@@ -1557,6 +1582,8 @@ function NotificationsView({ base, onChange }) {
   const odLocal = locals.filter((t) => !t.done && t.due && !isNaN(new Date(t.due)) && new Date(t.due).getTime() < now).sort((a, b) => new Date(a.due) - new Date(b.due));
   const odSlack = stasks.filter((t) => t.due && !t.done && String(t.due) < today).sort((a, b) => String(a.due).localeCompare(String(b.due)));
   const sortedAlerts = [...alerts].sort((a, b) => String(b.ts_raw || "").localeCompare(String(a.ts_raw || "")));
+  const dmAlerts = sortedAlerts.filter((a) => a.kind === "dm");
+  const mentionAlerts = sortedAlerts.filter((a) => a.kind !== "dm");
   const completeLocal = (id) => { let next = []; try { next = (loadTasks() || []).map((x) => x.id === id ? { ...x, done: true } : x); saveTasks(next); } catch (e) {} setLocals(next); after(); };
   const completeSlack = async (t) => { setStasks((xs) => xs.map((x) => x.id === t.id ? { ...x, done: true } : x)); try { await slApi(`/api/tasks/${t.id}`, { method: "PATCH", body: JSON.stringify({ done: true }) }); } catch (e) {} after(); };
   const alertDone = async (a) => { setAlerts((xs) => xs.filter((x) => x.id !== a.id)); try { await slApi(`/api/alerts/${a.id}/done`, { method: "POST" }); } catch (e) {} after(); };
@@ -1566,11 +1593,29 @@ function NotificationsView({ base, onChange }) {
     try { await slApi("/api/tasks", { method: "POST", body: JSON.stringify({ description: desc, channel_id: a.channel_id || "", detail }) }); } catch (e) {}
     alertDone(a);
   };
-  const total = odLocal.length + odSlack.length + alerts.length;
+  const total = odLocal.length + odSlack.length + alerts.length + zdTickets.length;
   if (loading) return <div className="sb-slack"><div className="empty"><div className="spinner" /></div></div>;
   return (
     <div className="sb-slack" style={{ maxWidth: 760, margin: "0 auto" }}>
-      {total === 0 && <div className="empty"><span className="empty-icon">🔔</span>新しい通知はありません。<br />自分宛てメンションや期限切れのタスクが出るとここに表示されます。</div>}
+      {total === 0 && <div className="empty"><span className="empty-icon">🔔</span>新しい通知はありません。<br />自分宛てメンション・期限切れタスク・未対応チケットが出るとここに表示されます。</div>}
+      {zdTickets.length > 0 && (
+        <div style={{ marginBottom: 18 }}>
+          <div className="section-head" style={{ marginTop: 0, color: "var(--s-red)" }}>🎫 未対応チケット（未割り当て・{zdTickets.length}）</div>
+          {zdTickets.map((t) => (
+            <div key={t.id} className="card card-sm" style={{ marginBottom: 8, borderLeft: "4px solid var(--s-red)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span className="tag" style={{ background: "var(--s-red)", color: "#fff", borderColor: "transparent" }}>未対応</span>
+                <span style={{ fontSize: 13.5, fontWeight: 700, flex: 1, minWidth: 0 }}>#{t.id} {t.subject}</span>
+              </div>
+              <div className="task-tags" style={{ marginTop: 6 }}>
+                {t.requester && <span className="tag tag-channel">依頼: {t.requester}</span>}
+                {t.updated_at && <span className="tag" style={{ background: "transparent", color: "var(--s-muted)", borderColor: "transparent" }}>更新 {slTimeAgo(t.updated_at)}</span>}
+              </div>
+              {t.url && <a href={t.url} target="_blank" rel="noreferrer" className="btn btn-primary btn-sm" style={{ marginTop: 8, display: "inline-block", textDecoration: "none" }}>対応する（Zendeskで開く）↗</a>}
+            </div>
+          ))}
+        </div>
+      )}
       {(odLocal.length + odSlack.length) > 0 && (
         <div style={{ marginBottom: 18 }}>
           <div className="section-head" style={{ marginTop: 0, color: "var(--s-red)" }}>⏰ 期限切れのタスク（{odLocal.length + odSlack.length}）</div>
@@ -1596,10 +1641,31 @@ function NotificationsView({ base, onChange }) {
           ))}
         </div>
       )}
-      {alerts.length > 0 && (
+      {dmAlerts.length > 0 && (
+        <div style={{ marginBottom: 18 }}>
+          <div className="section-head" style={{ marginTop: 0, color: "var(--s-teal)" }}>✉️ 新着DM（{dmAlerts.length}）</div>
+          {dmAlerts.map((a) => (
+            <div key={a.id} className="card card-sm" style={{ marginBottom: 8, borderLeft: "4px solid var(--s-teal)" }}>
+              <div className="card-header" style={{ marginBottom: 6, gap: 8 }}>
+                <span className="channel-badge">{a.channel_name}</span>
+                <span className="meta-row" style={{ marginLeft: "auto" }}>{a.author}・{a.ts_disp || ""}</span>
+              </div>
+              <div style={{ fontSize: 13.5, lineHeight: 1.7, whiteSpace: "pre-wrap" }}>{a.text}</div>
+              <div style={{ display: "flex", gap: 8, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
+                <button className="btn btn-ghost btn-sm" onClick={() => setOpenCtx((o) => ({ ...o, [a.id]: !o[a.id] }))}>{openCtx[a.id] ? "やり取りを隠す" : "前のやり取り"}</button>
+                <button className="btn btn-ghost btn-sm" onClick={() => alertToTask(a)}>＋ タスク化</button>
+                <span style={{ flex: 1 }} />
+                <button className="btn btn-sm" onClick={() => alertDone(a)}>✓ 確認した</button>
+              </div>
+              {openCtx[a.id] && <pre style={{ whiteSpace: "pre-wrap", fontSize: 12, lineHeight: 1.7, background: "var(--s-surface2)", border: "1px solid var(--s-border)", borderRadius: 8, padding: "8px 10px", marginTop: 8, fontFamily: "inherit" }}>{a.context || a.text}</pre>}
+            </div>
+          ))}
+        </div>
+      )}
+      {mentionAlerts.length > 0 && (
         <div>
-          <div className="section-head" style={{ marginTop: 0, color: "var(--s-accent-d)" }}>🚨 自分宛て・要対応（{alerts.length}）</div>
-          {sortedAlerts.map((a) => (
+          <div className="section-head" style={{ marginTop: 0, color: "var(--s-accent-d)" }}>🚨 自分宛て・要対応（{mentionAlerts.length}）</div>
+          {mentionAlerts.map((a) => (
             <div key={a.id} className="card card-sm" style={{ marginBottom: 10, borderLeft: "4px solid var(--s-accent)" }}>
               <div className="card-header" style={{ marginBottom: 6, gap: 8 }}>
                 <span className="channel-badge"><span className="tag" style={{ background: a.kind === "self" ? "var(--s-accent-l)" : "var(--s-amber-l)", color: a.kind === "self" ? "var(--s-accent-d)" : "var(--s-amber)", borderColor: "transparent" }}>{a.kind === "self" ? "自分宛て" : "@sapport"}</span> #{a.channel_name}</span>
@@ -1630,6 +1696,8 @@ function SlackPanel({ base, onChangeBase, onBack }) {
   const [chatHint, setChatHint] = useState("");
   const [stats, setStats] = useState(null);
   const [autoPoll, setAutoPoll] = useState(true);
+  const [autoInfo, setAutoInfo] = useState({ interval: 60, last_run: null, last_result: "" });
+  const [prioCount, setPrioCount] = useState(null);
   const [pollMode, setPollMode] = useState("today");
   const [dateFrom, setDateFrom] = useState(slToday());
   const [dateTo, setDateTo] = useState(slToday());
@@ -1655,11 +1723,13 @@ function SlackPanel({ base, onChangeBase, onBack }) {
       const s = await slApi("/api/setup");
       setSetup(s); setConn("ok");
       slApi("/api/stats").then(setStats).catch(() => {});
-      slApi("/api/auto-poll").then((d) => setAutoPoll(d.enabled)).catch(() => {});
+      slApi("/api/auto-poll").then((d) => { setAutoPoll(d.enabled); setAutoInfo(d); }).catch(() => {});
+      slApi("/api/channels").then((cs) => setPrioCount((Array.isArray(cs) ? cs : []).filter((c) => c.priority === 1).length)).catch(() => {});
     } catch (e) { setConn("off"); }
   }, [base]);
   useEffect(() => { check(); }, [check]);
-  useEffect(() => { if (conn !== "ok") return; const t = setInterval(() => slApi("/api/stats").then(setStats).catch(() => {}), 30000); return () => clearInterval(t); }, [conn]);
+  useEffect(() => { if (conn !== "ok") return; const t = setInterval(() => { slApi("/api/stats").then(setStats).catch(() => {}); slApi("/api/auto-poll").then((d) => { setAutoPoll(d.enabled); setAutoInfo(d); }).catch(() => {}); }, 30000); return () => clearInterval(t); }, [conn]);
+  const intervalLabel = (m) => (m && m % 60 === 0 ? `${m / 60}時間ごと` : `${m || 60}分ごと`);
 
   const toggleAutoPoll = async () => { const next = !autoPoll; setAutoPoll(next); try { await slApi(next ? "/api/auto-poll/resume" : "/api/auto-poll/pause", { method: "POST" }); } catch (e) { setAutoPoll(!next); } };
   const modeLabel = { today: "本日分", range: "期間指定", incremental: "前回以降" };
@@ -1759,7 +1829,9 @@ function SlackPanel({ base, onChangeBase, onBack }) {
             {setup && setup.me && setup.me.name && <span className="sb-me-inline">👤 {setup.me.name}</span>}
             <span className="sb-conn"><i className={conn === "ok" ? "ok" : "off"} />{conn === "ok" ? "接続中" : "未接続"}</span>
             <span className="sb-tb-sep" />
-            <button className={`sb-chip ${autoPoll ? "on" : "off"}`} onClick={toggleAutoPoll} title="重要チャンネルを1時間ごとに自動取得">{autoPoll ? "🟢 自動取得 オン" : "🔴 自動取得 オフ"}</button>
+            <button className={`sb-chip ${autoPoll ? "on" : "off"}`} onClick={toggleAutoPoll} title={`重要チャンネルを${intervalLabel(autoInfo.interval)}・新着分のみ自動取得します`}>{autoPoll ? `🟢 自動取得 オン（${intervalLabel(autoInfo.interval)}）` : "🔴 自動取得 オフ"}</button>
+            {autoPoll && <span className="sb-tb-label">重要チャンネルのみ・新着分のみ{autoInfo.last_run ? `／前回 ${slTimeAgo(autoInfo.last_run)}` : "／まだ自動実行されていません"}</span>}
+            {autoPoll && prioCount === 0 && <span className="sb-tb-label" style={{ color: "var(--s-red)" }}>⚠ 重要チャンネル（⭐）が未設定のため自動取得は動きません</span>}
             <span className="sb-tb-label">取得範囲</span>
             <select className="sb-mini-select" value={pollMode} onChange={(e) => setPollMode(e.target.value)}>
               <option value="today">本日分</option>
@@ -1808,6 +1880,200 @@ function SlackPanel({ base, onChangeBase, onBack }) {
             </div>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+
+// ── Zendesk（別ツール：チケット確認）─────────────────────────────────────────
+function ZendeskTickets() {
+  const [status, setStatus] = useState("");
+  const [tickets, setTickets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState("");
+  const [detail, setDetail] = useState(null);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const load = useCallback((st) => {
+    setLoading(true); setErr("");
+    slApi(`/api/zendesk/tickets?status=${encodeURIComponent(st || "")}`)
+      .then((d) => setTickets(Array.isArray(d) ? d : []))
+      .catch((e) => { let m = e.message; try { m = JSON.parse(e.message).detail || m; } catch (_) {} setErr(m || "取得に失敗しました"); setTickets([]); })
+      .finally(() => setLoading(false));
+  }, []);
+  useEffect(() => { load(status); }, [status, load]);
+  const openDetail = (id) => { setDetailLoading(true); setDetail({ id }); slApi(`/api/zendesk/tickets/${id}`).then((d) => setDetail(d)).catch(() => setDetail(null)).finally(() => setDetailLoading(false)); };
+  const filters = [["unassigned", "🔴 未対応(未割当)"], ["", "未解決"], ["open", "オープン"], ["pending", "保留"], ["new", "新規"], ["solved", "解決済み"]];
+  const stClass = (s) => ({ open: "var(--s-red)", pending: "var(--s-amber)", new: "var(--s-teal)", solved: "var(--s-muted)", closed: "var(--s-muted)", hold: "var(--s-amber)" }[s] || "var(--s-muted)");
+  return (
+    <div>
+      <h1 className="page-title">Zendesk チケット</h1>
+      <p className="page-subtitle">対応エージェントが空欄＝未対応（未読）です。「🔴 未対応」で抽出でき、一覧でも先頭に赤帯で表示します。</p>
+      <div className="filter-bar">
+        {filters.map(([v, l]) => <button key={v} className={`filter-btn ${status === v ? "on" : ""}`} onClick={() => setStatus(v)}>{l}</button>)}
+        <button className="btn btn-ghost btn-sm" onClick={() => load(status)}>{loading ? "更新中…" : "更新"}</button>
+      </div>
+      {err && <div style={{ background: "var(--s-red-l)", color: "var(--s-red)", padding: "10px 12px", borderRadius: 8, fontSize: 12.5, marginBottom: 12, lineHeight: 1.7 }}>⚠️ {err}</div>}
+      {loading ? <div className="empty"><div className="spinner" /></div> : tickets.length === 0 ? <div className="empty"><span className="empty-icon">🎫</span>該当するチケットはありません。</div> : (
+        tickets.map((t) => (
+          <div key={t.id} className="card card-sm" style={{ marginBottom: 8, cursor: "pointer", borderLeft: t.unassigned ? "4px solid var(--s-red)" : undefined }} onClick={() => openDetail(t.id)} title="クリックで詳細">
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              {t.unassigned && <span className="tag" style={{ background: "var(--s-red)", color: "#fff", borderColor: "transparent" }}>未対応</span>}
+              <span className="tag" style={{ background: "transparent", color: stClass(t.status), border: `1px solid ${stClass(t.status)}` }}>{t.status_ja}</span>
+              <span style={{ fontSize: 14, fontWeight: 700, flex: 1, minWidth: 0 }}>#{t.id} {t.subject}</span>
+              {t.priority_ja && <span className="tag" style={{ background: "var(--s-surface2)", borderColor: "transparent" }}>{t.priority_ja}</span>}
+            </div>
+            <div className="task-tags" style={{ marginTop: 6 }}>
+              <span className="tag tag-assignee" style={t.unassigned ? { background: "var(--s-red-l)", color: "var(--s-red)", borderColor: "transparent" } : undefined}>👤 担当: {t.assignee}</span>
+              {t.requester && <span className="tag tag-channel">依頼: {t.requester}</span>}
+              {t.updated_at && <span className="tag" style={{ background: "transparent", color: "var(--s-muted)", borderColor: "transparent" }}>更新 {slTimeAgo(t.updated_at)}</span>}
+            </div>
+          </div>
+        ))
+      )}
+      {detail && (
+        <div className="sb-notif-overlay" onClick={() => setDetail(null)}>
+          <div className="sb-notif-panel" onClick={(e) => e.stopPropagation()}>
+            <div className="sb-notif-head"><span>🎫 #{detail.id} {detail.subject || ""}</span><button className="ma-x" onClick={() => setDetail(null)}>✕</button></div>
+            <div className="sb-notif-body">
+              {detailLoading ? <div className="empty"><div className="spinner" /></div> : (
+                <>
+                  <div className="task-tags" style={{ marginBottom: 12 }}>
+                    <span className="tag" style={{ background: "transparent", color: stClass(detail.status), border: `1px solid ${stClass(detail.status)}` }}>{detail.status_ja}</span>
+                    {detail.priority_ja && <span className="tag" style={{ background: "var(--s-surface2)", borderColor: "transparent" }}>優先度: {detail.priority_ja}</span>}
+                    <span className="tag tag-assignee">👤 {detail.assignee}</span>
+                    {detail.requester && <span className="tag tag-channel">依頼: {detail.requester}</span>}
+                  </div>
+                  {detail.description && <div style={{ fontSize: 13.5, lineHeight: 1.8, whiteSpace: "pre-wrap", background: "var(--s-surface2)", border: "1px solid var(--s-border)", borderRadius: 8, padding: "10px 12px", marginBottom: 14 }}>{detail.description}</div>}
+                  <div className="section-head" style={{ marginTop: 0 }}>やり取り（{(detail.comments || []).length}）</div>
+                  {(detail.comments || []).map((c, i) => (
+                    <div key={i} className="card card-sm" style={{ marginBottom: 8 }}>
+                      <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 4 }}>
+                        <strong style={{ fontSize: 12.5 }}>{c.author || "?"}</strong>
+                        {!c.public && <span className="tag" style={{ background: "var(--s-amber-l)", color: "var(--s-amber)", borderColor: "transparent" }}>社内メモ</span>}
+                        <span style={{ marginLeft: "auto", fontSize: 11, color: "var(--s-muted)" }}>{c.created_at ? slTimeAgo(c.created_at) : ""}</span>
+                      </div>
+                      <div style={{ fontSize: 13, lineHeight: 1.75, whiteSpace: "pre-wrap" }}>{c.body}</div>
+                    </div>
+                  ))}
+                  {detail.url && <a href={detail.url} target="_blank" rel="noreferrer" className="btn btn-primary btn-sm" style={{ marginTop: 8, display: "inline-block", textDecoration: "none" }}>Zendeskで開く ↗</a>}
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ZendeskSettings({ onSaved }) {
+  const [subdomain, setSubdomain] = useState(""); const [email, setEmail] = useState(""); const [token, setToken] = useState("");
+  const [saving, setSaving] = useState(false); const [msg, setMsg] = useState(""); const [ok, setOk] = useState(false);
+  useEffect(() => { slApi("/api/zendesk/config").then((d) => { setSubdomain(d.subdomain || ""); setOk(!!d.configured); }).catch(() => {}); }, []);
+  const save = async () => {
+    setSaving(true); setMsg("");
+    try { await slApi("/api/zendesk/config", { method: "POST", body: JSON.stringify({ subdomain, email, api_token: token }) }); setMsg("接続しました。"); setOk(true); if (onSaved) onSaved(); }
+    catch (e) { let m = e.message; try { m = JSON.parse(e.message).detail || m; } catch (_) {} setMsg("⚠️ " + (m || "保存に失敗しました")); }
+    finally { setSaving(false); }
+  };
+  return (
+    <div>
+      <h1 className="page-title">Zendesk 接続設定</h1>
+      <div className="card">
+        <div className="card-header"><div className="card-title">{ok ? "🟢 接続済み" : "接続情報を入力"}</div></div>
+        <p style={{ fontSize: 12.5, color: "var(--s-muted)", lineHeight: 1.9, margin: "8px 0 14px" }}>
+          Zendesk管理画面 →「管理センター」→「アプリおよびインテグレーション」→「API」→「トークン」で<strong>APIトークン</strong>を発行し、ログインメールと合わせて入力してください。外部には送信されず、ローカルの .env に保存されます。
+        </p>
+        <div className="settings-form" style={{ flexDirection: "column", alignItems: "stretch", gap: 10 }}>
+          <label className="ma-fld"><span>サブドメイン（◯◯.zendesk.com の ◯◯）</span><input className="ma-fld-in" value={subdomain} onChange={(e) => setSubdomain(e.target.value)} placeholder="mycompany" /></label>
+          <label className="ma-fld"><span>ログインメールアドレス</span><input className="ma-fld-in" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" /></label>
+          <label className="ma-fld"><span>APIトークン</span><input className="ma-fld-in" type="password" value={token} onChange={(e) => setToken(e.target.value)} placeholder="（APIトークンを貼り付け）" /></label>
+          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+            <button className="btn btn-primary" onClick={save} disabled={saving}>{saving ? "接続中…" : "接続して保存"}</button>
+            {msg && <span style={{ fontSize: 12.5, color: msg.indexOf("⚠️") >= 0 ? "var(--s-red)" : "var(--s-teal)" }}>{msg}</span>}
+          </div>
+        </div>
+      </div>
+      <div className="card" style={{ marginTop: 14 }}>
+        <div className="card-title" style={{ marginBottom: 8 }}>📖 ヒント</div>
+        <p style={{ fontSize: 13, color: "var(--s-muted)", lineHeight: 1.9 }}>
+          ・APIトークンの利用には、Zendesk側で「トークンアクセス」を有効にする必要があります。<br />
+          ・閲覧できるチケットは、入力したメールのユーザー権限（エージェント等）に依存します。<br />
+          ・このツールは閲覧専用です（チケットの作成・更新は行いません）。
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function ZendeskPanel({ base, onChangeBase, onBack }) {
+  SLACK_BASE = (base || "").trim().replace(/\/+$/, "");
+  const [page, setPage] = useState("tickets");
+  const [conn, setConn] = useState("checking");
+  const [configured, setConfigured] = useState(false);
+  const [urlDraft, setUrlDraft] = useState(base || "");
+  const check = useCallback(() => {
+    setConn("checking");
+    slApi("/api/zendesk/config").then((d) => { setConfigured(!!d.configured); setConn("ok"); if (!d.configured) setPage("settings"); }).catch(() => setConn("off"));
+  }, []);
+  useEffect(() => { check(); }, [check]);
+  const applyUrl = () => { const v = urlDraft.trim().replace(/\/+$/, ""); if (onChangeBase) onChangeBase(v); };
+  const Back = <button className="sb-back" onClick={onBack} title="SABOTTA に戻る"><span className="sb-back-ar">←</span> SABOTTA に戻る</button>;
+
+  if (conn === "checking") return (
+    <div className="sb-screen">
+      <div className="sb-screen-bar">{Back}<span className="sb-screen-title">Zendesk</span></div>
+      <div className="sb-screen-body"><div className="sb-slack"><div className="empty"><div className="spinner" /><div style={{ marginTop: 12 }}>バックエンドに接続中…</div></div></div></div>
+    </div>
+  );
+
+  if (conn === "off") return (
+    <div className="sb-screen">
+      <div className="sb-screen-bar">{Back}<span className="sb-screen-title">Zendesk</span></div>
+      <div className="sb-screen-body"><div className="sb-slack"><div className="sb-disconnected">
+        <div className="sb-dc-ic">🔌</div>
+        <h3>バックエンドに接続できません</h3>
+        <p>Zendesk連携には、Slackと同じ付属のローカルサーバー（Python / FastAPI）が必要です。会議アシスタント機能はサーバーなしでそのまま使えます。</p>
+        <div className="sb-dc-steps">
+          <div><strong>起動方法</strong></div>
+          1. 同梱の <code>起動_Mac.command</code> または <code>起動_Windows.bat</code> をダブルクリック。<br />
+          2. もしくはターミナルで <code>bash start.sh</code> を実行。<br />
+          3. 起動後、このページが <code>http://localhost:8000</code> で配信されていれば自動接続します。
+        </div>
+        <div className="sb-dc-steps"><div><strong>別のアドレスで動かしている場合</strong>（このHTMLをGitHub Pages等から開いている場合など）はURLを指定してください：</div></div>
+        <div className="sb-urlrow">
+          <input className="modal-input" value={urlDraft} onChange={(e) => setUrlDraft(e.target.value)} placeholder="http://localhost:8000" />
+          <button className="btn btn-primary" onClick={applyUrl}>接続</button>
+          <button className="btn" onClick={check}>再試行</button>
+        </div>
+        <p style={{ marginTop: 12, fontSize: 11.5 }}>※ Slack連携と同じバックエンドを使います。すでにSlackが接続できていれば、こちらも接続できます。</p>
+      </div></div></div>
+    </div>
+  );
+
+  const navItems = [
+    { id: "tickets", icon: IC.ticket, label: "チケット" },
+    { id: "settings", icon: IC.settings, label: "設定" },
+  ];
+  return (
+    <div className="sb-screen">
+      <div className="sb-slack sb-shell">
+        <nav className="ma-rail">
+          <div className="ma-logo" title="Zendesk"><span style={{ fontSize: 20 }}>🎫</span></div>
+          {navItems.map((n) => (
+            <button key={n.id} className={`ma-rail-btn ${page === n.id ? "on" : ""}`} onClick={() => setPage(n.id)} title={n.label}><span className="ic">{n.icon({})}</span><label>{n.label}</label></button>
+          ))}
+          <div className="ma-rail-spacer" />
+          <button className="ma-rail-btn sb-backbtn" onClick={onBack} title="SABOTTA（会議アシスタント）に戻る"><span className="ic"><IC.back /></span><label>SABOTTA</label></button>
+        </nav>
+        <main className="sb-screen-main">
+          <div className="sb-page">
+            {page === "settings" ? <ZendeskSettings onSaved={check} />
+              : !configured ? <div className="empty"><span className="empty-icon">🎫</span>まず「設定」からZendeskに接続してください。</div>
+              : <ZendeskTickets />}
+          </div>
+        </main>
       </div>
     </div>
   );
@@ -1886,6 +2152,7 @@ function MeetingAssistant() {
   const [slackAlertCount, setSlackAlertCount] = useState(0); // 合算通知件数（自分宛て＋期限切れ）
   const [slDetailOpen, setSlDetailOpen] = useState({}); // ドロワー内Slackタスクの詳細開閉
   const [showNotif, setShowNotif] = useState(false);
+  const [showZendesk, setShowZendesk] = useState(false);
   const [showTasks, setShowTasks] = useState(false);
   const [newTask, setNewTask] = useState("");
   const [newTaskDue, setNewTaskDue] = useState("");
@@ -2542,8 +2809,8 @@ function MeetingAssistant() {
   useEffect(() => { setGSources(loadGSrc()); setMSources(loadMSrc(activeIdRef.current)); mLoadedRef.current = true; }, []);
   useEffect(() => { if (!loadOnboarded()) setShowGuide(true); }, []);
   const dismissGuide = () => { saveOnboarded(); setShowGuide(false); };
-  const openOnly = (w) => { setShowHistory(w === "history"); setShowTasks(w === "tasks"); setShowChat(w === "chat"); setShowSources(w === "sources"); setShowImport(w === "import"); setShowSettings(w === "settings"); setShowSlack(w === "slack"); setShowNotif(w === "notif"); };
-  const anyDrawerOpen = showHistory || showTasks || showChat || showSources || showImport || showSettings || showSlack || showNotif;
+  const openOnly = (w) => { setShowHistory(w === "history"); setShowTasks(w === "tasks"); setShowChat(w === "chat"); setShowSources(w === "sources"); setShowImport(w === "import"); setShowSettings(w === "settings"); setShowSlack(w === "slack"); setShowNotif(w === "notif"); setShowZendesk(w === "zendesk"); };
+  const anyDrawerOpen = showHistory || showTasks || showChat || showSources || showImport || showSettings || showSlack || showNotif || showZendesk;
   const firstGSrcRef = useRef(true);
   useEffect(() => { if (firstGSrcRef.current) { firstGSrcRef.current = false; return; } saveGSrc(gSources); }, [gSources]);
   useEffect(() => { if (!mLoadedRef.current) return; saveMSrc(activeIdRef.current, mSources); }, [mSources]);
@@ -2907,6 +3174,7 @@ ${base}`;
         <div className="ma-rail-spacer" />
         <button className={"ma-rail-btn" + (showSettings ? " on" : "")} onClick={() => openOnly(showSettings ? "" : "settings")} title="設定"><span className="ic"><IC.settings /></span><label>設定</label></button>
         <button className={"ma-rail-btn sb-backbtn" + (showSlack ? " on" : "")} onClick={() => openOnly(showSlack ? "" : "slack")} title="Slack 要約・タスク"><span className="ic"><IC.slack /></span><label>Slack</label></button>
+        <button className={"ma-rail-btn sb-backbtn" + (showZendesk ? " on" : "")} onClick={() => openOnly(showZendesk ? "" : "zendesk")} title="Zendesk チケット確認"><span className="ic"><IC.ticket /></span><label>Zendesk</label></button>
       </nav>
       <div className="ma-wrap">
         <header className="ma-top">
@@ -3385,6 +3653,10 @@ ${base}`;
 
       {showSlack && (
         <SlackPanel base={slackUrl} onChangeBase={(v) => setSlackUrl(v)} onBack={() => setShowSlack(false)} />
+      )}
+
+      {showZendesk && (
+        <ZendeskPanel base={slackUrl} onChangeBase={(v) => setSlackUrl(v)} onBack={() => setShowZendesk(false)} />
       )}
 
       {showNotif && (
